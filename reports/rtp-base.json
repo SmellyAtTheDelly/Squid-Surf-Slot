@@ -1,0 +1,202 @@
+{
+  "method": "Full-round seeded Monte Carlo using the production playRound settlement",
+  "profile": "squid-ways-2",
+  "unitScale": 100,
+  "seed": 20261022,
+  "nodeVersion": "v24.13.0",
+  "startedAt": "2026-10-22T19:11:06.498Z",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\Users\\Admin\\Desktop\\development\\slots\\Squid-Surf-Slot\\tools\\rtp-sim.js",
+    "10000000",
+    "500000",
+    "20261022",
+    "--mode",
+    "base",
+    "--json"
+  ],
+  "sourceSha256": {
+    "js/math.js": "15f7373f4aa9971ab9aa6b8be7507ffe50368c6258ca78745721eb5df9adb4db",
+    "tools/statistics.js": "13c11ddea87e10f7f7a855c0dd7c4daa20145927733d1badc50629e7dbf37207",
+    "tools/rtp-sim.js": "44b49077c9d3deab6a0a9bbc4d1e5610b87ea1b49e9177ddf160c2e22c0f482d",
+    "tools/rtp-exact.js": "6d8fd895487ce03b360dbdc35f8f82ec6e1f4514ab7c04ef3ee376590a49ce3f"
+  },
+  "confidenceMethod": "Two-sided 95% normal approximation using unbiased sample variance and standard error; not a guarantee of convergence for rare outcomes",
+  "volatilityMeasure": "Sample standard deviation of gross return, in base-bet and actual-wager multiples",
+  "config": {
+    "spins": 10000000,
+    "buys": 500000,
+    "seed": 20261022,
+    "betCents": 100,
+    "modes": [
+      "base"
+    ],
+    "kinds": [
+      "kraken",
+      "reef",
+      "vault",
+      "wheel"
+    ],
+    "json": true,
+    "help": false
+  },
+  "results": [
+    {
+      "mode": "base",
+      "kind": "kraken",
+      "seed": 626551994,
+      "rounds": 10000000,
+      "betCents": 100,
+      "costCents": 100,
+      "totalCostCents": 1000000000,
+      "totalPaidCents": 947883833,
+      "totalNetCents": -52116167,
+      "rtpPercent": 94.7883833,
+      "rtpStandardErrorPercentagePoints": 0.6548305153954277,
+      "rtpConfidence95Percent": [
+        93.50493907384418,
+        96.07182752614986
+      ],
+      "meanWinXBaseBet": 0.9478838329999703,
+      "standardDeviationXBaseBet": 20.70755910031507,
+      "standardDeviationXWager": 20.70755910031507,
+      "maxObservedXBaseBet": 5000,
+      "hitFrequency": 0.4558131,
+      "zeroPayoutFrequency": 0.5441869,
+      "netLossFrequency": 0.8526132,
+      "netProfitFrequency": 0.1372518,
+      "breakEvenFrequency": 0.010135,
+      "capHitFrequency": 0.0000023,
+      "bonusTriggerFrequency": 0.0043365,
+      "attackFrequency": 0.011909,
+      "counts": {
+        "hits": 4558131,
+        "zeros": 5441869,
+        "losses": 8526132,
+        "profits": 1372518,
+        "breaksEven": 101350,
+        "caps": 23,
+        "triggers": 43365,
+        "attacks": 119090
+      }
+    },
+    {
+      "mode": "base",
+      "kind": "reef",
+      "seed": 2873374501,
+      "rounds": 10000000,
+      "betCents": 100,
+      "costCents": 100,
+      "totalCostCents": 1000000000,
+      "totalPaidCents": 934871866,
+      "totalNetCents": -65128134,
+      "rtpPercent": 93.4871866,
+      "rtpStandardErrorPercentagePoints": 0.4656329096262785,
+      "rtpConfidence95Percent": [
+        92.57456286711354,
+        94.39981033288173
+      ],
+      "meanWinXBaseBet": 0.9348718659999764,
+      "standardDeviationXBaseBet": 14.724605479503825,
+      "standardDeviationXWager": 14.724605479503825,
+      "maxObservedXBaseBet": 1459,
+      "hitFrequency": 0.4559261,
+      "zeroPayoutFrequency": 0.5440739,
+      "netLossFrequency": 0.8525657,
+      "netProfitFrequency": 0.1372718,
+      "breakEvenFrequency": 0.0101625,
+      "capHitFrequency": 0,
+      "bonusTriggerFrequency": 0.0042754,
+      "attackFrequency": 0.0118883,
+      "counts": {
+        "hits": 4559261,
+        "zeros": 5440739,
+        "losses": 8525657,
+        "profits": 1372718,
+        "breaksEven": 101625,
+        "caps": 0,
+        "triggers": 42754,
+        "attacks": 118883
+      }
+    },
+    {
+      "mode": "base",
+      "kind": "vault",
+      "seed": 825229712,
+      "rounds": 10000000,
+      "betCents": 100,
+      "costCents": 100,
+      "totalCostCents": 1000000000,
+      "totalPaidCents": 946073317,
+      "totalNetCents": -53926683,
+      "rtpPercent": 94.6073317,
+      "rtpStandardErrorPercentagePoints": 0.26390396771857544,
+      "rtpConfidence95Percent": [
+        94.09008942789265,
+        95.12457397210392
+      ],
+      "meanWinXBaseBet": 0.9460733169999829,
+      "standardDeviationXBaseBet": 8.345376215462483,
+      "standardDeviationXWager": 8.345376215462483,
+      "maxObservedXBaseBet": 1302,
+      "hitFrequency": 0.4558214,
+      "zeroPayoutFrequency": 0.5441786,
+      "netLossFrequency": 0.8524943,
+      "netProfitFrequency": 0.1374366,
+      "breakEvenFrequency": 0.0100691,
+      "capHitFrequency": 0,
+      "bonusTriggerFrequency": 0.0043041,
+      "attackFrequency": 0.0119335,
+      "counts": {
+        "hits": 4558214,
+        "zeros": 5441786,
+        "losses": 8524943,
+        "profits": 1374366,
+        "breaksEven": 100691,
+        "caps": 0,
+        "triggers": 43041,
+        "attacks": 119335
+      }
+    },
+    {
+      "mode": "base",
+      "kind": "wheel",
+      "seed": 3072052219,
+      "rounds": 10000000,
+      "betCents": 100,
+      "costCents": 100,
+      "totalCostCents": 1000000000,
+      "totalPaidCents": 943746331,
+      "totalNetCents": -56253669,
+      "rtpPercent": 94.3746331,
+      "rtpStandardErrorPercentagePoints": 0.49595270113480355,
+      "rtpConfidence95Percent": [
+        93.40258366773293,
+        95.34668253225205
+      ],
+      "meanWinXBaseBet": 0.9437463309999249,
+      "standardDeviationXBaseBet": 15.68340147298754,
+      "standardDeviationXWager": 15.68340147298754,
+      "maxObservedXBaseBet": 5000,
+      "hitFrequency": 0.4555535,
+      "zeroPayoutFrequency": 0.5444465,
+      "netLossFrequency": 0.8525987,
+      "netProfitFrequency": 0.1373064,
+      "breakEvenFrequency": 0.0100949,
+      "capHitFrequency": 7e-7,
+      "bonusTriggerFrequency": 0.0043288,
+      "attackFrequency": 0.0119146,
+      "counts": {
+        "hits": 4555535,
+        "zeros": 5444465,
+        "losses": 8525987,
+        "profits": 1373064,
+        "breaksEven": 100949,
+        "caps": 7,
+        "triggers": 43288,
+        "attacks": 119146
+      }
+    }
+  ],
+  "finishedAt": "2026-10-22T19:14:42.773Z"
+}

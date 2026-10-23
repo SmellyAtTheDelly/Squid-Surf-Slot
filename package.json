@@ -1,0 +1,19 @@
+{
+  "name": "squid-squad",
+  "version": "3.0.0",
+  "private": true,
+  "description": "A Stake Engine slot with recorded outcomes and a separate static frontend",
+  "scripts": {
+    "start": "node tools/serve.js",
+    "build": "node tools/build.js",
+    "math:export": "node math/export.js --out dist/math",
+    "math:verify": "node math/verify.js --dir dist/math --production",
+    "test": "node --test tests/*.test.js",
+    "simulate": "node tools/rtp-sim.js",
+    "odds": "node tools/odds.js",
+    "math-report": "node tools/build-math-report.js"
+  },
+  "engines": {
+    "node": ">=24.13.0"
+  }
+}

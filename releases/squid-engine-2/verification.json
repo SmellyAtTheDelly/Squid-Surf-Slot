@@ -1,0 +1,238 @@
+{
+  "version": "squid-engine-2",
+  "production": true,
+  "sourceHashesVerified": true,
+  "modes": [
+    {
+      "name": "base_vault",
+      "rounds": 100001,
+      "statistics": {
+        "totalWeight": "377367651769400",
+        "payoutSum": "36340504865393220",
+        "squareSum": "777038687518861641770",
+        "hitWeight": "150268868609075",
+        "profitWeight": "20064317774362",
+        "capWeight": "71873642",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.9629999999999999,
+        "rtpPercent": 96.29999999999998,
+        "standardDeviation": 14.317223343594987,
+        "hitFrequency": 0.39820283456860944,
+        "profitFrequency": 0.05316915130452889,
+        "maxWinFrequency": 1.904605274537951e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "files": {
+        "events": {
+          "bytes": 4054011,
+          "sha256": "ed74c5ab0f8d404bbe5f42823e29f60e0a0d24e7589079adcf1324e85c48325b"
+        },
+        "weights": {
+          "bytes": 1947832,
+          "sha256": "ebc329ef014a81a4251904cb22d46e3469f8e4f12805c3a88923e018d66a578b"
+        }
+      },
+      "maxBookBytes": 7059
+    },
+    {
+      "name": "ante_vault",
+      "rounds": 100001,
+      "statistics": {
+        "totalWeight": "320517265556710",
+        "payoutSum": "61731625346222346",
+        "squareSum": "1285913939774622663136",
+        "hitWeight": "142693182362324",
+        "profitWeight": "14311232084052",
+        "capWeight": "76074612",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.963,
+        "rtpPercent": 96.3,
+        "standardDeviation": 9.968576994215589,
+        "hitFrequency": 0.44519655474558795,
+        "profitFrequency": 0.04465042486617581,
+        "maxWinFrequency": 2.3734949774972392e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "files": {
+        "events": {
+          "bytes": 4591850,
+          "sha256": "d36f0c1abd24bfd472433091e3b61ff386d9f75c7f69c8501d937fa65d8cd513"
+        },
+        "weights": {
+          "bytes": 1954713,
+          "sha256": "1dff6eb15a088caad31a1ea0ddad970970a7034bc695bf015bfb08b0915b1982"
+        }
+      },
+      "maxBookBytes": 7067
+    },
+    {
+      "name": "buy_vault",
+      "rounds": 100001,
+      "statistics": {
+        "totalWeight": "309078700424688",
+        "payoutSum": "2976427885089745440",
+        "squareSum": "50535131510315993586700",
+        "hitWeight": "305761774052913",
+        "profitWeight": "124945863346423",
+        "capWeight": "155300803",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.9629999999999999,
+        "rtpPercent": 96.29999999999998,
+        "standardDeviation": 0.8412227519083896,
+        "hitFrequency": 0.9892683437350507,
+        "profitFrequency": 0.4042525841306495,
+        "maxWinFrequency": 5.024636210344153e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "files": {
+        "events": {
+          "bytes": 26680863,
+          "sha256": "55aac6929e889634e46b5d9387962f65bb0cc7bfc3d207a38952e9a9c3d14af1"
+        },
+        "weights": {
+          "bytes": 2218691,
+          "sha256": "2cc1a736e896c9f7489c0782651dcd1305301840761517dc2b8813673bccbfc2"
+        }
+      },
+      "maxBookBytes": 7022
+    },
+    {
+      "name": "buy_reef",
+      "rounds": 100001,
+      "statistics": {
+        "totalWeight": "167196952862887",
+        "payoutSum": "4025266640174004525",
+        "squareSum": "356364168985601342572863",
+        "hitWeight": "167196952862887",
+        "profitWeight": "32467388762702",
+        "capWeight": "358118582",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.9630000000000001,
+        "rtpPercent": 96.30000000000001,
+        "standardDeviation": 1.5757146268611344,
+        "hitFrequency": 1,
+        "profitFrequency": 0.19418648609779085,
+        "maxWinFrequency": 0.0000021418965828502977,
+        "minimumUnits": 300,
+        "maximumUnits": 500000
+      },
+      "files": {
+        "events": {
+          "bytes": 27538024,
+          "sha256": "c000f486661cd6d290b480283d02c9ae7956173ea0f46b90c4a6381abf209e73"
+        },
+        "weights": {
+          "bytes": 2204007,
+          "sha256": "ef5d48923d75f4f2890c794960a0f0acbd577bc99d366831bf8821ee5623f174"
+        }
+      },
+      "maxBookBytes": 11212
+    },
+    {
+      "name": "buy_kraken",
+      "rounds": 100001,
+      "statistics": {
+        "totalWeight": "883411300581357",
+        "payoutSum": "42536254122992339550",
+        "squareSum": "8201037258315325928644370",
+        "hitWeight": "882375267768357",
+        "profitWeight": "314413590531857",
+        "capWeight": "6523377470517",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.963,
+        "rtpPercent": 96.3,
+        "standardDeviation": 1.6691256666184753,
+        "hitFrequency": 0.9988272361783032,
+        "profitFrequency": 0.3559084996138799,
+        "maxWinFrequency": 0.0073843038528305935,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "files": {
+        "events": {
+          "bytes": 51951572,
+          "sha256": "11d282517bf00457183ca36eed07fd3ca8cbe40b24221b61b6585e0484b0a21c"
+        },
+        "weights": {
+          "bytes": 2174707,
+          "sha256": "9a63ccfcfe0d3343be8dabe4888f75f0f3af35e8f763f646cedaae78f62af3ed"
+        }
+      },
+      "maxBookBytes": 18042
+    },
+    {
+      "name": "buy_wheel",
+      "rounds": 100001,
+      "statistics": {
+        "totalWeight": "1609017214091582",
+        "payoutSum": "28665446177648579121",
+        "squareSum": "2332446440864599915169249",
+        "hitWeight": "1605114486204134",
+        "profitWeight": "465057196556843",
+        "capWeight": "1102145296603",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.963,
+        "rtpPercent": 96.3,
+        "standardDeviation": 1.8188344516578168,
+        "hitFrequency": 0.9975744648017011,
+        "profitFrequency": 0.28903183414318206,
+        "maxWinFrequency": 0.0006849804259087735,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "files": {
+        "events": {
+          "bytes": 32283613,
+          "sha256": "e5cfe1bea4d8ddf7286251ec04fc2d613e5f968715bd1e19b9b7db0474dd5029"
+        },
+        "weights": {
+          "bytes": 2301291,
+          "sha256": "6927134a088ecf027ab0d1825c56629d11045c89d9a6e5670f6bb683c0597f45"
+        }
+      },
+      "maxBookBytes": 17898
+    },
+    {
+      "name": "buy_wilds",
+      "rounds": 100001,
+      "statistics": {
+        "totalWeight": "88572069803867",
+        "payoutSum": "426474516105619605",
+        "squareSum": "2715530066305972929595",
+        "hitWeight": "86766767849072",
+        "profitWeight": "47333385414447",
+        "capWeight": "231051227",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.963,
+        "rtpPercent": 96.30000000000001,
+        "standardDeviation": 0.5468002729885981,
+        "hitFrequency": 0.9796177061370177,
+        "profitFrequency": 0.5344053212176425,
+        "maxWinFrequency": 0.0000026086239997737127,
+        "minimumUnits": 0,
+        "maximumUnits": 157950
+      },
+      "files": {
+        "events": {
+          "bytes": 6854194,
+          "sha256": "c27bf8ec04799ed3659a5d1ce8f59cb04c9d92279dcdba3295e0d5ed8880ff81"
+        },
+        "weights": {
+          "bytes": 2076330,
+          "sha256": "03ec7d367fe6e877709c3f1d56dca284217e59e3f8d1fd994882ae99bb6eeea5"
+        }
+      },
+      "maxBookBytes": 916
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Squid Squad rendering profile</title>
+<style>
+html, body { margin: 0; height: 100%; background: #071525; color: #fff; font: 12px monospace; }
+iframe { width: 100%; height: 100%; border: 0; }
+aside { position: fixed; z-index: 100; top: 8px; left: 8px; max-width: 520px; padding: 12px; background: #00101fed; border: 1px solid #58cedb; }
+button { margin: 3px; padding: 5px 8px; cursor: pointer; }
+pre { white-space: pre-wrap; margin: 8px 0 0; }
+</style>
+</head>
+<body>
+<iframe id="preview" src="/?debug=1" title="Game rendering sample"></iframe>
+<aside>
+<button id="ocean">Ocean: on</button>
+<button id="symbols">3D symbols: on</button>
+<button id="reset">Reset sample</button>
+<pre id="profile">Waiting for game initialization</pre>
+</aside>
+<script src="profile.js"></script>
+</body>
+</html>

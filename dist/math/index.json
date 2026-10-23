@@ -1,0 +1,46 @@
+{
+  "modes": [
+    {
+      "name": "base_vault",
+      "cost": 1,
+      "events": "events_base_vault.jsonl.zst",
+      "weights": "lookup_base_vault.csv"
+    },
+    {
+      "name": "ante_vault",
+      "cost": 2,
+      "events": "events_ante_vault.jsonl.zst",
+      "weights": "lookup_ante_vault.csv"
+    },
+    {
+      "name": "buy_vault",
+      "cost": 100,
+      "events": "events_buy_vault.jsonl.zst",
+      "weights": "lookup_buy_vault.csv"
+    },
+    {
+      "name": "buy_reef",
+      "cost": 250,
+      "events": "events_buy_reef.jsonl.zst",
+      "weights": "lookup_buy_reef.csv"
+    },
+    {
+      "name": "buy_kraken",
+      "cost": 500,
+      "events": "events_buy_kraken.jsonl.zst",
+      "weights": "lookup_buy_kraken.csv"
+    },
+    {
+      "name": "buy_wheel",
+      "cost": 185,
+      "events": "events_buy_wheel.jsonl.zst",
+      "weights": "lookup_buy_wheel.csv"
+    },
+    {
+      "name": "buy_wilds",
+      "cost": 50,
+      "events": "events_buy_wilds.jsonl.zst",
+      "weights": "lookup_buy_wilds.csv"
+    }
+  ]
+}

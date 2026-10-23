@@ -1,0 +1,28 @@
+✔ rapid spin input accelerates the accepted reels while sea life and background retain real frame time (36.6839ms)
+✔ turbo keeps ambient motion at the same rate as normal play (28.5331ms)
+✔ disabled turbo and slam stop retain ordinary gameplay timing under repeated input (44.8826ms)
+✔ normal small wins count promptly and retain the final amount before settling (60.9622ms)
+✔ turbo small wins count promptly and retain the final amount before settling (35.5801ms)
+✔ one press finishes a small win count and repeated presses preserve the real-time final amount hold (34.5366ms)
+✔ normal big win counts finish without a long celebration lock (59.4034ms)
+✔ turbo big win counts finish without a long celebration lock (39.1205ms)
+✔ normal mega win counts finish without a long celebration lock (60.5856ms)
+✔ turbo mega win counts finish without a long celebration lock (41.5725ms)
+✔ normal epic win counts finish without a long celebration lock (70.7941ms)
+✔ turbo epic win counts finish without a long celebration lock (38.4144ms)
+✔ one press reveals the complete big win and a second press dismisses it only after the final amount hold (35.3187ms)
+✔ clicking a bonus total finishes its count and preserves a readable final total before continuing (118.2257ms)
+✔ repeated speed-up input preserves vault playback and settles the accepted outcome once (77.6236ms)
+✔ repeated speed-up input preserves reef playback and settles the accepted outcome once (104.014ms)
+✔ repeated speed-up input preserves kraken playback and settles the accepted outcome once (120.7727ms)
+✔ repeated speed-up input preserves wheel playback and settles the accepted outcome once (124.5796ms)
+✔ repeated speed-up input preserves wilds playback and settles the accepted outcome once (16.2203ms)
+✔ speed-up input in replay preserves the recorded payout without wallet requests (105.1795ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1358.2392

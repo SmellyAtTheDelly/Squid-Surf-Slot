@@ -1,0 +1,54 @@
+{
+  "mode": "base_vault",
+  "rounds": 100001,
+  "rtp": 96.29999999999998,
+  "bytes": 4054011,
+  "maxWinFrequency": 1.904605274537951e-7
+}
+{
+  "mode": "ante_vault",
+  "rounds": 100001,
+  "rtp": 96.3,
+  "bytes": 4591850,
+  "maxWinFrequency": 2.3734949774972392e-7
+}
+{
+  "mode": "buy_vault",
+  "rounds": 100001,
+  "rtp": 96.29999999999998,
+  "bytes": 26680863,
+  "maxWinFrequency": 5.024636210344153e-7
+}
+{
+  "mode": "buy_reef",
+  "rounds": 100001,
+  "rtp": 96.30000000000001,
+  "bytes": 27538024,
+  "maxWinFrequency": 0.0000021418965828502977
+}
+{
+  "mode": "buy_kraken",
+  "rounds": 100001,
+  "rtp": 96.3,
+  "bytes": 51951572,
+  "maxWinFrequency": 0.0073843038528305935
+}
+{
+  "mode": "buy_wheel",
+  "rounds": 100001,
+  "rtp": 96.3,
+  "bytes": 32283613,
+  "maxWinFrequency": 0.0006849804259087735
+}
+{
+  "mode": "buy_wilds",
+  "rounds": 100001,
+  "rtp": 96.3,
+  "bytes": 6795322,
+  "maxWinFrequency": 0.0019727781738899026
+}
+{
+  "directory": "C:\\Users\\Admin\\Desktop\\development\\slots\\Squid-Surf-Slot\\dist\\math-squid-engine-3",
+  "production": true,
+  "modes": 7
+}

@@ -1,0 +1,935 @@
+{
+  "method": "Conditional bonus-only seeded Monte Carlo using production bonus math and shared round settlement",
+  "profile": "squid-ways-2",
+  "unitScale": 100,
+  "nodeVersion": "v24.13.0",
+  "config": {
+    "runs": 250000,
+    "seed": 19088743,
+    "betCents": 100,
+    "preWinUnits": 0,
+    "json": true,
+    "help": false
+  },
+  "startedAt": "2026-10-22T19:12:43.500Z",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\Users\\Admin\\Desktop\\development\\slots\\Squid-Surf-Slot\\tools\\bonus-sim.js",
+    "250000",
+    "19088743",
+    "--json"
+  ],
+  "sourceSha256": {
+    "js/math.js": "15f7373f4aa9971ab9aa6b8be7507ffe50368c6258ca78745721eb5df9adb4db",
+    "tools/statistics.js": "13c11ddea87e10f7f7a855c0dd7c4daa20145927733d1badc50629e7dbf37207",
+    "tools/bonus-sim.js": "e409a0caf8f64a6211b2117988570c3f441ad5309e3ffd81411e6d291fd09e94"
+  },
+  "interpretation": "Means exclude trigger-spin awards and feature purchase cost. They are not RTP and do not assert equal bonus values. Optional pre-win units consume cap allowance before the bonus.",
+  "confidenceMethod": "Two-sided 95% normal approximation using unbiased sample variance and standard error; rare outcomes can converge slowly",
+  "results": [
+    {
+      "kind": "kraken",
+      "pearls": 3,
+      "super": false,
+      "seed": 824057433,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 2187148160,
+        "mean": 8748.592640000357,
+        "variance": 861463479.2740918,
+        "standardDeviation": 29350.698105395924,
+        "standardError": 58.70139621079185,
+        "confidence95": [
+          8633.54001758499,
+          8863.645262415725
+        ],
+        "min": 0,
+        "max": 500000
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 21871481.600000042,
+        "mean": 87.48592640000027,
+        "variance": 86146.3479274105,
+        "standardDeviation": 293.5069810539615,
+        "standardError": 0.587013962107923,
+        "confidence95": [
+          86.33540017584657,
+          88.63645262415396
+        ],
+        "min": 0,
+        "max": 5000
+      },
+      "zeroPayoutFrequency": 0.009036,
+      "capHitFrequency": 0.000588,
+      "atLeast500xFrequency": 0.034664,
+      "counts": {
+        "zeros": 2259,
+        "caps": 147,
+        "atLeast500x": 8666
+      }
+    },
+    {
+      "kind": "kraken",
+      "pearls": 3,
+      "super": true,
+      "seed": 4090547342,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 4015472446,
+        "mean": 16061.889784000097,
+        "variance": 1680912383.8647974,
+        "standardDeviation": 40998.93149662315,
+        "standardError": 81.99786299324629,
+        "confidence95": [
+          15901.176925724085,
+          16222.60264227611
+        ],
+        "min": 0,
+        "max": 500000
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 40154724.45999972,
+        "mean": 160.61889783999467,
+        "variance": 168091.238386486,
+        "standardDeviation": 409.9893149662391,
+        "standardError": 0.8199786299324782,
+        "confidence95": [
+          159.0117692572345,
+          162.22602642275484
+        ],
+        "min": 0,
+        "max": 5000
+      },
+      "zeroPayoutFrequency": 0.004524,
+      "capHitFrequency": 0.001828,
+      "atLeast500xFrequency": 0.085136,
+      "counts": {
+        "zeros": 1131,
+        "caps": 457,
+        "atLeast500x": 21284
+      }
+    },
+    {
+      "kind": "kraken",
+      "pearls": 4,
+      "super": false,
+      "seed": 3070879940,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 4133164825,
+        "mean": 16532.65930000002,
+        "variance": 2158104320.5527697,
+        "standardDeviation": 46455.401414181855,
+        "standardError": 92.91080282836371,
+        "confidence95": [
+          16350.557472681727,
+          16714.761127318317
+        ],
+        "min": 0,
+        "max": 500000
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 41331648.250002466,
+        "mean": 165.32659300000017,
+        "variance": 215810.43205527225,
+        "standardDeviation": 464.55401414181347,
+        "standardError": 0.9291080282836269,
+        "confidence95": [
+          163.50557472681723,
+          167.14761127318312
+        ],
+        "min": 0,
+        "max": 5000
+      },
+      "zeroPayoutFrequency": 0.002748,
+      "capHitFrequency": 0.002,
+      "atLeast500xFrequency": 0.074008,
+      "counts": {
+        "zeros": 687,
+        "caps": 500,
+        "atLeast500x": 18502
+      }
+    },
+    {
+      "kind": "kraken",
+      "pearls": 4,
+      "super": true,
+      "seed": 2042402553,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 7049818314,
+        "mean": 28199.27325599968,
+        "variance": 3725517563.225464,
+        "standardDeviation": 61037.01797454938,
+        "standardError": 122.07403594909876,
+        "confidence95": [
+          27960.012542091998,
+          28438.533969907363
+        ],
+        "min": 0,
+        "max": 500000
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 70498183.14000018,
+        "mean": 281.99273256000157,
+        "variance": 372551.75632254925,
+        "standardDeviation": 610.3701797454961,
+        "standardError": 1.2207403594909922,
+        "confidence95": [
+          279.60012542092477,
+          284.3853396990784
+        ],
+        "min": 0,
+        "max": 5000
+      },
+      "zeroPayoutFrequency": 0.001452,
+      "capHitFrequency": 0.005452,
+      "atLeast500xFrequency": 0.155236,
+      "counts": {
+        "zeros": 363,
+        "caps": 1363,
+        "atLeast500x": 38809
+      }
+    },
+    {
+      "kind": "kraken",
+      "pearls": 5,
+      "super": false,
+      "seed": 1022735151,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 8609940664,
+        "mean": 34439.762656000166,
+        "variance": 5789346414.120711,
+        "standardDeviation": 76087.75469233346,
+        "standardError": 152.17550938466692,
+        "confidence95": [
+          34141.50413827718,
+          34738.02117372315
+        ],
+        "min": 0,
+        "max": 500000
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 86099406.6400008,
+        "mean": 344.3976265599967,
+        "variance": 578934.6414120669,
+        "standardDeviation": 760.8775469233317,
+        "standardError": 1.5217550938466633,
+        "confidence95": [
+          341.41504138276684,
+          347.38021173722655
+        ],
+        "min": 0,
+        "max": 5000
+      },
+      "zeroPayoutFrequency": 0.00044,
+      "capHitFrequency": 0.009052,
+      "atLeast500xFrequency": 0.164772,
+      "counts": {
+        "zeros": 110,
+        "caps": 2263,
+        "atLeast500x": 41193
+      }
+    },
+    {
+      "kind": "kraken",
+      "pearls": 5,
+      "super": true,
+      "seed": 4289225060,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 13569928177,
+        "mean": 54279.712707999664,
+        "variance": 8774304918.560467,
+        "standardDeviation": 93671.25983224773,
+        "standardError": 187.34251966449546,
+        "confidence95": [
+          53912.52811668427,
+          54646.89729931506
+        ],
+        "min": 0,
+        "max": 500000
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 135699281.7699994,
+        "mean": 542.7971270799919,
+        "variance": 877430.4918560421,
+        "standardDeviation": 936.7125983224748,
+        "standardError": 1.8734251966449498,
+        "confidence95": [
+          539.1252811668379,
+          546.4689729931459
+        ],
+        "min": 0,
+        "max": 5000
+      },
+      "zeroPayoutFrequency": 0.000244,
+      "capHitFrequency": 0.018056,
+      "atLeast500xFrequency": 0.288408,
+      "counts": {
+        "zeros": 61,
+        "caps": 4514,
+        "atLeast500x": 72102
+      }
+    },
+    {
+      "kind": "reef",
+      "pearls": 3,
+      "super": false,
+      "seed": 3478493194,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 2196259700,
+        "mean": 8785.03879999991,
+        "variance": 421977001.15048814,
+        "standardDeviation": 20542.078793308337,
+        "standardError": 41.084157586616676,
+        "confidence95": [
+          8704.515330794973,
+          8865.562269204846
+        ],
+        "min": 300,
+        "max": 137200
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 21962597,
+        "mean": 87.85038800000004,
+        "variance": 42197.70011504905,
+        "standardDeviation": 205.42078793308394,
+        "standardError": 0.4108415758661679,
+        "confidence95": [
+          87.04515330795067,
+          88.6556226920494
+        ],
+        "min": 3,
+        "max": 1372
+      },
+      "zeroPayoutFrequency": 0,
+      "capHitFrequency": 0,
+      "atLeast500xFrequency": 0.04126,
+      "counts": {
+        "zeros": 0,
+        "caps": 0,
+        "atLeast500x": 10315
+      }
+    },
+    {
+      "kind": "reef",
+      "pearls": 3,
+      "super": true,
+      "seed": 2450015807,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 4204223700,
+        "mean": 16816.89480000005,
+        "variance": 488680350.4471414,
+        "standardDeviation": 22106.11567976476,
+        "standardError": 44.21223135952952,
+        "confidence95": [
+          16730.24041885922,
+          16903.54918114088
+        ],
+        "min": 1500,
+        "max": 187000
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 42042237,
+        "mean": 168.16894799999443,
+        "variance": 48868.035044714845,
+        "standardDeviation": 221.0611567976492,
+        "standardError": 0.4421223135952984,
+        "confidence95": [
+          167.3024041885861,
+          169.03549181140275
+        ],
+        "min": 15,
+        "max": 1870
+      },
+      "zeroPayoutFrequency": 0,
+      "capHitFrequency": 0,
+      "atLeast500xFrequency": 0.0433,
+      "counts": {
+        "zeros": 0,
+        "caps": 0,
+        "atLeast500x": 10825
+      }
+    },
+    {
+      "kind": "reef",
+      "pearls": 4,
+      "super": false,
+      "seed": 1430348405,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 4151064700,
+        "mean": 16604.258799999487,
+        "variance": 483675705.96544003,
+        "standardDeviation": 21992.628446037095,
+        "standardError": 43.98525689207419,
+        "confidence95": [
+          16518.04928064028,
+          16690.468319358693
+        ],
+        "min": 1200,
+        "max": 194800
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 41510647,
+        "mean": 166.04258800000167,
+        "variance": 48367.570596545374,
+        "standardDeviation": 219.92628446037406,
+        "standardError": 0.43985256892074814,
+        "confidence95": [
+          165.18049280640957,
+          166.90468319359377
+        ],
+        "min": 12,
+        "max": 1948
+      },
+      "zeroPayoutFrequency": 0,
+      "capHitFrequency": 0,
+      "atLeast500xFrequency": 0.04252,
+      "counts": {
+        "zeros": 0,
+        "caps": 0,
+        "atLeast500x": 10630
+      }
+    },
+    {
+      "kind": "reef",
+      "pearls": 4,
+      "super": true,
+      "seed": 401871018,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 10155272900,
+        "mean": 40621.09160000052,
+        "variance": 768581163.029056,
+        "standardDeviation": 27723.2963954335,
+        "standardError": 55.446592790867,
+        "confidence95": [
+          40512.41827506496,
+          40729.764924936084
+        ],
+        "min": 5400,
+        "max": 353700
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 101552729,
+        "mean": 406.2109159999999,
+        "variance": 76858.1163029063,
+        "standardDeviation": 277.23296395433624,
+        "standardError": 0.5544659279086724,
+        "confidence95": [
+          405.1241827506443,
+          407.29764924935546
+        ],
+        "min": 54,
+        "max": 3537
+      },
+      "zeroPayoutFrequency": 0,
+      "capHitFrequency": 0,
+      "atLeast500xFrequency": 0.165128,
+      "counts": {
+        "zeros": 0,
+        "caps": 0,
+        "atLeast500x": 41282
+      }
+    },
+    {
+      "kind": "reef",
+      "pearls": 5,
+      "super": false,
+      "seed": 3677170912,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 8556710250,
+        "mean": 34226.84099999978,
+        "variance": 677394186.4874732,
+        "standardDeviation": 26026.797468906414,
+        "standardError": 52.053594937812825,
+        "confidence95": [
+          34124.81782865583,
+          34328.86417134373
+        ],
+        "min": 3750,
+        "max": 305000
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 85567102.5,
+        "mean": 342.26840999999905,
+        "variance": 67739.41864874559,
+        "standardDeviation": 260.2679746890608,
+        "standardError": 0.5205359493781215,
+        "confidence95": [
+          341.24817828655955,
+          343.28864171343855
+        ],
+        "min": 37.5,
+        "max": 3050
+      },
+      "zeroPayoutFrequency": 0,
+      "capHitFrequency": 0,
+      "atLeast500xFrequency": 0.092672,
+      "counts": {
+        "zeros": 0,
+        "caps": 0,
+        "atLeast500x": 23168
+      }
+    },
+    {
+      "kind": "reef",
+      "pearls": 5,
+      "super": true,
+      "seed": 2648693525,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 23741572750,
+        "mean": 94966.29100000161,
+        "variance": 1976171143.6378887,
+        "standardDeviation": 44454.14652918093,
+        "standardError": 88.90829305836186,
+        "confidence95": [
+          94792.03394768029,
+          95140.54805232293
+        ],
+        "min": 17250,
+        "max": 500000
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 237415727.5,
+        "mean": 949.6629099999753,
+        "variance": 197617.1143637895,
+        "standardDeviation": 444.54146529180997,
+        "standardError": 0.88908293058362,
+        "confidence95": [
+          947.9203394767621,
+          951.4054805231885
+        ],
+        "min": 172.5,
+        "max": 5000
+      },
+      "zeroPayoutFrequency": 0,
+      "capHitFrequency": 0.000092,
+      "atLeast500xFrequency": 0.910096,
+      "counts": {
+        "zeros": 0,
+        "caps": 23,
+        "atLeast500x": 227524
+      }
+    },
+    {
+      "kind": "vault",
+      "pearls": 3,
+      "super": false,
+      "seed": 1837961659,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 2205491500,
+        "mean": 8821.966000000051,
+        "variance": 64016477.84075491,
+        "standardDeviation": 8001.029798766838,
+        "standardError": 16.002059597533677,
+        "confidence95": [
+          8790.602539510423,
+          8853.32946048968
+        ],
+        "min": 0,
+        "max": 113600
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 22054915,
+        "mean": 88.21966000000074,
+        "variance": 6401.647784075543,
+        "standardDeviation": 80.01029798766871,
+        "standardError": 0.1600205959753374,
+        "confidence95": [
+          87.90602539510445,
+          88.53329460489704
+        ],
+        "min": 0,
+        "max": 1136
+      },
+      "zeroPayoutFrequency": 0.05624,
+      "capHitFrequency": 0,
+      "atLeast500xFrequency": 0.004308,
+      "counts": {
+        "zeros": 14060,
+        "caps": 0,
+        "atLeast500x": 1077
+      }
+    },
+    {
+      "kind": "vault",
+      "pearls": 3,
+      "super": true,
+      "seed": 809484272,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 4415669200,
+        "mean": 17662.676800000212,
+        "variance": 256493221.43162757,
+        "standardDeviation": 16015.405752950113,
+        "standardError": 32.030811505900225,
+        "confidence95": [
+          17599.897563053055,
+          17725.45603694737
+        ],
+        "min": 0,
+        "max": 241200
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 44156692,
+        "mean": 176.62676799999946,
+        "variance": 25649.322143162564,
+        "standardDeviation": 160.15405752950053,
+        "standardError": 0.3203081150590011,
+        "confidence95": [
+          175.9989756305279,
+          177.25456036947102
+        ],
+        "min": 0,
+        "max": 2412
+      },
+      "zeroPayoutFrequency": 0.056336,
+      "capHitFrequency": 0,
+      "atLeast500xFrequency": 0.039472,
+      "counts": {
+        "zeros": 14084,
+        "caps": 0,
+        "atLeast500x": 9868
+      }
+    },
+    {
+      "kind": "vault",
+      "pearls": 4,
+      "super": false,
+      "seed": 4084784166,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 3745660200,
+        "mean": 14982.640799999685,
+        "variance": 76003378.19168767,
+        "standardDeviation": 8717.99163750962,
+        "standardError": 17.43598327501924,
+        "confidence95": [
+          14948.466900745603,
+          15016.814699253766
+        ],
+        "min": 0,
+        "max": 115000
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 37456602,
+        "mean": 149.82640799999848,
+        "variance": 7600.337819168829,
+        "standardDeviation": 87.17991637509655,
+        "standardError": 0.1743598327501931,
+        "confidence95": [
+          149.48466900745768,
+          150.16814699253928
+        ],
+        "min": 0,
+        "max": 1150
+      },
+      "zeroPayoutFrequency": 0.006068,
+      "capHitFrequency": 0,
+      "atLeast500xFrequency": 0.00878,
+      "counts": {
+        "zeros": 1517,
+        "caps": 0,
+        "atLeast500x": 2195
+      }
+    },
+    {
+      "kind": "vault",
+      "pearls": 4,
+      "super": true,
+      "seed": 3056306779,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 7482793800,
+        "mean": 29931.175199999812,
+        "variance": 302857740.9778687,
+        "standardDeviation": 17402.808422144648,
+        "standardError": 34.8056168442893,
+        "confidence95": [
+          29862.957444525306,
+          29999.39295547432
+        ],
+        "min": 0,
+        "max": 227200
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 74827938,
+        "mean": 299.31175199999984,
+        "variance": 30285.774097786692,
+        "standardDeviation": 174.02808422144597,
+        "standardError": 0.34805616844289194,
+        "confidence95": [
+          298.6295744452548,
+          299.9939295547449
+        ],
+        "min": 0,
+        "max": 2272
+      },
+      "zeroPayoutFrequency": 0.006132,
+      "capHitFrequency": 0,
+      "atLeast500xFrequency": 0.094192,
+      "counts": {
+        "zeros": 1533,
+        "caps": 0,
+        "atLeast500x": 23548
+      }
+    },
+    {
+      "kind": "vault",
+      "pearls": 5,
+      "super": false,
+      "seed": 2036639377,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 8568913600,
+        "mean": 34275.65440000039,
+        "variance": 259873249.9847586,
+        "standardDeviation": 16120.584666343791,
+        "standardError": 32.24116933268758,
+        "confidence95": [
+          34212.462869288865,
+          34338.84593071192
+        ],
+        "min": 8400,
+        "max": 238000
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 85689136,
+        "mean": 342.7565439999979,
+        "variance": 25987.32499847631,
+        "standardDeviation": 161.20584666343933,
+        "standardError": 0.3224116933268787,
+        "confidence95": [
+          342.12462869288265,
+          343.3884593071132
+        ],
+        "min": 84,
+        "max": 2380
+      },
+      "zeroPayoutFrequency": 0,
+      "capHitFrequency": 0,
+      "atLeast500xFrequency": 0.115828,
+      "counts": {
+        "zeros": 0,
+        "caps": 0,
+        "atLeast500x": 28957
+      }
+    },
+    {
+      "kind": "vault",
+      "pearls": 5,
+      "super": true,
+      "seed": 1008161990,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 17115847200,
+        "mean": 68463.38879999814,
+        "variance": 1038488240.7730166,
+        "standardDeviation": 32225.583637430318,
+        "standardError": 64.45116727486064,
+        "confidence95": [
+          68337.06683337784,
+          68589.71076661843
+        ],
+        "min": 16800,
+        "max": 460800
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 171158472,
+        "mean": 684.6338880000008,
+        "variance": 103848.82407730162,
+        "standardDeviation": 322.2558363743031,
+        "standardError": 0.6445116727486062,
+        "confidence95": [
+          683.3706683337978,
+          685.8971076662037
+        ],
+        "min": 168,
+        "max": 4608
+      },
+      "zeroPayoutFrequency": 0,
+      "capHitFrequency": 0,
+      "atLeast500xFrequency": 0.717148,
+      "counts": {
+        "zeros": 0,
+        "caps": 0,
+        "atLeast500x": 179287
+      }
+    },
+    {
+      "kind": "wheel",
+      "pearls": 3,
+      "super": false,
+      "seed": 197430124,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 2195227320,
+        "mean": 8780.909280000014,
+        "variance": 430524565.5409848,
+        "standardDeviation": 20749.085896515655,
+        "standardError": 41.49817179303131,
+        "confidence95": [
+          8699.574357861417,
+          8862.244202138612
+        ],
+        "min": 0,
+        "max": 500000
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 21952273.200000066,
+        "mean": 87.8090928000025,
+        "variance": 43052.45655409797,
+        "standardDeviation": 207.4908589651553,
+        "standardError": 0.4149817179303106,
+        "confidence95": [
+          86.99574357861654,
+          88.62244202138847
+        ],
+        "min": 0,
+        "max": 5000
+      },
+      "zeroPayoutFrequency": 0.017016,
+      "capHitFrequency": 0.000236,
+      "atLeast500xFrequency": 0.024948,
+      "counts": {
+        "zeros": 4254,
+        "caps": 59,
+        "atLeast500x": 6237
+      }
+    },
+    {
+      "kind": "wheel",
+      "pearls": 4,
+      "super": false,
+      "seed": 2444252631,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 3946086327,
+        "mean": 15784.345307999905,
+        "variance": 921513822.8375447,
+        "standardDeviation": 30356.446149665553,
+        "standardError": 60.71289229933111,
+        "confidence95": [
+          15665.350225695956,
+          15903.340390303854
+        ],
+        "min": 0,
+        "max": 500000
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 39460863.270000376,
+        "mean": 157.84345307999965,
+        "variance": 92151.38228375402,
+        "standardDeviation": 303.5644614966548,
+        "standardError": 0.6071289229933097,
+        "confidence95": [
+          156.65350225696017,
+          159.03340390303913
+        ],
+        "min": 0,
+        "max": 5000
+      },
+      "zeroPayoutFrequency": 0.002384,
+      "capHitFrequency": 0.000812,
+      "atLeast500xFrequency": 0.046292,
+      "counts": {
+        "zeros": 596,
+        "caps": 203,
+        "atLeast500x": 11573
+      }
+    },
+    {
+      "kind": "wheel",
+      "pearls": 5,
+      "super": false,
+      "seed": 396107842,
+      "rounds": 250000,
+      "acceptedWinUnits": {
+        "count": 250000,
+        "sum": 8346759701,
+        "mean": 33387.038803999865,
+        "variance": 2480890987.350064,
+        "standardDeviation": 49808.543316885545,
+        "standardError": 99.6170866337711,
+        "confidence95": [
+          33191.79290195287,
+          33582.28470604686
+        ],
+        "min": 0,
+        "max": 500000
+      },
+      "paidXBaseBet": {
+        "count": 250000,
+        "sum": 83467597.01000106,
+        "mean": 333.8703880399988,
+        "variance": 248089.09873499477,
+        "standardDeviation": 498.0854331688438,
+        "standardError": 0.9961708663376876,
+        "confidence95": [
+          331.91792901952886,
+          335.8228470604687
+        ],
+        "min": 0,
+        "max": 5000
+      },
+      "zeroPayoutFrequency": 0.000124,
+      "capHitFrequency": 0.00284,
+      "atLeast500xFrequency": 0.169352,
+      "counts": {
+        "zeros": 31,
+        "caps": 710,
+        "atLeast500x": 42338
+      }
+    }
+  ],
+  "finishedAt": "2026-10-22T19:13:56.350Z"
+}

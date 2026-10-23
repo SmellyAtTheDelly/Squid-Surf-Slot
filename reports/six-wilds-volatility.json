@@ -1,0 +1,68 @@
+{
+  "mode": "buy_wilds",
+  "cost": 50,
+  "maximumXBaseBet": 1579.5,
+  "previous": {
+    "totalWeight": "88572069803867",
+    "payoutSum": "426474516105619605",
+    "squareSum": "2715530066305972929595",
+    "hitWeight": "86766767849072",
+    "profitWeight": "47333385414447",
+    "capWeight": "231051227",
+    "rtpNumerator": "963",
+    "rtpDenominator": "1000",
+    "rtp": 0.963,
+    "rtpPercent": 96.30000000000001,
+    "standardDeviation": 0.5468002729885981,
+    "hitFrequency": 0.9796177061370177,
+    "profitFrequency": 0.5344053212176425,
+    "maxWinFrequency": 0.0000026086239997737127,
+    "minimumUnits": 0,
+    "maximumUnits": 157950
+  },
+  "current": {
+    "totalWeight": "851786139570869587",
+    "payoutSum": "4101350262033737061405",
+    "squareSum": "434484905784984658742228963",
+    "hitWeight": "53877363891113587",
+    "profitWeight": "38714004337087577",
+    "capWeight": "1680385104967350",
+    "rtpNumerator": "963",
+    "rtpDenominator": "1000",
+    "rtp": 0.963,
+    "rtpPercent": 96.3,
+    "standardDeviation": 4.413174011759402,
+    "hitFrequency": 0.06325221952808134,
+    "profitFrequency": 0.045450380721846116,
+    "maxWinFrequency": 0.0019727781738899026,
+    "minimumUnits": 0,
+    "maximumUnits": 157950
+  },
+  "distribution": {
+    "name": "six-wilds-extreme-1",
+    "candidateInterval": 20,
+    "candidateSymbolWeight": 1500,
+    "candidateTargets": [
+      [
+        4,
+        1
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        6,
+        7
+      ]
+    ],
+    "highPayoutUnits": 75000,
+    "minimumStandardDeviation": 4,
+    "maximumHitFrequency": 0.1,
+    "maximumProfitFrequency": 0.08,
+    "zeroSourceWeight": "1000",
+    "ordinarySourceWeight": "1",
+    "highSourceWeight": "1000",
+    "maximumSourceWeight": "50"
+  }
+}

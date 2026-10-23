@@ -1,0 +1,701 @@
+{
+  "base": {
+    "scope": "Unmodified reel wins and scatter pays only; excludes Squad Attack and all bonuses; not whole-game RTP",
+    "cost": 1,
+    "scatterPerReel": [
+      0.08049661732748381,
+      0.07839419531558667,
+      0.07839419531558667,
+      0.07839419531558667,
+      0.07839419531558667
+    ],
+    "scatterCounts": [
+      0.6633368699083239,
+      0.28377154626192824,
+      0.048556675036188324,
+      0.0041541731964336364,
+      0.00017769531940463855,
+      0.000003040277721225816
+    ],
+    "triggerRate": 0.0043349087935595,
+    "triggerOneIn": 230.68536101283814,
+    "lineEV": 0.4749167571428403,
+    "scatterEV": 0.01023731347297495,
+    "unmodifiedEV": 0.4851540706158153,
+    "unmodifiedReturnContribution": 0.4851540706158153,
+    "lineDetails": [
+      {
+        "sym": 0,
+        "reels": [
+          {
+            "meanCount": 0.621170932483514,
+            "zeroProbability": 0.4984926142686422
+          },
+          {
+            "meanCount": 0.6850661886846228,
+            "zeroProbability": 0.45937805598800613
+          },
+          {
+            "meanCount": 0.6850661886846228,
+            "zeroProbability": 0.45937805598800613
+          },
+          {
+            "meanCount": 0.6850661886846228,
+            "zeroProbability": 0.45937805598800613
+          },
+          {
+            "meanCount": 0.6850661886846228,
+            "zeroProbability": 0.45937805598800613
+          }
+        ],
+        "byLength": [
+          {
+            "length": 3,
+            "expectedWays": 0.13392030737695595,
+            "payout": 0.06,
+            "expectedPayout": 0.008035218442617356
+          },
+          {
+            "length": 4,
+            "expectedWays": 0.0917442745622044,
+            "payout": 0.2,
+            "expectedPayout": 0.01834885491244088
+          },
+          {
+            "length": 5,
+            "expectedWays": 0.136817376643707,
+            "payout": 0.6,
+            "expectedPayout": 0.0820904259862242
+          }
+        ],
+        "expectedPayout": 0.10847449934128243
+      },
+      {
+        "sym": 1,
+        "reels": [
+          {
+            "meanCount": 0.5797595369846126,
+            "zeroProbability": 0.5249950384169961
+          },
+          {
+            "meanCount": 0.6447681775855282,
+            "zeroProbability": 0.4838015483568861
+          },
+          {
+            "meanCount": 0.6447681775855282,
+            "zeroProbability": 0.4838015483568861
+          },
+          {
+            "meanCount": 0.6447681775855282,
+            "zeroProbability": 0.4838015483568861
+          },
+          {
+            "meanCount": 0.6447681775855282,
+            "zeroProbability": 0.4838015483568861
+          }
+        ],
+        "byLength": [
+          {
+            "length": 3,
+            "expectedWays": 0.11660638858084986,
+            "payout": 0.07,
+            "expectedPayout": 0.00816244720065949
+          },
+          {
+            "length": 4,
+            "expectedWays": 0.07518408866010451,
+            "payout": 0.25,
+            "expectedPayout": 0.018796022165026127
+          },
+          {
+            "length": 5,
+            "expectedWays": 0.10019874469902444,
+            "payout": 0.8,
+            "expectedPayout": 0.08015899575921956
+          }
+        ],
+        "expectedPayout": 0.10711746512490518
+      },
+      {
+        "sym": 2,
+        "reels": [
+          {
+            "meanCount": 0.5383481414857126,
+            "zeroProbability": 0.5524194353096149
+          },
+          {
+            "meanCount": 0.6044701664864324,
+            "zeroProbability": 0.5090747130235633
+          },
+          {
+            "meanCount": 0.6044701664864324,
+            "zeroProbability": 0.5090747130235633
+          },
+          {
+            "meanCount": 0.6044701664864324,
+            "zeroProbability": 0.5090747130235633
+          },
+          {
+            "meanCount": 0.6044701664864324,
+            "zeroProbability": 0.5090747130235633
+          }
+        ],
+        "byLength": [
+          {
+            "length": 3,
+            "expectedWays": 0.10013697910170093,
+            "payout": 0.12,
+            "expectedPayout": 0.01201643749220411
+          },
+          {
+            "length": 4,
+            "expectedWays": 0.060529816429053564,
+            "payout": 0.35,
+            "expectedPayout": 0.021185435750168746
+          },
+          {
+            "length": 5,
+            "expectedWays": 0.07187249195103831,
+            "payout": 1,
+            "expectedPayout": 0.07187249195103831
+          }
+        ],
+        "expectedPayout": 0.10507436519341118
+      },
+      {
+        "sym": 3,
+        "reels": [
+          {
+            "meanCount": 0.49693674598681137,
+            "zeroProbability": 0.5807815497494854
+          },
+          {
+            "meanCount": 0.5641721553873363,
+            "zeroProbability": 0.5352120604898614
+          },
+          {
+            "meanCount": 0.5641721553873363,
+            "zeroProbability": 0.5352120604898614
+          },
+          {
+            "meanCount": 0.5641721553873363,
+            "zeroProbability": 0.5352120604898614
+          },
+          {
+            "meanCount": 0.5641721553873363,
+            "zeroProbability": 0.5352120604898614
+          }
+        ],
+        "byLength": [
+          {
+            "length": 3,
+            "expectedWays": 0.08465454869373247,
+            "payout": 0.14,
+            "expectedPayout": 0.011851636817122547
+          },
+          {
+            "length": 4,
+            "expectedWays": 0.047759739199885264,
+            "payout": 0.4,
+            "expectedPayout": 0.019103895679954106
+          },
+          {
+            "length": 5,
+            "expectedWays": 0.05034399819106234,
+            "payout": 1.3,
+            "expectedPayout": 0.06544719764838104
+          }
+        ],
+        "expectedPayout": 0.0964027301454577
+      },
+      {
+        "sym": 4,
+        "reels": [
+          {
+            "meanCount": 0.26917407074285615,
+            "zeroProbability": 0.7542384762092649
+          },
+          {
+            "meanCount": 0.3425330943423113,
+            "zeroProbability": 0.6950631771480139
+          },
+          {
+            "meanCount": 0.3425330943423113,
+            "zeroProbability": 0.6950631771480139
+          },
+          {
+            "meanCount": 0.3425330943423113,
+            "zeroProbability": 0.6950631771480139
+          },
+          {
+            "meanCount": 0.3425330943423113,
+            "zeroProbability": 0.6950631771480139
+          }
+        ],
+        "byLength": [
+          {
+            "length": 3,
+            "expectedWays": 0.02195141798273821,
+            "payout": 0.25,
+            "expectedPayout": 0.005487854495684553
+          },
+          {
+            "length": 4,
+            "expectedWays": 0.007519087126828775,
+            "payout": 0.8,
+            "expectedPayout": 0.00601526970146302
+          },
+          {
+            "length": 5,
+            "expectedWays": 0.0037054706174337267,
+            "payout": 2.6,
+            "expectedPayout": 0.00963422360532769
+          }
+        ],
+        "expectedPayout": 0.02113734780247526
+      },
+      {
+        "sym": 5,
+        "reels": [
+          {
+            "meanCount": 0.22776267524395508,
+            "zeroProbability": 0.7890795342790226
+          },
+          {
+            "meanCount": 0.3022350832432156,
+            "zeroProbability": 0.7271714062938216
+          },
+          {
+            "meanCount": 0.3022350832432156,
+            "zeroProbability": 0.7271714062938216
+          },
+          {
+            "meanCount": 0.3022350832432156,
+            "zeroProbability": 0.7271714062938216
+          },
+          {
+            "meanCount": 0.3022350832432156,
+            "zeroProbability": 0.7271714062938216
+          }
+        ],
+        "byLength": [
+          {
+            "length": 3,
+            "expectedWays": 0.015128960871745754,
+            "payout": 0.4,
+            "expectedPayout": 0.006051584348698302
+          },
+          {
+            "length": 4,
+            "expectedWays": 0.004572502748455429,
+            "payout": 1.3,
+            "expectedPayout": 0.0059442535729920575
+          },
+          {
+            "length": 5,
+            "expectedWays": 0.0019004745467822454,
+            "payout": 4,
+            "expectedPayout": 0.007601898187128982
+          }
+        ],
+        "expectedPayout": 0.01959773610881934
+      },
+      {
+        "sym": 6,
+        "reels": [
+          {
+            "meanCount": 0.18635127974505422,
+            "zeroProbability": 0.8249763959184174
+          },
+          {
+            "meanCount": 0.2619370721441198,
+            "zeroProbability": 0.7602526470029362
+          },
+          {
+            "meanCount": 0.2619370721441198,
+            "zeroProbability": 0.7602526470029362
+          },
+          {
+            "meanCount": 0.2619370721441198,
+            "zeroProbability": 0.7602526470029362
+          },
+          {
+            "meanCount": 0.2619370721441198,
+            "zeroProbability": 0.7602526470029362
+          }
+        ],
+        "byLength": [
+          {
+            "length": 3,
+            "expectedWays": 0.009720402715018369,
+            "payout": 0.65,
+            "expectedPayout": 0.00631826176476194
+          },
+          {
+            "length": 4,
+            "expectedWays": 0.0025461338272336647,
+            "payout": 2,
+            "expectedPayout": 0.0050922676544673294
+          },
+          {
+            "length": 5,
+            "expectedWays": 0.0008772436934246053,
+            "payout": 6.5,
+            "expectedPayout": 0.0057020840072599345
+          }
+        ],
+        "expectedPayout": 0.017112613426489204
+      }
+    ]
+  },
+  "ante": {
+    "scope": "Unmodified reel wins and scatter pays only; excludes Squad Attack and all bonuses; not whole-game RTP",
+    "cost": 2,
+    "scatterPerReel": [
+      0.11949717940704785,
+      0.1151482751195031,
+      0.1151482751195031,
+      0.1151482751195031,
+      0.1151482751195031
+    ],
+    "scatterCounts": [
+      0.5397749909277668,
+      0.3542252306063997,
+      0.09297684276821433,
+      0.012201387178499262,
+      0.0008005403888650818,
+      0.000021008130254751473
+    ],
+    "triggerRate": 0.013022935697619094,
+    "triggerOneIn": 76.78760175271572,
+    "lineEV": 0.5320271585970668,
+    "scatterEV": 0.033458584758386915,
+    "unmodifiedEV": 0.5654857433554538,
+    "unmodifiedReturnContribution": 0.2827428716777269,
+    "lineDetails": [
+      {
+        "sym": 0,
+        "reels": [
+          {
+            "meanCount": 0.6128729405516925,
+            "zeroProbability": 0.5036351905269778
+          },
+          {
+            "meanCount": 0.7035265105635014,
+            "zeroProbability": 0.44836043271290743
+          },
+          {
+            "meanCount": 0.7035265105635014,
+            "zeroProbability": 0.44836043271290743
+          },
+          {
+            "meanCount": 0.7035265105635014,
+            "zeroProbability": 0.44836043271290743
+          },
+          {
+            "meanCount": 0.7035265105635014,
+            "zeroProbability": 0.44836043271290743
+          }
+        ],
+        "byLength": [
+          {
+            "length": 3,
+            "expectedWays": 0.13600618576717427,
+            "payout": 0.06,
+            "expectedPayout": 0.008160371146030456
+          },
+          {
+            "length": 4,
+            "expectedWays": 0.09568395728783145,
+            "payout": 0.2,
+            "expectedPayout": 0.01913679145756629
+          },
+          {
+            "length": 5,
+            "expectedWays": 0.1501385842196268,
+            "payout": 0.6,
+            "expectedPayout": 0.09008315053177608
+          }
+        ],
+        "expectedPayout": 0.11738031313537284
+      },
+      {
+        "sym": 1,
+        "reels": [
+          {
+            "meanCount": 0.5720147445149124,
+            "zeroProbability": 0.5299692980138776
+          },
+          {
+            "meanCount": 0.6642233535487789,
+            "zeroProbability": 0.47180610161795267
+          },
+          {
+            "meanCount": 0.6642233535487789,
+            "zeroProbability": 0.47180610161795267
+          },
+          {
+            "meanCount": 0.6642233535487789,
+            "zeroProbability": 0.47180610161795267
+          },
+          {
+            "meanCount": 0.6642233535487789,
+            "zeroProbability": 0.47180610161795267
+          }
+        ],
+        "byLength": [
+          {
+            "length": 3,
+            "expectedWays": 0.11906909659208173,
+            "payout": 0.07,
+            "expectedPayout": 0.008334836761445722
+          },
+          {
+            "length": 4,
+            "expectedWays": 0.07908847464241602,
+            "payout": 0.25,
+            "expectedPayout": 0.019772118660604004
+          },
+          {
+            "length": 5,
+            "expectedWays": 0.11134322272199336,
+            "payout": 0.8,
+            "expectedPayout": 0.08907457817759469
+          }
+        ],
+        "expectedPayout": 0.11718153359964442
+      },
+      {
+        "sym": 2,
+        "reels": [
+          {
+            "meanCount": 0.5311565484781332,
+            "zeroProbability": 0.5572033404212913
+          },
+          {
+            "meanCount": 0.6249201965340588,
+            "zeroProbability": 0.496053062677057
+          },
+          {
+            "meanCount": 0.6249201965340588,
+            "zeroProbability": 0.496053062677057
+          },
+          {
+            "meanCount": 0.6249201965340588,
+            "zeroProbability": 0.496053062677057
+          },
+          {
+            "meanCount": 0.6249201965340588,
+            "zeroProbability": 0.496053062677057
+          }
+        ],
+        "byLength": [
+          {
+            "length": 3,
+            "expectedWays": 0.10289630909616926,
+            "payout": 0.12,
+            "expectedPayout": 0.01234755709154031
+          },
+          {
+            "length": 4,
+            "expectedWays": 0.06430198170300735,
+            "payout": 0.35,
+            "expectedPayout": 0.022505693596052572
+          },
+          {
+            "length": 5,
+            "expectedWays": 0.08100667058986258,
+            "payout": 1,
+            "expectedPayout": 0.08100667058986258
+          }
+        ],
+        "expectedPayout": 0.11585992127745545
+      },
+      {
+        "sym": 3,
+        "reels": [
+          {
+            "meanCount": 0.49029835244135334,
+            "zeroProbability": 0.5853523947393642
+          },
+          {
+            "meanCount": 0.5856170395193382,
+            "zeroProbability": 0.5211147414861608
+          },
+          {
+            "meanCount": 0.5856170395193382,
+            "zeroProbability": 0.5211147414861608
+          },
+          {
+            "meanCount": 0.5856170395193382,
+            "zeroProbability": 0.5211147414861608
+          },
+          {
+            "meanCount": 0.5856170395193382,
+            "zeroProbability": 0.5211147414861608
+          }
+        ],
+        "byLength": [
+          {
+            "length": 3,
+            "expectedWays": 0.08762362221765833,
+            "payout": 0.14,
+            "expectedPayout": 0.012267307110472168
+          },
+          {
+            "length": 4,
+            "expectedWays": 0.05131388623506598,
+            "payout": 0.4,
+            "expectedPayout": 0.02052555449402639
+          },
+          {
+            "length": 5,
+            "expectedWays": 0.05766539257268258,
+            "payout": 1.3,
+            "expectedPayout": 0.07496501034448735
+          }
+        ],
+        "expectedPayout": 0.10775787194898591
+      },
+      {
+        "sym": 4,
+        "reels": [
+          {
+            "meanCount": 0.2655782742390664,
+            "zeroProbability": 0.7572017843888391
+          },
+          {
+            "meanCount": 0.36944967593837347,
+            "zeroProbability": 0.6741170110361033
+          },
+          {
+            "meanCount": 0.36944967593837347,
+            "zeroProbability": 0.6741170110361033
+          },
+          {
+            "meanCount": 0.36944967593837347,
+            "zeroProbability": 0.6741170110361033
+          },
+          {
+            "meanCount": 0.36944967593837347,
+            "zeroProbability": 0.6741170110361033
+          }
+        ],
+        "byLength": [
+          {
+            "length": 3,
+            "expectedWays": 0.024436466698412172,
+            "payout": 0.25,
+            "expectedPayout": 0.006109116674603043
+          },
+          {
+            "length": 4,
+            "expectedWays": 0.009028044702807232,
+            "payout": 0.8,
+            "expectedPayout": 0.007222435762245786
+          },
+          {
+            "length": 5,
+            "expectedWays": 0.0049478178642648855,
+            "payout": 2.6,
+            "expectedPayout": 0.012864326447088703
+          }
+        ],
+        "expectedPayout": 0.026195878883937533
+      },
+      {
+        "sym": 5,
+        "reels": [
+          {
+            "meanCount": 0.22472007820228704,
+            "zeroProbability": 0.7916659177609509
+          },
+          {
+            "meanCount": 0.33014651892365326,
+            "zeroProbability": 0.7048016041212731
+          },
+          {
+            "meanCount": 0.33014651892365326,
+            "zeroProbability": 0.7048016041212731
+          },
+          {
+            "meanCount": 0.33014651892365326,
+            "zeroProbability": 0.7048016041212731
+          },
+          {
+            "meanCount": 0.33014651892365326,
+            "zeroProbability": 0.7048016041212731
+          }
+        ],
+        "byLength": [
+          {
+            "length": 3,
+            "expectedWays": 0.01726323593419136,
+            "payout": 0.4,
+            "expectedPayout": 0.006905294373676545
+          },
+          {
+            "length": 4,
+            "expectedWays": 0.005699397249031,
+            "payout": 1.3,
+            "expectedPayout": 0.0074092164237403
+          },
+          {
+            "length": 5,
+            "expectedWays": 0.0026697387615577314,
+            "payout": 4,
+            "expectedPayout": 0.010678955046230926
+          }
+        ],
+        "expectedPayout": 0.02499346584364777
+      },
+      {
+        "sym": 6,
+        "reels": [
+          {
+            "meanCount": 0.1838618821655075,
+            "zeroProbability": 0.8271581404698006
+          },
+          {
+            "meanCount": 0.29084336190893256,
+            "zeroProbability": 0.7364016069260008
+          },
+          {
+            "meanCount": 0.29084336190893256,
+            "zeroProbability": 0.7364016069260008
+          },
+          {
+            "meanCount": 0.29084336190893256,
+            "zeroProbability": 0.7364016069260008
+          },
+          {
+            "meanCount": 0.29084336190893256,
+            "zeroProbability": 0.7364016069260008
+          }
+        ],
+        "byLength": [
+          {
+            "length": 3,
+            "expectedWays": 0.011453144532151027,
+            "payout": 0.65,
+            "expectedPayout": 0.007444543945898168
+          },
+          {
+            "length": 4,
+            "expectedWays": 0.0033310710601597133,
+            "payout": 2,
+            "expectedPayout": 0.0066621421203194265
+          },
+          {
+            "length": 5,
+            "expectedWays": 0.0013156135141239006,
+            "payout": 6.5,
+            "expectedPayout": 0.008551487841805353
+          }
+        ],
+        "expectedPayout": 0.022658173908022945
+      }
+    ]
+  },
+  "tripleChanceRatio": 3.0042006228522378
+}

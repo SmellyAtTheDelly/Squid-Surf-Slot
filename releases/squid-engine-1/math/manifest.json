@@ -1,0 +1,2454 @@
+{
+  "version": "squid-engine-1",
+  "schema": 1,
+  "modelProfile": "squid-ways-2",
+  "node": "v24.13.0",
+  "generatedAt": "2026-10-22T23:23:15.174Z",
+  "production": true,
+  "seed": 20261023,
+  "targetRtp": {
+    "numerator": "963",
+    "denominator": "1000",
+    "percent": 96.3
+  },
+  "maxPayoutUnits": 500000,
+  "sourceHashes": {
+    "math/model.js": "15f7373f4aa9971ab9aa6b8be7507ffe50368c6258ca78745721eb5df9adb4db",
+    "math/books.js": "2844410f747e4e8866213edcd06ac0cd186680852df5586847768ef9abdf409a",
+    "math/weights.js": "ffd816dbe840cc7a3e9670b2c4683d23af7e4696534e641f9aea6531c13a6a9b",
+    "math/export.js": "165a97a5dba6bc61a29bb538338fce0e80530057767baa3d7ddf6215238148a2"
+  },
+  "generation": {
+    "sampledSourceWeight": "1000",
+    "witnessSourceWeight": "20",
+    "witnessPurpose": "Explicit reachable maximum outcome with reduced source mass",
+    "balancing": "Two payout groups receive exact positive integer factors; this intentionally changes outcome probabilities from the reference model",
+    "settlement": "Payout units are hundredths of the base bet; RGS owns monetary settlement"
+  },
+  "modes": [
+    {
+      "name": "base_kraken",
+      "cost": 1,
+      "kind": "kraken",
+      "seed": 3203771183,
+      "rounds": 100001,
+      "sampledRounds": 100000,
+      "events": "events_base_kraken.jsonl.zst",
+      "weights": "lookup_base_kraken.csv",
+      "eventCount": 204329,
+      "maxBookBytes": 10815,
+      "files": {
+        "events": {
+          "bytes": 3661459,
+          "sha256": "35aab05ab7bed19c84cab3f24bf92a93af0486a9db490bf7f60591d4f2c035bc"
+        },
+        "weights": {
+          "bytes": 1946019,
+          "sha256": "d32f34342747477bde6d1fd0ea0a8e9f349446db223f4345cab3a4435d7abdeb"
+        }
+      },
+      "target": {
+        "numerator": "963",
+        "denominator": "1000"
+      },
+      "statistics": {
+        "totalWeight": "386378781377620",
+        "payoutSum": "37208276646664806",
+        "squareSum": "2347459071836471735536",
+        "hitWeight": "173939694722761",
+        "profitWeight": "49384846346449",
+        "capWeight": "3678433599",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.9630000000000001,
+        "rtpPercent": 96.3,
+        "standardDeviation": 24.62978801583875,
+        "hitFrequency": 0.45017921041778,
+        "profitFrequency": 0.12781459212218918,
+        "maxWinFrequency": 0.00000952027848393919,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "sampledStatistics": {
+        "totalWeight": "100000",
+        "payoutSum": "10223826",
+        "squareSum": "645927326228",
+        "hitWeight": "45643",
+        "profitWeight": "13694",
+        "capWeight": "1",
+        "rtpNumerator": "5111913",
+        "rtpDenominator": "5000000",
+        "rtp": 1.0223826,
+        "rtpPercent": 102.23826,
+        "standardDeviation": 25.394528151694754,
+        "hitFrequency": 0.45643,
+        "profitFrequency": 0.13694,
+        "maxWinFrequency": 0.00001,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "sourceStatistics": {
+        "totalWeight": "100000020",
+        "payoutSum": "10233826000",
+        "squareSum": "650927326228000",
+        "hitWeight": "45643020",
+        "profitWeight": "13694020",
+        "capWeight": "1020",
+        "rtpNumerator": "5116913",
+        "rtpDenominator": "5000001",
+        "rtp": 1.023382395323521,
+        "rtpPercent": 102.33823953235209,
+        "standardDeviation": 25.49274180066755,
+        "hitFrequency": 0.45643010871397827,
+        "profitFrequency": 0.13694017261196548,
+        "maxWinFrequency": 0.000010199997960000407,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "balancing": {
+        "lowMultiplier": "78164389740",
+        "highMultiplier": "72126149000",
+        "divisor": "20000",
+        "thresholdNumerator": "963",
+        "thresholdDenominator": "10"
+      },
+      "features": {
+        "trigger": {
+          "count": 449,
+          "weight": "1615697863749",
+          "frequency": 0.004181642319974937
+        },
+        "attack": {
+          "count": 1205,
+          "weight": "4461836611495",
+          "frequency": 0.011547830332676338
+        },
+        "kraken": {
+          "count": 449,
+          "weight": "1615697863749",
+          "frequency": 0.004181642319974937
+        },
+        "reef": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "vault": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "cash": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "super": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "rage": {
+          "count": 110,
+          "weight": "393159638199",
+          "frequency": 0.001017549765018677
+        },
+        "wheel0": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel1": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel2": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel3": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel4": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel5": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel6": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel7": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "pearls3": {
+          "count": 426,
+          "weight": "1536286973700",
+          "frequency": 0.003976116307998132
+        },
+        "pearls4": {
+          "count": 20,
+          "weight": "72126149000",
+          "frequency": 0.00018667212713606256
+        },
+        "pearls5": {
+          "count": 3,
+          "weight": "7284741049",
+          "frequency": 0.000018853884840742317
+        },
+        "retrigger": {
+          "count": 4,
+          "weight": "10891048499",
+          "frequency": 0.000028187491197545447
+        },
+        "gold": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        }
+      },
+      "witness": {
+        "row": 100000,
+        "id": 100000,
+        "payoutUnits": 500000,
+        "sourceWeight": "20",
+        "finalWeight": "72126149",
+        "frequency": 1.8667212713606256e-7
+      }
+    },
+    {
+      "name": "base_reef",
+      "cost": 1,
+      "kind": "reef",
+      "seed": 4278917264,
+      "rounds": 100001,
+      "sampledRounds": 100000,
+      "events": "events_base_reef.jsonl.zst",
+      "weights": "lookup_base_reef.csv",
+      "eventCount": 205044,
+      "maxBookBytes": 8810,
+      "files": {
+        "events": {
+          "bytes": 3511237,
+          "sha256": "27d453613d0c81322fe02c2724912f320d4516b2cc1881e1cf6959f1ca80a5e8"
+        },
+        "weights": {
+          "bytes": 1945911,
+          "sha256": "7bae82671ef3c2310a893c553b6486869f0bdad1585617dd63b45106f032c166"
+        }
+      },
+      "target": {
+        "numerator": "963",
+        "denominator": "1000"
+      },
+      "statistics": {
+        "totalWeight": "370182313671080",
+        "payoutSum": "35648556806525004",
+        "squareSum": "1010317529094880563572",
+        "hitWeight": "167318816490294",
+        "profitWeight": "49485318630066",
+        "capWeight": "72278166",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.963,
+        "rtpPercent": 96.3,
+        "standardDeviation": 16.4923297934934,
+        "hitFrequency": 0.45199030399643203,
+        "profitFrequency": 0.13367823583823468,
+        "maxWinFrequency": 1.952501870854416e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "sampledStatistics": {
+        "totalWeight": "100000",
+        "payoutSum": "9826078",
+        "squareSum": "274562290746",
+        "hitWeight": "45422",
+        "profitWeight": "13693",
+        "capWeight": "0",
+        "rtpNumerator": "4913039",
+        "rtpDenominator": "5000000",
+        "rtp": 0.9826078,
+        "rtpPercent": 98.26078,
+        "standardDeviation": 16.540760945536306,
+        "hitFrequency": 0.45422,
+        "profitFrequency": 0.13693,
+        "maxWinFrequency": 0,
+        "minimumUnits": 0,
+        "maximumUnits": 121812
+      },
+      "sourceStatistics": {
+        "totalWeight": "100000020",
+        "payoutSum": "9836078000",
+        "squareSum": "279562290746000",
+        "hitWeight": "45422020",
+        "profitWeight": "13693020",
+        "capWeight": "20",
+        "rtpNumerator": "4918039",
+        "rtpDenominator": "5000001",
+        "rtp": 0.9836076032784793,
+        "rtpPercent": 98.36076032784793,
+        "standardDeviation": 16.691157866257385,
+        "hitFrequency": 0.45422010915597816,
+        "profitFrequency": 0.13693017261396548,
+        "maxWinFrequency": 1.99999960000008e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "balancing": {
+        "lowMultiplier": "74338926740",
+        "highMultiplier": "72278166000",
+        "divisor": "20000",
+        "thresholdNumerator": "963",
+        "thresholdDenominator": "10"
+      },
+      "features": {
+        "trigger": {
+          "count": 419,
+          "weight": "1510685947566",
+          "frequency": 0.0040809241602728155
+        },
+        "attack": {
+          "count": 1185,
+          "weight": "4324417816559",
+          "frequency": 0.011681859604998302
+        },
+        "kraken": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "reef": {
+          "count": 419,
+          "weight": "1510685947566",
+          "frequency": 0.0040809241602728155
+        },
+        "vault": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "cash": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "super": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "rage": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel0": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel1": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel2": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel3": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel4": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel5": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel6": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel7": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "pearls3": {
+          "count": 399,
+          "weight": "1441949411700",
+          "frequency": 0.0038952412323545603
+        },
+        "pearls4": {
+          "count": 16,
+          "weight": "57822532800",
+          "frequency": 0.0001562001496683533
+        },
+        "pearls5": {
+          "count": 4,
+          "weight": "10914003066",
+          "frequency": 0.000029482778249901684
+        },
+        "retrigger": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "gold": {
+          "count": 45,
+          "weight": "159084243366",
+          "frequency": 0.000429745661775057
+        }
+      },
+      "witness": {
+        "row": 100000,
+        "id": 100000,
+        "payoutUnits": 500000,
+        "sourceWeight": "20",
+        "finalWeight": "72278166",
+        "frequency": 1.952501870854416e-7
+      }
+    },
+    {
+      "name": "base_vault",
+      "cost": 1,
+      "kind": "vault",
+      "seed": 2621721809,
+      "rounds": 100001,
+      "sampledRounds": 100000,
+      "events": "events_base_vault.jsonl.zst",
+      "weights": "lookup_base_vault.csv",
+      "eventCount": 203796,
+      "maxBookBytes": 6693,
+      "files": {
+        "events": {
+          "bytes": 3520786,
+          "sha256": "e2fb2f7d9a7bc2d0cc9f943e307c4e3b972c81c064b8b0638b5a31f35f1d1504"
+        },
+        "weights": {
+          "bytes": 1946323,
+          "sha256": "47d6d370028834a5812079c0af48190bdd12f6eb12acf8541dc66a5f67b2be86"
+        }
+      },
+      "target": {
+        "numerator": "963",
+        "denominator": "1000"
+      },
+      "statistics": {
+        "totalWeight": "359405988210300",
+        "payoutSum": "34610796664651890",
+        "squareSum": "279917781709767942976",
+        "hitWeight": "164304386164208",
+        "profitWeight": "49152310975608",
+        "capWeight": "72123608",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.963,
+        "rtpPercent": 96.3,
+        "standardDeviation": 8.772461490727268,
+        "hitFrequency": 0.4571553940499962,
+        "profitFrequency": 0.1367598553946391,
+        "maxWinFrequency": 2.0067447501124594e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "sampledStatistics": {
+        "totalWeight": "100000",
+        "payoutSum": "9591587",
+        "squareSum": "72621876593",
+        "hitWeight": "45684",
+        "profitWeight": "13630",
+        "capWeight": "0",
+        "rtpNumerator": "9591587",
+        "rtpDenominator": "10000000",
+        "rtp": 0.9591587,
+        "rtpPercent": 95.91587,
+        "standardDeviation": 8.467696923084477,
+        "hitFrequency": 0.45684,
+        "profitFrequency": 0.1363,
+        "maxWinFrequency": 0,
+        "minimumUnits": 0,
+        "maximumUnits": 63200
+      },
+      "sourceStatistics": {
+        "totalWeight": "100000020",
+        "payoutSum": "9601587000",
+        "squareSum": "77621876593000",
+        "hitWeight": "45684020",
+        "profitWeight": "13630020",
+        "capWeight": "20",
+        "rtpNumerator": "3200529",
+        "rtpDenominator": "3333334",
+        "rtp": 0.9601585079682984,
+        "rtpPercent": 96.01585079682984,
+        "standardDeviation": 8.757851146725656,
+        "hitFrequency": 0.45684010863197827,
+        "profitFrequency": 0.13630017273996545,
+        "maxWinFrequency": 1.99999960000008e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "balancing": {
+        "lowMultiplier": "71839458740",
+        "highMultiplier": "72123608000",
+        "divisor": "20000",
+        "thresholdNumerator": "963",
+        "thresholdDenominator": "10"
+      },
+      "features": {
+        "trigger": {
+          "count": 436,
+          "weight": "1568760597608",
+          "frequency": 0.004364870505969611
+        },
+        "attack": {
+          "count": 1186,
+          "weight": "4271644778164",
+          "frequency": 0.011885291058824883
+        },
+        "kraken": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "reef": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "vault": {
+          "count": 436,
+          "weight": "1568760597608",
+          "frequency": 0.004364870505969611
+        },
+        "cash": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "super": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "rage": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel0": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel1": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel2": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel3": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel4": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel5": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel6": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel7": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "pearls3": {
+          "count": 424,
+          "weight": "1529020489600",
+          "frequency": 0.0042542988702384136
+        },
+        "pearls4": {
+          "count": 11,
+          "weight": "39667984400",
+          "frequency": 0.00011037096125618526
+        },
+        "pearls5": {
+          "count": 1,
+          "weight": "72123608",
+          "frequency": 2.0067447501124594e-7
+        },
+        "retrigger": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "gold": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        }
+      },
+      "witness": {
+        "row": 100000,
+        "id": 100000,
+        "payoutUnits": 500000,
+        "sourceWeight": "20",
+        "finalWeight": "72123608",
+        "frequency": 2.0067447501124594e-7
+      }
+    },
+    {
+      "name": "base_wheel",
+      "cost": 1,
+      "kind": "wheel",
+      "seed": 30241751,
+      "rounds": 100001,
+      "sampledRounds": 100000,
+      "events": "events_base_wheel.jsonl.zst",
+      "weights": "lookup_base_wheel.csv",
+      "eventCount": 203940,
+      "maxBookBytes": 8867,
+      "files": {
+        "events": {
+          "bytes": 3533783,
+          "sha256": "cc7cc3771e07c6887a00221570a29856868f30560614ab82eb8e11e965454d15"
+        },
+        "weights": {
+          "bytes": 1945953,
+          "sha256": "fc00fc27588f9757ad0755fe8890da37bf35ec7db922b4e2f5612c2e311278e5"
+        }
+      },
+      "target": {
+        "numerator": "963",
+        "denominator": "1000"
+      },
+      "statistics": {
+        "totalWeight": "375406975833310",
+        "payoutSum": "36151691772747753",
+        "squareSum": "745437906503615527723",
+        "hitWeight": "168555135699382",
+        "profitWeight": "49486903289397",
+        "capWeight": "72254097",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.963,
+        "rtpPercent": 96.3,
+        "standardDeviation": 14.058469800244675,
+        "hitFrequency": 0.44899308364004575,
+        "profitFrequency": 0.13182201310870262,
+        "maxWinFrequency": 1.9246871169512472e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "sampledStatistics": {
+        "totalWeight": "100000",
+        "payoutSum": "9951652",
+        "squareSum": "201335653920",
+        "hitWeight": "45256",
+        "profitWeight": "13698",
+        "capWeight": "0",
+        "rtpNumerator": "2487913",
+        "rtpDenominator": "2500000",
+        "rtp": 0.9951652,
+        "rtpPercent": 99.51652,
+        "standardDeviation": 14.154338562600124,
+        "hitFrequency": 0.45256,
+        "profitFrequency": 0.13698,
+        "maxWinFrequency": 0,
+        "minimumUnits": 0,
+        "maximumUnits": 114300
+      },
+      "sourceStatistics": {
+        "totalWeight": "100000020",
+        "payoutSum": "9961652000",
+        "squareSum": "206335653920000",
+        "hitWeight": "45256020",
+        "profitWeight": "13698020",
+        "capWeight": "20",
+        "rtpNumerator": "4980826",
+        "rtpDenominator": "5000001",
+        "rtp": 0.9961650007669999,
+        "rtpPercent": 99.61650007669998,
+        "standardDeviation": 14.32980348588648,
+        "hitFrequency": 0.4525601094879781,
+        "profitFrequency": 0.13698017260396547,
+        "maxWinFrequency": 1.99999960000008e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "balancing": {
+        "lowMultiplier": "75570597740",
+        "highMultiplier": "72254097000",
+        "divisor": "20000",
+        "thresholdNumerator": "963",
+        "thresholdDenominator": "10"
+      },
+      "features": {
+        "trigger": {
+          "count": 431,
+          "weight": "1553535339597",
+          "frequency": 0.004138269770156877
+        },
+        "attack": {
+          "count": 1199,
+          "weight": "4396304879580",
+          "frequency": 0.011710770344161289
+        },
+        "kraken": {
+          "count": 114,
+          "weight": "408307902147",
+          "frequency": 0.0010876406897891498
+        },
+        "reef": {
+          "count": 108,
+          "weight": "390172123800",
+          "frequency": 0.0010393310431536735
+        },
+        "vault": {
+          "count": 123,
+          "weight": "444362696550",
+          "frequency": 0.001183682576925017
+        },
+        "cash": {
+          "count": 86,
+          "weight": "310692617100",
+          "frequency": 0.0008276154602890363
+        },
+        "super": {
+          "count": 52,
+          "weight": "187860652200",
+          "frequency": 0.0005004186504073243
+        },
+        "rage": {
+          "count": 26,
+          "weight": "90389875347",
+          "frequency": 0.00024077835833060104
+        },
+        "wheel0": {
+          "count": 99,
+          "weight": "354117329397",
+          "frequency": 0.0009432891560178064
+        },
+        "wheel1": {
+          "count": 49,
+          "weight": "177022537650",
+          "frequency": 0.0004715483436530556
+        },
+        "wheel2": {
+          "count": 18,
+          "weight": "65028687300",
+          "frequency": 0.00017322184052561226
+        },
+        "wheel3": {
+          "count": 104,
+          "weight": "375721304400",
+          "frequency": 0.0010008373008146487
+        },
+        "wheel4": {
+          "count": 15,
+          "weight": "54190572750",
+          "frequency": 0.00014435153377134356
+        },
+        "wheel5": {
+          "count": 90,
+          "weight": "325143436500",
+          "frequency": 0.0008661092026280612
+        },
+        "wheel6": {
+          "count": 37,
+          "weight": "133670079450",
+          "frequency": 0.00035606711663598077
+        },
+        "wheel7": {
+          "count": 19,
+          "weight": "68641392150",
+          "frequency": 0.00018284527611036848
+        },
+        "pearls3": {
+          "count": 411,
+          "weight": "1484821693350",
+          "frequency": 0.003955232025334814
+        },
+        "pearls4": {
+          "count": 19,
+          "weight": "68641392150",
+          "frequency": 0.00018284527611036848
+        },
+        "pearls5": {
+          "count": 1,
+          "weight": "72254097",
+          "frequency": 1.9246871169512472e-7
+        },
+        "retrigger": {
+          "count": 3,
+          "weight": "7297663797",
+          "frequency": 0.000019439339881207598
+        },
+        "gold": {
+          "count": 6,
+          "weight": "21676229100",
+          "frequency": 0.00005774061350853742
+        }
+      },
+      "witness": {
+        "row": 100000,
+        "id": 100000,
+        "payoutUnits": 500000,
+        "sourceWeight": "20",
+        "finalWeight": "72254097",
+        "frequency": 1.9246871169512472e-7
+      }
+    },
+    {
+      "name": "ante_kraken",
+      "cost": 2,
+      "kind": "kraken",
+      "seed": 3333167048,
+      "rounds": 100001,
+      "sampledRounds": 100000,
+      "events": "events_ante_kraken.jsonl.zst",
+      "weights": "lookup_ante_kraken.csv",
+      "eventCount": 213144,
+      "maxBookBytes": 11411,
+      "files": {
+        "events": {
+          "bytes": 4337232,
+          "sha256": "a0f9339b126c34f91f4ce5224d974c1925600c61d06fa0f1c947ce86ad0b79a0"
+        },
+        "weights": {
+          "bytes": 1852135,
+          "sha256": "3dbc1681af8b4f9af295ed914124d111ff3dfd8a133d5e271fce0bf847b1037d"
+        }
+      },
+      "target": {
+        "numerator": "963",
+        "denominator": "1000"
+      },
+      "statistics": {
+        "totalWeight": "57197093037530",
+        "payoutSum": "11016160119028278",
+        "squareSum": "721510896784556619182",
+        "hitWeight": "27135547995404",
+        "profitWeight": "5201729650973",
+        "capWeight": "10933723",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.963,
+        "rtpPercent": 96.3,
+        "standardDeviation": 17.73229623245287,
+        "hitFrequency": 0.4744218028283177,
+        "profitFrequency": 0.09094395142703972,
+        "maxWinFrequency": 1.9115871837797443e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "sampledStatistics": {
+        "totalWeight": "100000",
+        "payoutSum": "20041236",
+        "squareSum": "1314780718150",
+        "hitWeight": "47714",
+        "profitWeight": "9515",
+        "capWeight": "0",
+        "rtpNumerator": "5010309",
+        "rtpDenominator": "5000000",
+        "rtp": 1.0020618,
+        "rtpPercent": 100.20618,
+        "standardDeviation": 18.10223885839762,
+        "hitFrequency": 0.47714,
+        "profitFrequency": 0.09515,
+        "maxWinFrequency": 0,
+        "minimumUnits": 0,
+        "maximumUnits": 376264
+      },
+      "sourceStatistics": {
+        "totalWeight": "100000020",
+        "payoutSum": "20051236000",
+        "squareSum": "1319780718150000",
+        "hitWeight": "47714020",
+        "profitWeight": "9515020",
+        "capWeight": "20",
+        "rtpNumerator": "5012809",
+        "rtpDenominator": "5000001",
+        "rtp": 1.0025615994876802,
+        "rtpPercent": 100.25615994876802,
+        "standardDeviation": 18.136702671315696,
+        "hitFrequency": 0.4771401045719791,
+        "profitFrequency": 0.0951501809699638,
+        "maxWinFrequency": 1.99999960000008e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "balancing": {
+        "lowMultiplier": "160984443480",
+        "highMultiplier": "153072122000",
+        "divisor": "280000",
+        "thresholdNumerator": "1926",
+        "thresholdDenominator": "10"
+      },
+      "features": {
+        "trigger": {
+          "count": 1356,
+          "weight": "740770666973",
+          "frequency": 0.012951194328826146
+        },
+        "attack": {
+          "count": 2026,
+          "weight": "1131210071176",
+          "frequency": 0.01977740495367053
+        },
+        "kraken": {
+          "count": 1356,
+          "weight": "740770666973",
+          "frequency": 0.012951194328826146
+        },
+        "reef": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "vault": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "cash": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "super": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "rage": {
+          "count": 345,
+          "weight": "188070969323",
+          "frequency": 0.003288121114819538
+        },
+        "wheel0": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel1": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel2": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel3": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel4": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel5": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel6": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel7": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "pearls3": {
+          "count": 1282,
+          "weight": "700851644300",
+          "frequency": 0.012253273848028162
+        },
+        "pearls4": {
+          "count": 69,
+          "weight": "37721344350",
+          "frequency": 0.0006594975784040119
+        },
+        "pearls5": {
+          "count": 5,
+          "weight": "2197678323",
+          "frequency": 0.000038422902393972865
+        },
+        "retrigger": {
+          "count": 14,
+          "weight": "7117853673",
+          "frequency": 0.00012444432566406137
+        },
+        "gold": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        }
+      },
+      "witness": {
+        "row": 100000,
+        "id": 100000,
+        "payoutUnits": 500000,
+        "sourceWeight": "20",
+        "finalWeight": "10933723",
+        "frequency": 1.9115871837797443e-7
+      }
+    },
+    {
+      "name": "ante_reef",
+      "cost": 2,
+      "kind": "reef",
+      "seed": 4159390799,
+      "rounds": 100001,
+      "sampledRounds": 100000,
+      "events": "events_ante_reef.jsonl.zst",
+      "weights": "lookup_ante_reef.csv",
+      "eventCount": 214708,
+      "maxBookBytes": 9842,
+      "files": {
+        "events": {
+          "bytes": 3920061,
+          "sha256": "c80b33eda0dc18f42c00c067ce69a5c4e2012b4c2287d41c823a3d8e188bbd0a"
+        },
+        "weights": {
+          "bytes": 1951855,
+          "sha256": "3ce650f4195ae9a1be6c54eba7b3db8d22c806cd3afda8a973cfc60504deb4f2"
+        }
+      },
+      "target": {
+        "numerator": "963",
+        "denominator": "1000"
+      },
+      "statistics": {
+        "totalWeight": "358900874487515",
+        "payoutSum": "69124308426295389",
+        "squareSum": "2439312406124779619175",
+        "hitWeight": "171459906567139",
+        "profitWeight": "35514033683436",
+        "capWeight": "76795236",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.9630000000000001,
+        "rtpPercent": 96.3,
+        "standardDeviation": 12.999542271777965,
+        "hitFrequency": 0.4777361069737475,
+        "profitFrequency": 0.09895220716346129,
+        "maxWinFrequency": 2.1397338780424583e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "sampledStatistics": {
+        "totalWeight": "100000",
+        "payoutSum": "18132027",
+        "squareSum": "630289977621",
+        "hitWeight": "47352",
+        "profitWeight": "9249",
+        "capWeight": "0",
+        "rtpNumerator": "18132027",
+        "rtpDenominator": "20000000",
+        "rtp": 0.90660135,
+        "rtpPercent": 90.660135,
+        "standardDeviation": 12.5200067251351,
+        "hitFrequency": 0.47352,
+        "profitFrequency": 0.09249,
+        "maxWinFrequency": 0,
+        "minimumUnits": 0,
+        "maximumUnits": 133400
+      },
+      "sourceStatistics": {
+        "totalWeight": "100000020",
+        "payoutSum": "18142027000",
+        "squareSum": "635289977621000",
+        "hitWeight": "47352020",
+        "profitWeight": "9249020",
+        "capWeight": "20",
+        "rtpNumerator": "18142027",
+        "rtpDenominator": "20000004",
+        "rtp": 0.9071011685797663,
+        "rtpPercent": 90.71011685797663,
+        "standardDeviation": 12.569790376562318,
+        "hitFrequency": 0.47352010529597893,
+        "profitFrequency": 0.0924901815019637,
+        "maxWinFrequency": 1.99999960000008e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "balancing": {
+        "lowMultiplier": "142410703480",
+        "highMultiplier": "153590472000",
+        "divisor": "40000",
+        "thresholdNumerator": "1926",
+        "thresholdDenominator": "10"
+      },
+      "features": {
+        "trigger": {
+          "count": 1224,
+          "weight": "4696105476636",
+          "frequency": 0.013084686637617436
+        },
+        "attack": {
+          "count": 2055,
+          "weight": "7658171313784",
+          "frequency": 0.02133784523294719
+        },
+        "kraken": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "reef": {
+          "count": 1224,
+          "weight": "4696105476636",
+          "frequency": 0.013084686637617436
+        },
+        "vault": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "cash": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "super": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "rage": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel0": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel1": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel2": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel3": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel4": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel5": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel6": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel7": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "pearls3": {
+          "count": 1153,
+          "weight": "4427245355400",
+          "frequency": 0.01233556580691477
+        },
+        "pearls4": {
+          "count": 69,
+          "weight": "264943564200",
+          "frequency": 0.000738208187924648
+        },
+        "pearls5": {
+          "count": 2,
+          "weight": "3916557036",
+          "frequency": 0.000010912642778016536
+        },
+        "retrigger": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "gold": {
+          "count": 115,
+          "weight": "437809640436",
+          "frequency": 0.0012198622838720055
+        }
+      },
+      "witness": {
+        "row": 100000,
+        "id": 100000,
+        "payoutUnits": 500000,
+        "sourceWeight": "20",
+        "finalWeight": "76795236",
+        "frequency": 2.1397338780424583e-7
+      }
+    },
+    {
+      "name": "ante_vault",
+      "cost": 2,
+      "kind": "vault",
+      "seed": 3382165629,
+      "rounds": 100001,
+      "sampledRounds": 100000,
+      "events": "events_ante_vault.jsonl.zst",
+      "weights": "lookup_ante_vault.csv",
+      "eventCount": 211558,
+      "maxBookBytes": 6723,
+      "files": {
+        "events": {
+          "bytes": 3930434,
+          "sha256": "5bf0131b8145574c2f1b1b549888193de695e75485455b62345ce94607c058cc"
+        },
+        "weights": {
+          "bytes": 1752223,
+          "sha256": "9564d1d64dd08be8c0c8494b2ce360d9c238df5bc04d7575e29b63f585c08433"
+        }
+      },
+      "target": {
+        "numerator": "963",
+        "denominator": "1000"
+      },
+      "statistics": {
+        "totalWeight": "9539161789005",
+        "payoutSum": "1837242560562363",
+        "squareSum": "21202917684059628293",
+        "hitWeight": "4541306103364",
+        "profitWeight": "907806558596",
+        "capWeight": "1965796",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.963,
+        "rtpPercent": 96.3,
+        "standardDeviation": 7.391935798212769,
+        "hitFrequency": 0.47606972224733485,
+        "profitFrequency": 0.09516628176307412,
+        "maxWinFrequency": 2.0607638736831258e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "sampledStatistics": {
+        "totalWeight": "100000",
+        "payoutSum": "18745817",
+        "squareSum": "210724344039",
+        "hitWeight": "47423",
+        "profitWeight": "9236",
+        "capWeight": "0",
+        "rtpNumerator": "18745817",
+        "rtpDenominator": "20000000",
+        "rtp": 0.93729085,
+        "rtpPercent": 93.729085,
+        "standardDeviation": 7.197400355146036,
+        "hitFrequency": 0.47423,
+        "profitFrequency": 0.09236,
+        "maxWinFrequency": 0,
+        "minimumUnits": 0,
+        "maximumUnits": 73600
+      },
+      "sourceStatistics": {
+        "totalWeight": "100000020",
+        "payoutSum": "18755817000",
+        "squareSum": "215724344039000",
+        "hitWeight": "47423020",
+        "profitWeight": "9236020",
+        "capWeight": "20",
+        "rtpNumerator": "6251939",
+        "rtpDenominator": "6666668",
+        "rtp": 0.9377906624418675,
+        "rtpPercent": 93.77906624418675,
+        "standardDeviation": 7.2836545701297375,
+        "hitFrequency": 0.47423010515397895,
+        "profitFrequency": 0.0923601815279637,
+        "maxWinFrequency": 1.99999960000008e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "balancing": {
+        "lowMultiplier": "148290219480",
+        "highMultiplier": "153332088000",
+        "divisor": "1560000",
+        "thresholdNumerator": "1926",
+        "thresholdDenominator": "10"
+      },
+      "features": {
+        "trigger": {
+          "count": 1310,
+          "weight": "128663313996",
+          "frequency": 0.013487905629643427
+        },
+        "attack": {
+          "count": 2005,
+          "weight": "194479011466",
+          "frequency": 0.020387431911487213
+        },
+        "kraken": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "reef": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "vault": {
+          "count": 1310,
+          "weight": "128663313996",
+          "frequency": 0.013487905629643427
+        },
+        "cash": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "super": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "rage": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel0": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel1": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel2": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel3": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel4": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel5": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel6": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel7": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "pearls3": {
+          "count": 1220,
+          "weight": "119913556000",
+          "frequency": 0.012570659629467067
+        },
+        "pearls4": {
+          "count": 89,
+          "weight": "8747792200",
+          "frequency": 0.000917039923788991
+        },
+        "pearls5": {
+          "count": 1,
+          "weight": "1965796",
+          "frequency": 2.0607638736831258e-7
+        },
+        "retrigger": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "gold": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        }
+      },
+      "witness": {
+        "row": 100000,
+        "id": 100000,
+        "payoutUnits": 500000,
+        "sourceWeight": "20",
+        "finalWeight": "1965796",
+        "frequency": 2.0607638736831258e-7
+      }
+    },
+    {
+      "name": "ante_wheel",
+      "cost": 2,
+      "kind": "wheel",
+      "seed": 3326940591,
+      "rounds": 100001,
+      "sampledRounds": 100000,
+      "events": "events_ante_wheel.jsonl.zst",
+      "weights": "lookup_ante_wheel.csv",
+      "eventCount": 211962,
+      "maxBookBytes": 15592,
+      "files": {
+        "events": {
+          "bytes": 4011958,
+          "sha256": "d7fa305c25a1c73a7198fe73ff69f07ea72b14b85baec2396c185829678db65b"
+        },
+        "weights": {
+          "bytes": 1952520,
+          "sha256": "fd7dae7bebb57b173acde7f8c902eba923fb4ab850c386c11d76d49ce71ef339"
+        }
+      },
+      "target": {
+        "numerator": "963",
+        "denominator": "1000"
+      },
+      "statistics": {
+        "totalWeight": "368770466065155",
+        "payoutSum": "71025191764148853",
+        "squareSum": "2607086239288160943959",
+        "hitWeight": "176915365886796",
+        "profitWeight": "35918461407956",
+        "capWeight": "76560556",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.963,
+        "rtpPercent": 96.3,
+        "standardDeviation": 13.259503424427157,
+        "hitFrequency": 0.479743857404075,
+        "profitFrequency": 0.09740059118945242,
+        "maxWinFrequency": 2.0761032415885807e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "sampledStatistics": {
+        "totalWeight": "100000",
+        "payoutSum": "18623397",
+        "squareSum": "676059459433",
+        "hitWeight": "47743",
+        "profitWeight": "9383",
+        "capWeight": "0",
+        "rtpNumerator": "18623397",
+        "rtpDenominator": "20000000",
+        "rtp": 0.93116985,
+        "rtpPercent": 93.116985,
+        "standardDeviation": 12.967181172818593,
+        "hitFrequency": 0.47743,
+        "profitFrequency": 0.09383,
+        "maxWinFrequency": 0,
+        "minimumUnits": 0,
+        "maximumUnits": 313454
+      },
+      "sourceStatistics": {
+        "totalWeight": "100000020",
+        "payoutSum": "18633397000",
+        "squareSum": "681059459433000",
+        "hitWeight": "47743020",
+        "profitWeight": "9383020",
+        "capWeight": "20",
+        "rtpNumerator": "18633397",
+        "rtpDenominator": "20000004",
+        "rtp": 0.9316696636660673,
+        "rtpPercent": 93.16696636660673,
+        "standardDeviation": 13.015253452894731,
+        "hitFrequency": 0.4774301045139791,
+        "profitFrequency": 0.09383018123396375,
+        "maxWinFrequency": 1.99999960000008e-7,
+        "minimumUnits": 0,
+        "maximumUnits": 500000
+      },
+      "balancing": {
+        "lowMultiplier": "146855043480",
+        "highMultiplier": "153121112000",
+        "divisor": "40000",
+        "thresholdNumerator": "1926",
+        "thresholdDenominator": "10"
+      },
+      "features": {
+        "trigger": {
+          "count": 1324,
+          "weight": "5064557339956",
+          "frequency": 0.013733630553432621
+        },
+        "attack": {
+          "count": 2064,
+          "weight": "7774004839957",
+          "frequency": 0.021080877009775168
+        },
+        "kraken": {
+          "count": 356,
+          "weight": "1359026429556",
+          "frequency": 0.0036852908641438896
+        },
+        "reef": {
+          "count": 354,
+          "weight": "1355121841200",
+          "frequency": 0.003674702737611788
+        },
+        "vault": {
+          "count": 361,
+          "weight": "1381918035800",
+          "frequency": 0.003747366351067388
+        },
+        "cash": {
+          "count": 253,
+          "weight": "968491033400",
+          "frequency": 0.0026262706006095547
+        },
+        "super": {
+          "count": 187,
+          "weight": "715841198600",
+          "frequency": 0.001941156530885323
+        },
+        "rage": {
+          "count": 71,
+          "weight": "268038506556",
+          "frequency": 0.0007268437448801621
+        },
+        "wheel0": {
+          "count": 300,
+          "weight": "1144656872756",
+          "frequency": 0.003103981956499087
+        },
+        "wheel1": {
+          "count": 127,
+          "weight": "486159530600",
+          "frequency": 0.0013183255584087487
+        },
+        "wheel2": {
+          "count": 71,
+          "weight": "271789973800",
+          "frequency": 0.0007370166507639462
+        },
+        "wheel3": {
+          "count": 301,
+          "weight": "1152236367800",
+          "frequency": 0.003124535378590814
+        },
+        "wheel4": {
+          "count": 56,
+          "weight": "214369556800",
+          "frequency": 0.0005813089076448026
+        },
+        "wheel5": {
+          "count": 283,
+          "weight": "1083331867400",
+          "frequency": 0.0029376860868478415
+        },
+        "wheel6": {
+          "count": 126,
+          "weight": "482331502800",
+          "frequency": 0.0013079450422008058
+        },
+        "wheel7": {
+          "count": 60,
+          "weight": "229681668000",
+          "frequency": 0.0006228309724765742
+        },
+        "pearls3": {
+          "count": 1233,
+          "weight": "4719958277400",
+          "frequency": 0.0127991764843936
+        },
+        "pearls4": {
+          "count": 88,
+          "weight": "336866446400",
+          "frequency": 0.0009134854262989755
+        },
+        "pearls5": {
+          "count": 3,
+          "weight": "7732616156",
+          "frequency": 0.000020968642740044666
+        },
+        "retrigger": {
+          "count": 5,
+          "weight": "15388671756",
+          "frequency": 0.00004172967515593047
+        },
+        "gold": {
+          "count": 35,
+          "weight": "133980973000",
+          "frequency": 0.00036331806727800164
+        }
+      },
+      "witness": {
+        "row": 100000,
+        "id": 100000,
+        "payoutUnits": 500000,
+        "sourceWeight": "20",
+        "finalWeight": "76560556",
+        "frequency": 2.0761032415885807e-7
+      }
+    },
+    {
+      "name": "buy_kraken",
+      "cost": 100,
+      "kind": "kraken",
+      "seed": 769994154,
+      "rounds": 100001,
+      "sampledRounds": 100000,
+      "events": "events_buy_kraken.jsonl.zst",
+      "weights": "lookup_buy_kraken.csv",
+      "eventCount": 1166337,
+      "maxBookBytes": 15739,
+      "files": {
+        "events": {
+          "bytes": 49616116,
+          "sha256": "c2fd816b83f4fb19ad9a9acfa9abdba5f86477ad01afe46cf355f4dfde69cf80"
+        },
+        "weights": {
+          "bytes": 2169506,
+          "sha256": "25862dd67b05fad6cf0069c050d7da00bea025e73c924b6391991317364896c2"
+        }
+      },
+      "target": {
+        "numerator": "963",
+        "denominator": "1000"
+      },
+      "statistics": {
+        "totalWeight": "318281836159974",
+        "payoutSum": "3065054082220549620",
+        "squareSum": "342805286414026015473440",
+        "hitWeight": "318281836159974",
+        "profitWeight": "59360650292229",
+        "capWeight": "256104945129",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.9630000000000001,
+        "rtpPercent": 96.30000000000001,
+        "standardDeviation": 3.1373756244571696,
+        "hitFrequency": 1,
+        "profitFrequency": 0.18650341787771169,
+        "maxWinFrequency": 0.0008046483211824793,
+        "minimumUnits": 200,
+        "maximumUnits": 500000
+      },
+      "sampledStatistics": {
+        "totalWeight": "100000",
+        "payoutSum": "968386068",
+        "squareSum": "108438100220106",
+        "hitWeight": "100000",
+        "profitWeight": "18779",
+        "capWeight": "81",
+        "rtpNumerator": "242096517",
+        "rtpDenominator": "250000000",
+        "rtp": 0.968386068,
+        "rtpPercent": 96.8386068,
+        "standardDeviation": 3.1473859701844797,
+        "hitFrequency": 1,
+        "profitFrequency": 0.18779,
+        "maxWinFrequency": 0.00081,
+        "minimumUnits": 200,
+        "maximumUnits": 500000
+      },
+      "sourceStatistics": {
+        "totalWeight": "100000020",
+        "payoutSum": "968396068000",
+        "squareSum": "108443100220106000",
+        "hitWeight": "100000020",
+        "profitWeight": "18779020",
+        "capWeight": "81020",
+        "rtpNumerator": "242099017",
+        "rtpDenominator": "250000050",
+        "rtp": 0.9683958743208252,
+        "rtpPercent": 96.83958743208251,
+        "standardDeviation": 3.147462038491876,
+        "hitFrequency": 1,
+        "profitFrequency": 0.1877901624419675,
+        "maxWinFrequency": 0.0008101998379600324,
+        "minimumUnits": 200,
+        "maximumUnits": 500000
+      },
+      "balancing": {
+        "lowMultiplier": "6375976654000",
+        "highMultiplier": "6322017900000",
+        "divisor": "2000000",
+        "thresholdNumerator": "96300",
+        "thresholdDenominator": "10"
+      },
+      "features": {
+        "trigger": {
+          "count": 100001,
+          "weight": "318281836159974",
+          "frequency": 1
+        },
+        "attack": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "kraken": {
+          "count": 100001,
+          "weight": "318281836159974",
+          "frequency": 1
+        },
+        "reef": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "vault": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "cash": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "super": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "rage": {
+          "count": 24067,
+          "weight": "76223935163325",
+          "frequency": 0.23948565863184704
+        },
+        "wheel0": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel1": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel2": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel3": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel4": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel5": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel6": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel7": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "pearls3": {
+          "count": 94450,
+          "weight": "300637836964232",
+          "frequency": 0.9445648567049431
+        },
+        "pearls4": {
+          "count": 5243,
+          "weight": "16669864012018",
+          "frequency": 0.05237453765234481
+        },
+        "pearls5": {
+          "count": 308,
+          "weight": "974135183724",
+          "frequency": 0.003060605642712149
+        },
+        "retrigger": {
+          "count": 828,
+          "weight": "2626358341479",
+          "frequency": 0.008251675223335543
+        },
+        "gold": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        }
+      },
+      "witness": {
+        "row": 100000,
+        "id": 100000,
+        "payoutUnits": 500000,
+        "sourceWeight": "20",
+        "finalWeight": "63220179",
+        "frequency": 1.9862955348863967e-7
+      }
+    },
+    {
+      "name": "buy_reef",
+      "cost": 100,
+      "kind": "reef",
+      "seed": 89388473,
+      "rounds": 100001,
+      "sampledRounds": 100000,
+      "events": "events_buy_reef.jsonl.zst",
+      "weights": "lookup_buy_reef.csv",
+      "eventCount": 1383525,
+      "maxBookBytes": 10694,
+      "files": {
+        "events": {
+          "bytes": 24552976,
+          "sha256": "a9d2b374ff76268aa019dc8d2489c2a5f48ca127076042e13c824ab925799c32"
+        },
+        "weights": {
+          "bytes": 2203783,
+          "sha256": "2369869a75b71b7c412b696456d0c0d65bb6cc3f06616052b8697e431e88b19c"
+        }
+      },
+      "target": {
+        "numerator": "963",
+        "denominator": "1000"
+      },
+      "statistics": {
+        "totalWeight": "752380701610191",
+        "payoutSum": "7245426156506139330",
+        "squareSum": "399797504029472531897710",
+        "hitWeight": "752380701610191",
+        "profitWeight": "88184027357131",
+        "capWeight": "153576931",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.9630000000000001,
+        "rtpPercent": 96.30000000000001,
+        "standardDeviation": 2.0943727140020485,
+        "hitFrequency": 1,
+        "profitFrequency": 0.11720665770454491,
+        "maxWinFrequency": 2.0412130543928852e-7,
+        "minimumUnits": 500,
+        "maximumUnits": 500000
+      },
+      "sampledStatistics": {
+        "totalWeight": "100000",
+        "payoutSum": "952390181",
+        "squareSum": "52105446338975",
+        "hitWeight": "100000",
+        "profitWeight": "11484",
+        "capWeight": "0",
+        "rtpNumerator": "952390181",
+        "rtpDenominator": "1000000000",
+        "rtp": 0.952390181,
+        "rtpPercent": 95.2390181,
+        "standardDeviation": 2.074487304620659,
+        "hitFrequency": 1,
+        "profitFrequency": 0.11484,
+        "maxWinFrequency": 0,
+        "minimumUnits": 500,
+        "maximumUnits": 214500
+      },
+      "sourceStatistics": {
+        "totalWeight": "100000020",
+        "payoutSum": "952400181000",
+        "squareSum": "52110446338975000",
+        "hitWeight": "100000020",
+        "profitWeight": "11484020",
+        "capWeight": "20",
+        "rtpNumerator": "317466727",
+        "rtpDenominator": "333333400",
+        "rtp": 0.9523999905200019,
+        "rtpPercent": 95.23999905200019,
+        "standardDeviation": 2.0746030583574977,
+        "hitFrequency": 1,
+        "profitFrequency": 0.1148401770319646,
+        "maxWinFrequency": 1.99999960000008e-7,
+        "minimumUnits": 500,
+        "maximumUnits": 500000
+      },
+      "balancing": {
+        "lowMultiplier": "4501307814000",
+        "highMultiplier": "4607307930000",
+        "divisor": "600000",
+        "thresholdNumerator": "96300",
+        "thresholdDenominator": "10"
+      },
+      "features": {
+        "trigger": {
+          "count": 100001,
+          "weight": "752380701610191",
+          "frequency": 1
+        },
+        "attack": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "kraken": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "reef": {
+          "count": 100001,
+          "weight": "752380701610191",
+          "frequency": 1
+        },
+        "vault": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "cash": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "super": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "rage": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel0": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel1": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel2": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel3": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel4": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel5": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel6": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel7": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "pearls3": {
+          "count": 94534,
+          "weight": "710636756374660",
+          "frequency": 0.9445175226501775
+        },
+        "pearls4": {
+          "count": 5193,
+          "weight": "39647466550450",
+          "frequency": 0.052696017409270796
+        },
+        "pearls5": {
+          "count": 274,
+          "weight": "2096478685081",
+          "frequency": 0.002786459940551728
+        },
+        "retrigger": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "gold": {
+          "count": 9423,
+          "weight": "71117464421951",
+          "frequency": 0.09452324371126283
+        }
+      },
+      "witness": {
+        "row": 100000,
+        "id": 100000,
+        "payoutUnits": 500000,
+        "sourceWeight": "20",
+        "finalWeight": "153576931",
+        "frequency": 2.0412130543928852e-7
+      }
+    },
+    {
+      "name": "buy_vault",
+      "cost": 100,
+      "kind": "vault",
+      "seed": 1804400033,
+      "rounds": 100001,
+      "sampledRounds": 100000,
+      "events": "events_buy_vault.jsonl.zst",
+      "weights": "lookup_buy_vault.csv",
+      "eventCount": 1075037,
+      "maxBookBytes": 6908,
+      "files": {
+        "events": {
+          "bytes": 23844598,
+          "sha256": "905af0c54e45b273b9397e4d37bc59af598aaf5872e005116967006ee662e274"
+        },
+        "weights": {
+          "bytes": 2221224,
+          "sha256": "0bacbdccdc29e2300c8ca17d4a3b4a5c18111219b40e6605e40a2da00dfaa5b3"
+        }
+      },
+      "target": {
+        "numerator": "963",
+        "denominator": "1000"
+      },
+      "statistics": {
+        "totalWeight": "774320944299244",
+        "payoutSum": "7456710693601719720",
+        "squareSum": "127603715910511836400150",
+        "hitWeight": "774320944299244",
+        "profitWeight": "313906213521879",
+        "capWeight": "158174929",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.9629999999999999,
+        "rtpPercent": 96.29999999999998,
+        "standardDeviation": 0.8488665912329183,
+        "hitFrequency": 1,
+        "profitFrequency": 0.4053954834012172,
+        "maxWinFrequency": 2.0427566910662272e-7,
+        "minimumUnits": 200,
+        "maximumUnits": 500000
+      },
+      "sampledStatistics": {
+        "totalWeight": "100000",
+        "payoutSum": "951669186",
+        "squareSum": "16183204360918",
+        "hitWeight": "100000",
+        "profitWeight": "39691",
+        "capWeight": "0",
+        "rtpNumerator": "475834593",
+        "rtpDenominator": "500000000",
+        "rtp": 0.951669186,
+        "rtpPercent": 95.1669186,
+        "standardDeviation": 0.8441837457034442,
+        "hitFrequency": 1,
+        "profitFrequency": 0.39691,
+        "maxWinFrequency": 0,
+        "minimumUnits": 200,
+        "maximumUnits": 218440
+      },
+      "sourceStatistics": {
+        "totalWeight": "100000020",
+        "payoutSum": "951679186000",
+        "squareSum": "16188204360918000",
+        "hitWeight": "100000020",
+        "profitWeight": "39691020",
+        "capWeight": "20",
+        "rtpNumerator": "475839593",
+        "rtpDenominator": "500000100",
+        "rtp": 0.9516789956642009,
+        "rtpPercent": 95.16789956642009,
+        "standardDeviation": 0.8444685912094987,
+        "hitFrequency": 1,
+        "profitFrequency": 0.39691012061797587,
+        "maxWinFrequency": 1.99999960000008e-7,
+        "minimumUnits": 200,
+        "maximumUnits": 500000
+      },
+      "balancing": {
+        "lowMultiplier": "3050288514000",
+        "highMultiplier": "3163498580000",
+        "divisor": "400000",
+        "thresholdNumerator": "96300",
+        "thresholdDenominator": "10"
+      },
+      "features": {
+        "trigger": {
+          "count": 100001,
+          "weight": "774320944299244",
+          "frequency": 1
+        },
+        "attack": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "kraken": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "reef": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "vault": {
+          "count": 100001,
+          "weight": "774320944299244",
+          "frequency": 1
+        },
+        "cash": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "super": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "rage": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel0": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel1": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel2": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel3": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel4": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel5": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel6": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "wheel7": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "pearls3": {
+          "count": 94595,
+          "weight": "731838357066175",
+          "frequency": 0.945135686247625
+        },
+        "pearls4": {
+          "count": 5111,
+          "weight": "40157257601840",
+          "frequency": 0.05186125714083853
+        },
+        "pearls5": {
+          "count": 295,
+          "weight": "2325329631229",
+          "frequency": 0.0030030566115364604
+        },
+        "retrigger": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "gold": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        }
+      },
+      "witness": {
+        "row": 100000,
+        "id": 100000,
+        "payoutUnits": 500000,
+        "sourceWeight": "20",
+        "finalWeight": "158174929",
+        "frequency": 2.0427566910662272e-7
+      }
+    },
+    {
+      "name": "buy_wheel",
+      "cost": 100,
+      "kind": "wheel",
+      "seed": 2468229309,
+      "rounds": 100001,
+      "sampledRounds": 100000,
+      "events": "events_buy_wheel.jsonl.zst",
+      "weights": "lookup_buy_wheel.csv",
+      "eventCount": 1101677,
+      "maxBookBytes": 14534,
+      "files": {
+        "events": {
+          "bytes": 29997438,
+          "sha256": "955f44ed0f895f852ab8ddbbf9ecf202788b8188e977a50fff985746245333d1"
+        },
+        "weights": {
+          "bytes": 2201620,
+          "sha256": "f356c8f5487e5a007e1965e4a20ef9d110e898b14cf3be09435751c99b0a0d97"
+        }
+      },
+      "target": {
+        "numerator": "963",
+        "denominator": "1000"
+      },
+      "statistics": {
+        "totalWeight": "287166980129657",
+        "payoutSum": "2765418018648596910",
+        "squareSum": "160744286614675287565330",
+        "hitWeight": "287166980129657",
+        "profitWeight": "66492766248587",
+        "capWeight": "73220700987",
+        "rtpNumerator": "963",
+        "rtpDenominator": "1000",
+        "rtp": 0.9630000000000001,
+        "rtpPercent": 96.30000000000001,
+        "standardDeviation": 2.161069290214536,
+        "hitFrequency": 1,
+        "profitFrequency": 0.23154739524218718,
+        "maxWinFrequency": 0.00025497604548385254,
+        "minimumUnits": 200,
+        "maximumUnits": 500000
+      },
+      "sampledStatistics": {
+        "totalWeight": "100000",
+        "payoutSum": "951515767",
+        "squareSum": "54954618961217",
+        "hitWeight": "100000",
+        "profitWeight": "22721",
+        "capWeight": "25",
+        "rtpNumerator": "951515767",
+        "rtpDenominator": "1000000000",
+        "rtp": 0.951515767,
+        "rtpPercent": 95.1515767,
+        "standardDeviation": 2.1424471151634292,
+        "hitFrequency": 1,
+        "profitFrequency": 0.22721,
+        "maxWinFrequency": 0.00025,
+        "minimumUnits": 200,
+        "maximumUnits": 500000
+      },
+      "sourceStatistics": {
+        "totalWeight": "100000020",
+        "payoutSum": "951525767000",
+        "squareSum": "54959618961217000",
+        "hitWeight": "100000020",
+        "profitWeight": "22721020",
+        "capWeight": "25020",
+        "rtpNumerator": "951525767",
+        "rtpDenominator": "1000000200",
+        "rtp": 0.9515255766948847,
+        "rtpPercent": 95.15255766948846,
+        "standardDeviation": 2.1425591879397423,
+        "hitFrequency": 1,
+        "profitFrequency": 0.22721015455796909,
+        "maxWinFrequency": 0.00025019994996001,
+        "minimumUnits": 200,
+        "maximumUnits": 500000
+      },
+      "balancing": {
+        "lowMultiplier": "4567634704000",
+        "highMultiplier": "4682378960000",
+        "divisor": "1600000",
+        "thresholdNumerator": "96300",
+        "thresholdDenominator": "10"
+      },
+      "features": {
+        "trigger": {
+          "count": 100001,
+          "weight": "287166980129657",
+          "frequency": 1
+        },
+        "attack": {
+          "count": 0,
+          "weight": "0",
+          "frequency": 0
+        },
+        "kraken": {
+          "count": 27150,
+          "weight": "77902704570507",
+          "frequency": 0.27128016088525786
+        },
+        "reef": {
+          "count": 26564,
+          "weight": "76259210926480",
+          "frequency": 0.2655570319820499
+        },
+        "vault": {
+          "count": 26418,
+          "weight": "76283605924060",
+          "frequency": 0.2656419825483336
+        },
+        "cash": {
+          "count": 19869,
+          "weight": "56721458708610",
+          "frequency": 0.19752082458435868
+        },
+        "super": {
+          "count": 13450,
+          "weight": "38927729990300",
+          "frequency": 0.13555782065446376
+        },
+        "rage": {
+          "count": 6265,
+          "weight": "18239633323017",
+          "frequency": 0.06351577508939828
+        },
+        "wheel0": {
+          "count": 22637,
+          "weight": "64928973977417",
+          "frequency": 0.22610180999257407
+        },
+        "wheel1": {
+          "count": 9921,
+          "weight": "28322189936490",
+          "frequency": 0.09862620668888332
+        },
+        "wheel2": {
+          "count": 4424,
+          "weight": "12859141898880",
+          "frequency": 0.04477931931127335
+        },
+        "wheel3": {
+          "count": 21905,
+          "weight": "63188748425730",
+          "frequency": 0.22004183209782696
+        },
+        "wheel4": {
+          "count": 4513,
+          "weight": "12973730593090",
+          "frequency": 0.0451783508926838
+        },
+        "wheel5": {
+          "count": 22140,
+          "weight": "63400069027600",
+          "frequency": 0.2207777126707765
+        },
+        "wheel6": {
+          "count": 9948,
+          "weight": "28399268772120",
+          "frequency": 0.09889461789547538
+        },
+        "wheel7": {
+          "count": 4513,
+          "weight": "13094857498330",
+          "frequency": 0.0456001504505066
+        },
+        "pearls3": {
+          "count": 94485,
+          "weight": "271211654583370",
+          "frequency": 0.9444388573537141
+        },
+        "pearls4": {
+          "count": 5222,
+          "weight": "15104189018740",
+          "frequency": 0.05259723458428403
+        },
+        "pearls5": {
+          "count": 294,
+          "weight": "851136527547",
+          "frequency": 0.0029639080620017964
+        },
+        "retrigger": {
+          "count": 217,
+          "weight": "623502154977",
+          "frequency": 0.002171218134813015
+        },
+        "gold": {
+          "count": 2327,
+          "weight": "6704011608630",
+          "frequency": 0.023345342858023276
+        }
+      },
+      "witness": {
+        "row": 100000,
+        "id": 100000,
+        "payoutUnits": 500000,
+        "sourceWeight": "20",
+        "finalWeight": "58529737",
+        "frequency": 2.0381778216135296e-7
+      }
+    }
+  ]
+}

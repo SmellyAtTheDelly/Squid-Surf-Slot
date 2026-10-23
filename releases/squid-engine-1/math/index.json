@@ -1,0 +1,76 @@
+{
+  "modes": [
+    {
+      "name": "base_kraken",
+      "cost": 1,
+      "events": "events_base_kraken.jsonl.zst",
+      "weights": "lookup_base_kraken.csv"
+    },
+    {
+      "name": "base_reef",
+      "cost": 1,
+      "events": "events_base_reef.jsonl.zst",
+      "weights": "lookup_base_reef.csv"
+    },
+    {
+      "name": "base_vault",
+      "cost": 1,
+      "events": "events_base_vault.jsonl.zst",
+      "weights": "lookup_base_vault.csv"
+    },
+    {
+      "name": "base_wheel",
+      "cost": 1,
+      "events": "events_base_wheel.jsonl.zst",
+      "weights": "lookup_base_wheel.csv"
+    },
+    {
+      "name": "ante_kraken",
+      "cost": 2,
+      "events": "events_ante_kraken.jsonl.zst",
+      "weights": "lookup_ante_kraken.csv"
+    },
+    {
+      "name": "ante_reef",
+      "cost": 2,
+      "events": "events_ante_reef.jsonl.zst",
+      "weights": "lookup_ante_reef.csv"
+    },
+    {
+      "name": "ante_vault",
+      "cost": 2,
+      "events": "events_ante_vault.jsonl.zst",
+      "weights": "lookup_ante_vault.csv"
+    },
+    {
+      "name": "ante_wheel",
+      "cost": 2,
+      "events": "events_ante_wheel.jsonl.zst",
+      "weights": "lookup_ante_wheel.csv"
+    },
+    {
+      "name": "buy_kraken",
+      "cost": 100,
+      "events": "events_buy_kraken.jsonl.zst",
+      "weights": "lookup_buy_kraken.csv"
+    },
+    {
+      "name": "buy_reef",
+      "cost": 100,
+      "events": "events_buy_reef.jsonl.zst",
+      "weights": "lookup_buy_reef.csv"
+    },
+    {
+      "name": "buy_vault",
+      "cost": 100,
+      "events": "events_buy_vault.jsonl.zst",
+      "weights": "lookup_buy_vault.csv"
+    },
+    {
+      "name": "buy_wheel",
+      "cost": 100,
+      "events": "events_buy_wheel.jsonl.zst",
+      "weights": "lookup_buy_wheel.csv"
+    }
+  ]
+}
