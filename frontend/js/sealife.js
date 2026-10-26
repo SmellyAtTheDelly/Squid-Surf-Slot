@@ -354,7 +354,7 @@
         g.scale(1 + squeeze * 0.04, 1 - squeeze * 0.06);
         dual(g, set, 0, mix, 0.75, s => warp(g, s, 0, 0, c.w, h, { mode: 0, amp: h * 0.22, k: 3.2, ph: c.t * 2 + c.ph, pow: 1.8, cut: 0.62 }));
         // eye glow, drawn over the body
-        const m = g.getTransform(), ex = c.w * (0.585 - 0.5), ey = h * (0.37 - 0.5), er = h * 0.5, ea = 0.5 + 0.3 * Math.sin(c.t * 3);
+        const m = g.getTransform(), ex = c.w * (0.64 - 0.5), ey = h * (0.41 - 0.5), er = h * 0.5, ea = 0.5 + 0.3 * Math.sin(c.t * 3);
         post.push(() => {
           g.save(); g.setTransform(m);
           g.globalCompositeOperation = 'lighter'; g.globalAlpha = ea;

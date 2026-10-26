@@ -138,7 +138,7 @@ async function createHarness(options) {
     lerp: (a, b, u) => a + (b - a) * u,
     Ease: new Proxy({}, { get: () => u => u }),
     SPR: new Proxy({}, { get: () => canvas(8, 8) }),
-    canvas, buildSprites: noop, sunburst: noop, causticTile: () => canvas(8, 8),
+    canvas, buildSprites: noop, sunburst: noop, dappleTile: () => canvas(8, 8),
     Particles: class { add() {} update() {} draw() {} clear() {} },
     InkWipe: class { seed() {} draw() {} },
   };

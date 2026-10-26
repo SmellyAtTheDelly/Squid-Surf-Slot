@@ -81,21 +81,25 @@ vec3 hueRot(vec3 c, float ang) {
   return c * ca + cross(kk, c) * sin(ang) + kk * dot(kk, c) * (1.0 - ca);
 }
 
+// a negative LOD bias keeps minified symbols sharp: plain trilinear filtering would sample the half- and quarter-size
+// mip levels when a 512px symbol is drawn at ~160px
+const float SHARP = -0.8;
+
 void main() {
-  vec4 c = texture2D(u_tex, v_uv);
+  vec4 c = texture2D(u_tex, v_uv, SHARP);
   if (u_type < 0.0) { gl_FragColor = c * u_alpha; return; }
-  float m = texture2D(u_mask, v_uv).a;
+  float m = texture2D(u_mask, v_uv, SHARP).a;
   vec2 a = (v_uv - 0.1) / 0.8;
 
   // the squid winks: an eyelid sweeps over its open eye
   if (u_type > 6.5 && u_type < 7.5 && u_blink > 0.0) {
-    vec2 q = (a - vec2(0.513, 0.322)) / vec2(0.06, 0.072);
+    vec2 q = (a - vec2(0.436, 0.346)) / vec2(0.062, 0.068);
     float r2 = dot(q, q);
     if (r2 < 1.0) {
       float lid = -1.0 + 2.2 * u_blink;
       float edge = q.y - lid + 0.3 * q.x * q.x;
       if (edge < 0.0) {
-        vec4 skin = texture2D(u_tex, vec2(0.42, 0.37) * 0.8 + 0.1);
+        vec4 skin = texture2D(u_tex, vec2(0.45, 0.42) * 0.8 + 0.1);
         skin.rgb *= 1.0 - 0.4 * smoothstep(-0.45, 0.0, edge);
         c = mix(c, skin, smoothstep(1.0, 0.82, r2));
       }
@@ -143,7 +147,7 @@ void main() {
   gl_FragColor = c * u_alpha;
 }`;
 
-  let gl = null, cvs = null, prog = null, isGL2 = false, nIdx = 0, vbuf = null, ibuf = null;
+  let gl = null, cvs = null, prog = null, isGL2 = false, nIdx = 0, vbuf = null, ibuf = null, lost = false, symList = null;
   const loc = {};
   const tSym = [], tMask = [], tBlur = [];
 
@@ -169,15 +173,13 @@ void main() {
     return t;
   }
 
-  // syms: [{img, mask, blur}] canvases
-  function init(syms) {
-    try {
-      cvs = document.createElement('canvas');
-      const opts = { alpha: true, premultipliedAlpha: true, antialias: true, preserveDrawingBuffer: false };
-      gl = cvs.getContext('webgl2', opts);
-      isGL2 = !!gl;
-      if (!gl) gl = cvs.getContext('webgl', opts) || cvs.getContext('experimental-webgl', opts);
-      if (!gl) return false;
+  // a software renderer (no GPU) runs WebGL on the CPU, and copying each frame back costs more than plain 2D drawing
+  function isSoftware(gl) {
+    const ext = gl.getExtension('WEBGL_debug_renderer_info');
+    return /swiftshader|software|llvmpipe|basic render/i.test(String(gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER)));
+  }
+  // program, mesh and textures: built at start-up, and again when a lost context comes back
+  function setup() {
       prog = gl.createProgram();
       gl.attachShader(prog, shader(gl.VERTEX_SHADER, VS));
       gl.attachShader(prog, shader(gl.FRAGMENT_SHADER, FS));
@@ -195,9 +197,29 @@ void main() {
       nIdx = idx.length;
       vbuf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, vbuf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(v), gl.STATIC_DRAW);
       ibuf = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibuf); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(idx), gl.STATIC_DRAW);
-      syms.forEach((s, i) => { tSym[i] = texture(s.img); tMask[i] = texture(s.mask); tBlur[i] = texture(s.blur); });
+      symList.forEach((s, i) => { tSym[i] = texture(s.img); tMask[i] = texture(s.mask); tBlur[i] = texture(s.blur); });
       gl.enable(gl.BLEND);
       gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+  }
+
+  // syms: [{img, mask, blur}] canvases
+  function init(syms) {
+    try {
+      cvs = document.createElement('canvas');
+      // the browser can drop a WebGL context at any time (GPU reset, memory pressure, a long stay in the background);
+      // while it is gone the game draws symbols in 2D, and once it is back everything is rebuilt
+      cvs.addEventListener('webglcontextlost', e => { e.preventDefault(); lost = true; });
+      cvs.addEventListener('webglcontextrestored', () => {
+        try { setup(); lost = false; } catch (e) { console.warn('SymGL could not recover:', e && e.message); gl = null; }
+      });
+      const opts = { alpha: true, premultipliedAlpha: true, antialias: true, preserveDrawingBuffer: false };
+      gl = cvs.getContext('webgl2', opts);
+      isGL2 = !!gl;
+      if (!gl) gl = cvs.getContext('webgl', opts) || cvs.getContext('experimental-webgl', opts);
+      if (!gl) return false;
+      if (isSoftware(gl)) { gl = null; return false; }
+      symList = syms;
+      setup();
       return true;
     } catch (e) {
       console.warn('SymGL unavailable, using 2D symbols:', e && e.message);
@@ -250,5 +272,5 @@ void main() {
     gl.drawElements(gl.TRIANGLES, nIdx, gl.UNSIGNED_SHORT, 0);
   }
 
-  window.SymGL = { init, begin, clip, draw, get canvas() { return cvs; }, get ok() { return !!gl; } };
+  window.SymGL = { init, begin, clip, draw, get canvas() { return cvs; }, get ok() { return !!gl && !lost; } };
 })();
