@@ -217,11 +217,43 @@
   .introLogo { width: min(100%, 760px); max-height: 22vh; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0, 0, 0, .55)); }
   .introFeats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 2vw, 20px); width: 100%; }
   .introFeats article { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;
-    animation: offerIn .5s cubic-bezier(.2, 1.2, .4, 1) both; animation-delay: calc(.1s + var(--i) * .08s); }
+    animation: offerIn .5s cubic-bezier(.2, 1.2, .4, 1) backwards; animation-delay: calc(.1s + var(--i) * .08s); }
   .introFeats .fa { position: relative; width: 100%; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center; gap: 3%;
     border-radius: 6px; overflow: hidden; background: radial-gradient(90% 100% at 50% 20%, #1a4a74, #08182e); }
   .introFeats .fa img { max-width: 64%; max-height: 88%; object-fit: contain; filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .5)); }
-  .introFeats .fa.squad img { max-width: 94%; }
+  /* squad attack: the squad swims in from the left in a V, inks three symbols on a little reel, and they turn wild.
+     The resting styles are the finished frame, so reduced motion shows that; the loop only moves transform and opacity. */
+  .introFeats .fa.squad { display: block; background: radial-gradient(70% 95% at 74% 50%, #1c5384, #08182e 78%); }
+  .introFeats .fa.squad img { max-width: none; max-height: none; }
+  .fa.squad .mini { position: absolute; right: 4%; top: 10%; bottom: 10%; width: 43%; display: grid; grid-template: repeat(3, 1fr) / repeat(3, 1fr); gap: 3%;
+    padding: 2.5%; border-radius: 6px; background: rgba(4, 12, 24, .55); box-shadow: inset 0 0 0 1px var(--line); }
+  .fa.squad .mini i { position: relative; border-radius: 4px; background: rgba(255, 255, 255, .045); }
+  .fa.squad .mini .ink { z-index: 1; }
+  .fa.squad .mini img { position: absolute; left: 6%; top: 6%; width: 88%; height: 88%; object-fit: contain; filter: none; }
+  .fa.squad .ink::before { content: ""; position: absolute; inset: -10%; pointer-events: none;
+    background: radial-gradient(circle at 42% 36%, rgba(150, 110, 230, .5) 0 9%, transparent 11%),
+      radial-gradient(circle at 50% 50%, rgba(10, 6, 22, .94) 0 42%, transparent 43.5%), radial-gradient(circle at 16% 26%, rgba(10, 6, 22, .9) 0 11%, transparent 12%),
+      radial-gradient(circle at 86% 20%, rgba(10, 6, 22, .9) 0 8%, transparent 9%), radial-gradient(circle at 80% 84%, rgba(10, 6, 22, .9) 0 12%, transparent 13%),
+      radial-gradient(circle at 18% 82%, rgba(10, 6, 22, .85) 0 7%, transparent 8%); }
+  .fa.squad .ink img:first-child { opacity: 0; }
+  .fa.squad .sq { position: absolute; filter: drop-shadow(0 5px 6px rgba(0, 0, 0, .5)); }
+  .fa.squad .s1 { left: 17%; top: 35%; width: 39%; z-index: 2; }
+  .fa.squad .s2 { left: 2%; top: 5%; width: 30%; filter: drop-shadow(0 5px 6px rgba(0, 0, 0, .5)) brightness(.88); }
+  .fa.squad .s3 { left: 4%; top: 66%; width: 30%; filter: drop-shadow(0 5px 6px rgba(0, 0, 0, .5)) brightness(.88); }
+  .fa.squad .sq { animation: squadSwim 4.8s cubic-bezier(.3, .7, .4, 1) infinite backwards; }
+  .fa.squad .s2 { animation-delay: .12s; } .fa.squad .s3 { animation-delay: .2s; }
+  .fa.squad .ink::before { animation: squadInk 4.8s ease-out infinite backwards; }
+  .fa.squad .ink img:first-child { animation: squadOld 4.8s linear infinite backwards; }
+  .fa.squad .ink .w { animation: squadWild 4.8s ease-out infinite backwards; }
+  .fa.squad .n2::before, .fa.squad .n2 img { animation-delay: .16s !important; }
+  .fa.squad .n3::before, .fa.squad .n3 img { animation-delay: .32s !important; }
+  @keyframes squadSwim {
+    0% { transform: translateX(-120%); opacity: 0; } 10% { opacity: 1; } 32% { transform: translate(0, 0); }
+    50% { transform: translate(3%, -5%); } 68% { transform: translate(5%, 3%); } 86% { transform: translate(8%, -3%); opacity: 1; }
+    100% { transform: translate(22%, 0); opacity: 0; } }
+  @keyframes squadInk { 0%, 33% { transform: scale(0) rotate(-20deg); opacity: 0; } 40% { transform: scale(1.15); opacity: 1; } 47%, 88% { transform: scale(1); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
+  @keyframes squadOld { 0%, 38% { opacity: 1; } 43%, 92% { opacity: 0; } 100% { opacity: 1; } }
+  @keyframes squadWild { 0%, 39% { opacity: 0; transform: scale(.5); } 46% { opacity: 1; transform: scale(1.14); } 52%, 88% { opacity: 1; transform: scale(1); } 96%, 100% { opacity: 0; transform: scale(1); } }
   .introFeats .fa.wilds img { max-width: 29%; }
   .introFeats .chips { position: absolute; right: 8px; top: 8px; bottom: 8px; display: flex; flex-direction: column; justify-content: center; gap: 5px; margin: 0; }
   .introFeats .chips b { padding: 2px 9px; border-radius: 999px; font-family: var(--ui); font-weight: 600; font-size: 14px; color: var(--gold);
@@ -246,6 +278,7 @@
     border: 1.5px solid var(--brass); border-radius: 5px; background: rgba(0, 0, 0, .4); }
   .introSkip input:checked::after { content: ""; width: 9px; height: 5px; border-left: 2px solid var(--brass-hi); border-bottom: 2px solid var(--brass-hi); transform: translateY(-1px) rotate(-45deg); }
   .introSkip input:focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; }
+  #loader .hint:empty { display: none; }
   #loader .hint { margin: 0; font-family: var(--copy); font-weight: 600; font-size: 12px; color: #8fa6bb; }
   #loader.quick .introFeats, #loader.quick .introSkip { display: none; }
   /* tall screens: the cards become rows, art on the left */
@@ -531,7 +564,10 @@
     <section class="introFeats" aria-label="Game features">
       <article style="--i:0"><div class="fa wild"><img src="assets/sym_wild.webp" alt=""><span class="chips"><b>x2</b><b>x3</b><b>x5</b></span></div>
         <div class="ft"><h3>Sticky wilds</h3><p>In Kraken free spins every squid wild sticks with a multiplier.</p></div></article>
-      <article style="--i:1"><div class="fa squad"><img src="assets/f_squad.webp" alt=""></div>
+      <article style="--i:1"><div class="fa squad" aria-hidden="true">
+          <span class="mini"><i><img src="assets/sym_K.webp" alt=""></i><i class="ink"><img src="assets/sym_A.webp" alt=""><img class="w" src="assets/sym_wild.webp" alt=""></i><i><img src="assets/sym_Q.webp" alt=""></i><i><img src="assets/sym_J.webp" alt=""></i><i><img src="assets/sym_anchor.webp" alt=""></i><i class="ink n2"><img src="assets/sym_K.webp" alt=""><img class="w" src="assets/sym_wild.webp" alt=""></i><i class="ink n3"><img src="assets/sym_Q.webp" alt=""><img class="w" src="assets/sym_wild.webp" alt=""></i><i><img src="assets/sym_gold.webp" alt=""></i><i><img src="assets/sym_A.webp" alt=""></i></span>
+          <img class="sq s1" src="assets/f_squad.webp" alt=""><img class="sq s2" src="assets/f_squad.webp" alt=""><img class="sq s3" src="assets/f_squad.webp" alt="">
+        </div>
         <div class="ft"><h3>Squad attack</h3><p>On a base spin the squad can swim in and ink 2 to 5 symbols into wilds.</p></div></article>
       <article style="--i:2"><div class="fa wilds"><img src="assets/sym_wild.webp" alt=""><img src="assets/sym_wild.webp" alt=""><img src="assets/sym_wild.webp" alt=""></div>
         <div class="ft"><h3>Four bonuses</h3><p>3 squid wilds open the Coin Bonus. Buy it, the Reef, the Kraken or the Mystery Wheel.</p></div></article>

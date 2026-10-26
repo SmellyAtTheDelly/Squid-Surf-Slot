@@ -137,7 +137,6 @@
   function sessionDetail() {
     const parts = [];
     if (st.replayOnly && st.round) parts.push(`REPLAY · BASE ${fmt(st.round.amount / 1000000)} · COST ${fmt(st.round.cost / 1000000)} · WIN ${fmt(st.round.payout / 1000000)}`);
-    else if (st.demo) parts.push('LOCAL DEMO · PLAY MONEY');
     if (st.jurisdiction.displayRTP) parts.push(`RTP ${M.RTP.toFixed(2)}%`);
     if (st.jurisdiction.displayNetPosition && !st.replayOnly && st.balanceMicro != null) parts.push('NET ' + fmt((st.balanceMicro - st.openingBalance) / 1000000));
     if (st.jurisdiction.displaySessionTimer && st.sessionStarted != null) {
@@ -1618,7 +1617,12 @@
     const btn = p.kind === 'intro'
       ? head + 34 + (lines.length > 1 ? 56 + (lines.length - 2) * 40 : 0) + 64
       : head + 30 + (p.sub ? 210 : 174);
-    const cw = L.portrait ? 760 : 700, ch = btn + 44;
+    // the card widens to fit its longest line, as far as the screen allows; a line that still won't fit is set smaller
+    const PAD = 76, fontOf = i => i === 0 ? '700 50px "Fredoka", "Nunito", sans-serif' : '700 24px "Nunito", "Nunito", sans-serif';
+    g.save();
+    const widths = lines.map((ln, i) => { g.font = fontOf(i); return g.measureText(ln.t).width; });
+    g.restore();
+    const cw = Math.min(L.portrait ? 860 : 1000, Math.max(L.portrait ? 760 : 700, ...widths.map(x => x + PAD * 2))), ch = btn + 44;
     const top = cy - ch / 2 + 40, rise = (1 - Ease.outCubic(clamp(t / 0.45, 0, 1))) * 30;
     g.save(); g.globalAlpha = fade;
     card(cx - cw / 2, top + rise, cw, ch, 22);
@@ -1633,8 +1637,9 @@
       lines.forEach((ln, i) => {
         const u = clamp((t - 0.25 - i * 0.1) / 0.35, 0, 1);
         g.save(); g.globalAlpha = fade * u;
-        if (i === 0) text(ln.t, cx, y, 50, { grad: GOLD, weight: 700 });
-        else text(ln.t, cx, y, 24, { color: i === 1 ? CREAM : '#c9d8e6', copy: true, weight: 700 });
+        const fit = Math.min(1, (cw - PAD * 2) / (widths[i] || 1));
+        if (i === 0) text(ln.t, cx, y, 50 * fit, { grad: GOLD, weight: 700 });
+        else text(ln.t, cx, y, 24 * fit, { color: i === 1 ? CREAM : '#c9d8e6', copy: true, weight: 700 });
         g.restore();
         y += i === 0 ? 56 : 40;
       });
@@ -2196,7 +2201,7 @@
       <p>Keys: <span class="kbd">Space</span> spin / stop / skip. Hold Space for turbo and repeat spins; release to stop repeating and restore your Turbo setting. A bonus pauses repeat spins. In the purchase dialog, <span class="kbd">1</span> to <span class="kbd">5</span> select a purchase; selection alone places no wager.</p>
       <h3>Game operation</h3>
       <p>A malfunction invalidates affected plays and wins. Use a stable internet connection. If play is interrupted, reload the game or use <b>Reconnect</b> to restore an unfinished accepted round before placing another wager. The game service (RGS) records the result and settles the wallet; the browser presentation does not determine settlement. Reels, wheels, chests and other animations illustrate the recorded result and do not simulate physical devices. Animation timing and reveal positions do not change the accepted payout.</p>
-      <p class="fine">${st.demo ? 'This local demo uses play-money credits only.' : st.replayOnly ? 'Replay displays an existing result and places no wager.' : 'Your session currency, available modes and restrictions are provided by the game service.'}</p>`;
+      <p class="fine">${st.replayOnly ? 'Replay displays an existing result and places no wager.' : 'Your session currency, available modes and restrictions are provided by the game service.'}</p>`;
   }
 
   function bindUI() {
@@ -2394,7 +2399,7 @@
       state = await session.init();
       acceptConfiguration(state);
       st.round = state.round;
-      $('launchHint').textContent = state.replayOnly ? 'Recorded round replay · no wager is placed' : state.demo ? 'Local demo · play-money credits only' : 'Connected to your game session';
+      $('launchHint').textContent = state.replayOnly ? 'Recorded round replay · no wager is placed' : state.demo ? '' : 'Connected to your game session';
     } catch (error) { showEngineError(error); return; }
     const enter = withSound => {
       if (st.ready) return;
