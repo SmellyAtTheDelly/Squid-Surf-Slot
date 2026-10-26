@@ -134,10 +134,11 @@
           continue;
         }
         if (p.type === 'text') {
-          g.font = `${s}px "Lilita One", sans-serif`;
+          g.font = `600 ${s}px "Fredoka", sans-serif`;
           g.textAlign = 'center'; g.textBaseline = 'middle';
-          g.lineWidth = s * 0.16; g.strokeStyle = '#1a0830'; g.strokeText(p.text, p.x, p.y);
+          g.save(); g.shadowColor = 'rgba(4,10,24,0.75)'; g.shadowBlur = s * 0.18; g.shadowOffsetY = s * 0.06;
           g.fillStyle = p.color || '#ffe27a'; g.fillText(p.text, p.x, p.y);
+          g.restore();
           continue;
         }
         let sx = 1;
@@ -354,27 +355,20 @@
     g.restore();
   }
 
-  // ---------- caustics (tileable worley F2-F1) ----------
-  function causticTile(size, nPts) {
+  // ---------- dappled light ----------
+  // soft round patches of sunlight on a tile that repeats seamlessly; two layers drifting past each other read as light
+  // falling through rolling water
+  function dappleTile(size, n) {
     const c = canvas(size, size), g = c.getContext('2d');
-    const img = g.createImageData(size, size);
-    const pts = [];
-    for (let i = 0; i < nPts; i++) pts.push([Math.random() * size, Math.random() * size]);
-    const all = [];
-    for (const [px, py] of pts) for (let ox = -1; ox <= 1; ox++) for (let oy = -1; oy <= 1; oy++) all.push([px + ox * size, py + oy * size]);
-    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
-      let d1 = 1e9, d2 = 1e9;
-      for (let i = 0; i < all.length; i++) {
-        const dx = x - all[i][0], dy = y - all[i][1];
-        const d = dx * dx + dy * dy;
-        if (d < d1) { d2 = d1; d1 = d; } else if (d < d2) d2 = d;
+    for (let i = 0; i < n; i++) {
+      const x = Math.random() * size, y = Math.random() * size, r = size * rnd(0.06, 0.16), a = rnd(0.35, 0.8);
+      for (let ox = -1; ox <= 1; ox++) for (let oy = -1; oy <= 1; oy++) {
+        const cx = x + ox * size, cy = y + oy * size;
+        const gr = g.createRadialGradient(cx, cy, 0, cx, cy, r);
+        gr.addColorStop(0, `rgba(210,250,255,${a})`); gr.addColorStop(1, 'rgba(210,250,255,0)');
+        g.fillStyle = gr; g.fillRect(cx - r, cy - r, r * 2, r * 2);
       }
-      const e = Math.sqrt(d2) - Math.sqrt(d1);
-      const v = Math.pow(clamp(1 - e / (size * 0.05), 0, 1), 3);
-      const o = (y * size + x) * 4;
-      img.data[o] = 200; img.data[o + 1] = 250; img.data[o + 2] = 255; img.data[o + 3] = v * 255;
     }
-    g.putImageData(img, 0, 0);
     return c;
   }
 
@@ -428,5 +422,5 @@
     }
   }
 
-  window.FX = { TAU, rnd, clamp, lerp, Ease, SPR, buildSprites, Particles, drawSquid, drawTentacle, drawFish, drawKelp, godRays, causticTile, sunburst, InkWipe, canvas };
+  window.FX = { TAU, rnd, clamp, lerp, Ease, SPR, buildSprites, Particles, drawSquid, drawTentacle, drawFish, drawKelp, godRays, dappleTile, sunburst, InkWipe, canvas };
 })();

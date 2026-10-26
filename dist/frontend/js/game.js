@@ -8,7 +8,7 @@
   const { TAU, rnd, clamp, lerp, Ease, SPR } = FX;
   const $ = id => document.getElementById(id);
   const cvs = $('game');
-  const g = cvs.getContext('2d');
+  let g = cvs.getContext('2d');      // let: the frame cache points it at an offscreen canvas while it draws into one
 
   // ---------- config ----------
   let BETS = [1];
@@ -17,16 +17,17 @@
   const SYM_SCALE = [0.8, 0.8, 0.8, 0.8, 0.86, 0.86, 0.88, 0.96, 0.93];
   const SYM_TIER = [0, 0, 0, 0, 1, 1, 1, 2, 2];
   const SYM_DARK = ['#3a1400', '#05303a', '#26093f', '#3d0508', '#14243a', '#3a2200', '#3a2200', '#2a0838', '#16204a'];
-  const STYLE_K = 1.25; // styled symbol canvases carry a 32px margin around the 256px art
+  const STYLE_K = 1.25; // styled symbol canvases are 1.25x the art: a margin for the shadow and glow
   const SYM_GLOW = ['255,150,40', '60,230,210', '190,100,255', '255,70,70', '190,220,255', '255,200,60', '255,210,90', '235,90,255', '120,240,255'];
   const WIN_NAMES = ['J', 'Q', 'K', 'A', 'SILVER COIN', 'GOLD COIN', 'ANCHOR', 'SQUID WILD', 'PEARLS'];
   const TIPS = ['3 SQUIDS TRIGGER THE COIN BONUS', 'WILDS STICK & MULTIPLY IN FREE SPINS', 'THE SQUAD CAN ATTACK ON BASE SPINS!', '243 WAYS TO WIN · UP TO 5,000x', 'PRESS SPACE TO SPIN'];
   const BUY_MODES = Contract.MODES.filter(item => item.buy);
   const BUY_NAMES = { vault: 'Coin Bonus', reef: 'Super Bonus', kraken: 'Legendary Bonus', wheel: 'Mystery Bonus', wilds: 'Six Wilds' };
-  const GOLD = ['#fffbe0', '#ffe07a', '#f5a623', '#b85f0a'];
-  const PINK = ['#fff0fb', '#ffa3e8', '#e646c8', '#7a1590'];
-  const CYAN = ['#f2ffff', '#a6f4ff', '#3cc7f0', '#0f6a9a'];
-  const RED = ['#fff1e8', '#ffb38a', '#ff4a2a', '#8a0f0f'];
+  const GOLD = ['#fff6d8', '#ffd981', '#eaa63f'];
+  const PINK = ['#ffeaf8', '#ff9fdc', '#e25cbe'];
+  const CYAN = ['#ecfcff', '#9eeaff', '#43c3ea'];
+  const RED = ['#fff0e8', '#ffab88', '#f2593c'];
+  const CREAM = '#fff4dc', MUTED = '#93a9bf', BRASS = '#d6a54e', BRASS_HI = '#f4d995', LINE = 'rgba(244,217,149,0.32)';
   const SQUAD_COLORS = [['#c656ff', '#6d1fae', '#f2b8ff'], ['#ff5fa8', '#a3195c', '#ffc0dc'], ['#34d6e8', '#126a8a', '#c9f8ff'], ['#ff9a3c', '#a84a0c', '#ffd7a8']];
 
   const fmt = (v, precision) => {
@@ -167,7 +168,7 @@
   SYM_FILES.forEach((f, i) => { ASSETS['s' + i] = `assets/sym_${f}.webp`; });
   ['f_yellow', 'f_purple', 'f_sardine', 'f_manta', 'f_bigsquid', 'f_turtle', 'f_kelp', 'f_jelly', 'f_squad', 'ui_corner',
     'bg_kraken', 'bg_reef', 'bg_vault', 'bg_helm', 'ui_wheel', 'ui_chest', 'fx_eye', 'fx_tentacle', 'p_pearl', 'p_gold',
-    't_kraken', 't_reef', 't_vault', 't_wheel', 't_choose'].forEach(k => { ASSETS[k] = `assets/${k}.webp`; });
+    't_kraken', 't_reef', 't_vault', 't_wheel', 't_choose', 'ui_plate', 'ui_tag', 'ui_button'].forEach(k => { ASSETS[k] = `assets/${k}.webp`; });
   function loadAll(onProg) {
     const keys = Object.keys(ASSETS);
     let done = 0;
@@ -178,28 +179,22 @@
       IMG[k] = im;
     })));
   }
-  // Each symbol is pre-styled once: drop shadow, coloured glow, thick dark outline, punchier colour and a gloss.
+  // Each symbol is pre-styled once with just a soft shadow (the wild and scatter also get a faint glow in their colour).
+  // The renders carry their own light, colour and transparency, so nothing is outlined or recoloured. The art keeps its
+  // native resolution: the canvas is 1.25x the art, so it still fills the middle 80% as the GL shader expects.
   function stylize(img, i) {
-    const N = 410, P = 51, D = N + P * 2; // 512: the art fills the middle 80%
-    const sil = FX.canvas(D, D), sg = sil.getContext('2d');
-    sg.drawImage(img, P, P, N, N);
-    sg.globalCompositeOperation = 'source-in';
-    sg.fillStyle = SYM_DARK[i]; sg.fillRect(0, 0, D, D);
+    const N = img.width || 512, P = N / 8, D = N + P * 2;
     const art = FX.canvas(D, D), at = art.getContext('2d');
-    if ('filter' in at) at.filter = 'saturate(1.3) contrast(1.1) brightness(1.05)';
     at.drawImage(img, P, P, N, N);
-    if ('filter' in at) at.filter = 'none';
-    at.globalCompositeOperation = 'source-atop';
-    const gl = at.createLinearGradient(0, P, 0, P + N * 0.55);
-    gl.addColorStop(0, 'rgba(255,255,255,0.24)'); gl.addColorStop(1, 'rgba(255,255,255,0)');
-    at.fillStyle = gl; at.fillRect(0, 0, D, D);
     const c = FX.canvas(D, D), t = c.getContext('2d');
-    t.save(); t.globalAlpha = 0.6; t.shadowColor = 'rgba(0,0,0,0.95)'; t.shadowBlur = 22; t.shadowOffsetY = 16; t.drawImage(sil, 0, 0); t.restore();
-    t.save(); t.shadowColor = 'rgba(' + SYM_GLOW[i] + ',' + (SYM_TIER[i] ? 1 : 0.75) + ')'; t.shadowBlur = SYM_TIER[i] ? 38 : 24;
-    t.drawImage(sil, 0, 0); t.drawImage(sil, 0, 0);
-    t.restore();
-    const ow = SYM_TIER[i] === 2 ? 9.5 : 8;
-    for (let a = 0; a < 20; a++) t.drawImage(sil, Math.cos(a / 20 * TAU) * ow, Math.sin(a / 20 * TAU) * ow);
+    // shadows only: the art is drawn far off the canvas and its offset shadow lands in place, so see-through art isn't doubled
+    const away = D * 4;
+    const shade = (color, blur, dy) => {
+      t.save(); t.shadowColor = color; t.shadowBlur = blur; t.shadowOffsetX = away; t.shadowOffsetY = dy;
+      t.drawImage(art, -away, 0); t.restore();
+    };
+    shade('rgba(0,0,0,' + (SYM_TIER[i] ? 0.5 : 0.35) + ')', 30, 20);
+    if (SYM_TIER[i] === 2) shade('rgba(' + SYM_GLOW[i] + ',0.5)', 36, 0);
     t.drawImage(art, 0, 0);
     return { img: c, mask: art };
   }
@@ -255,13 +250,45 @@
       SQUAD.push({ tent, body });
     }
   }
-  let causticPat = null, causticTile = null;
+  let dapplePat = null;
+
+  // ---------- smoothness ----------
+  // The frame rate is watched all the time. When too many frames run late, the costliest effects switch off first,
+  // then the canvas renders at a lower resolution (the browser scales it up). After a calm stretch one step comes back
+  // at a time; a step that brings the lag straight back waits twice as long before the next try.
+  // (hold and off are for testing through window.__ss: hold freezes the controller, off.<effect> forces an effect off)
+  const Q = { scale: 1, lite: false, time: 0, n: 0, late: 0, bad: 0, calm: 0, wait: 3, upT: -99, hold: false, off: {} };
+  const fx = name => !Q.off[name] && !(Q.lite && LITE.has(name));
+  const LITE = new Set(['dapple', 'rays', 'vignette', 'frost', 'shafts', 'glass', 'sway']);   // costliest first
 
   // ---------- layout ----------
   const L = { W: 1, H: 1, dpr: 1, s: 1, ox: 0, oy: 0, DW: 1600, DH: 900, portrait: false, cell: 172, gx: 0, gy: 0, gw: 0, gh: 0 };
   const bar = $('bar'), buyBtn = $('btnBuy'), anteBtn = $('btnAnte');
+  function adaptQuality(ms) {
+    // not while loading (decoding art and compiling shaders makes the first seconds slow), nor across a tab switch or a
+    // one-off stall
+    if (Q.hold || !st.ready || clock < 3 || ms > 250 || document.hidden) return;
+    Q.time += ms; Q.n++;
+    if (ms > 20.5) Q.late++;                               // under 50 fps: a dropped frame on a 60 Hz screen
+    if (Q.time < 1000) return;
+    const late = Q.late / Q.n;
+    Q.time = Q.n = Q.late = 0;
+    Q.bad = late > 0.2 ? Q.bad + 1 : 0;
+    if (Q.bad >= 2 && (!Q.lite || Q.scale > 0.55)) {      // two late seconds in a row
+      Q.bad = 0;
+      if (clock - Q.upT < 2.5) Q.wait = Math.min(48, Q.wait * 2);
+      if (!Q.lite) Q.lite = true; else Q.scale = Math.max(0.55, Q.scale - 0.15);
+      Q.calm = 0; layout();
+    } else if (late < 0.04 && (Q.lite || Q.scale < 1)) {
+      if (++Q.calm >= Q.wait) {
+        if (Q.scale < 1) Q.scale = Math.min(1, Q.scale + 0.15); else Q.lite = false;
+        Q.calm = 0; Q.upT = clock; layout();
+      }
+    } else Q.calm = 0;
+  }
+
   function layout() {
-    L.dpr = Math.min(2, window.devicePixelRatio || 1);
+    L.dpr = Math.min(2, window.devicePixelRatio || 1) * Q.scale;
     L.W = window.innerWidth; L.H = window.innerHeight;
     cvs.width = Math.round(L.W * L.dpr); cvs.height = Math.round(L.H * L.dpr);
     const barH = bar.offsetHeight || 100;
@@ -270,14 +297,14 @@
     if (L.portrait) {
       Object.assign(L, { DW: 900, DH: 1480, cell: 168 });
       L.gx = 30; L.gy = 440;
-      L.logo = { x: 450, y: 225, w: 620 };
+      L.logo = { x: 450, y: 225, w: 820, h: 360 };   // the box the logo (or a bonus title) is fitted into
       L.msgY = 1004; L.buy = { x: 292, y: 1210, k: 1.45 }; L.ante = { x: 608, y: 1210, k: 1.45 };
       L.hudL = { x: 230, y: 1150 }; L.hudR = { x: 670, y: 1150 }; L.side = null;
       L.center = { x: 450, y: 690 };
     } else {
       Object.assign(L, { DW: 1600, DH: 900, cell: 172 });
       L.gx = 370; L.gy = 222;
-      L.logo = { x: 800, y: 116, w: 400 };
+      L.logo = { x: 800, y: 112, w: 860, h: 232 };
       L.msgY = 792; L.buy = { x: 178, y: 478, k: 1 }; L.ante = { x: 1422, y: 478, k: 1 };
       L.hudL = { x: 178, y: 478 }; L.hudR = { x: 1422, y: 478 }; L.side = { x: 1422, y: 478 };
       L.center = { x: 800, y: 480 };
@@ -292,6 +319,7 @@
       elm.style.transform = `translate(-50%,-50%) scale(${(L.s * p.k).toFixed(3)})`;
     }
     if (window.SeaLife) SeaLife.resize(L.W, L.H);
+    frameCache = null;
   }
 
   // ---------- time / async helpers ----------
@@ -510,11 +538,11 @@
     st.flash *= Math.pow(0.02, dt);
     if (st.detailSecond !== Math.floor(ambientClock)) { st.detailSecond = Math.floor(ambientClock); sessionDetail(); }
     if (!st.spinning && st.ready && ambientClock > (st.shineT || 0)) {
-      st.shineT = ambientClock + rnd(0.9, 2.2);
+      st.shineT = ambientClock + rnd(3, 6);
       const r = (Math.random() * REELS) | 0, y = (Math.random() * ROWS) | 0;
       if (reels[r] && reels[r].phase === 'idle') st.idleShine = { r, y, t0: ambientClock };
     }
-    if (!st.spinning && st.ready && Math.random() < dt * 4) {
+    if (!st.spinning && st.ready && Math.random() < dt * 1.2) {
       const r = (Math.random() * REELS) | 0, y = (Math.random() * ROWS) | 0;
       if (reels[r] && reels[r].phase === 'idle' && SYM_TIER[reels[r].strip[y]] > 0) {
         const c = cellCenter(r, y);
@@ -536,8 +564,9 @@
     const sc = Math.max(W / im.width, H / im.height) * zoom;
     const iw = im.width * sc, ih = im.height * sc;
     const ix = (W - iw) / 2 + Math.sin(t * 0.037) * W * 0.008, iy = (H - ih) / 2 + Math.cos(t * 0.031) * H * 0.006;
+    Object.assign(BGP, { im, x: ix, y: iy, w: iw, h: ih, k: st.scene === 'base' ? k : 0 });
     // backdrop drawn in strips that sway slightly: a soft underwater shimmer
-    const strips = 18, sh = ih / strips, srcH = im.height / strips, amp = 1.7 * (H / 900);
+    const strips = fx('sway') ? 18 : 1, sh = ih / strips, srcH = im.height / strips, amp = 1.7 * (H / 900);
     const plate = (img, a) => {
       g.globalAlpha = a;
       for (let i = 0; i < strips; i++) {
@@ -549,29 +578,30 @@
     };
     if (st.scene !== 'base') plate(im, 1);
     else { if (k < 0.999) plate(im, 1); if (k > 0.001) plate(IMG.bgBonus, k); }
-    SeaLife.drawFar(g, t, k);
-    // caustic shimmer
-    if (causticPat) {
+    if (fx('life')) SeaLife.drawFar(g, t, k);
+    // dappled light drifting over the scene
+    if (dapplePat && fx('dapple')) {
       g.save();
       g.globalCompositeOperation = 'lighter';
       const cs = H / 500;
       for (let i = 0; i < 2; i++) {
         const m = new DOMMatrix().translate(t * (i ? -14 : 9) * cs, t * (i ? 6 : 11) * cs).scale(cs * (i ? 1.4 : 1.1));
-        causticPat.setTransform(m);
+        dapplePat.setTransform(m);
         g.globalAlpha = (i ? 0.05 : 0.07) * (1 - 0.6 * k);
-        g.fillStyle = causticPat;
+        g.fillStyle = dapplePat;
         g.fillRect(0, 0, W, H * 0.8);
       }
       g.restore();
     }
-    SeaLife.drawRays(g, t, k, 1 - 0.3 * k);
-    SeaLife.drawMid(g, t, k);
-    SeaLife.drawNear(g, t, k);
+    if (fx('rays')) SeaLife.drawRays(g, t, k, 1 - 0.3 * k);
+    if (fx('life')) { SeaLife.drawMid(g, t, k); SeaLife.drawNear(g, t, k); }
     drawSceneFx(t, ix, iy, iw, ih);
     // vignette + bonus tint
-    const vg = g.createRadialGradient(W / 2, H * 0.45, Math.min(W, H) * 0.35, W / 2, H * 0.5, Math.max(W, H) * 0.8);
-    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(' + Math.round(10 * k) + ',0,' + Math.round(8 * (1 - k)) + ',' + (0.6 + 0.15 * k) + ')');
-    g.fillStyle = vg; g.fillRect(0, 0, W, H);
+    if (fx('vignette')) {
+      const vg = g.createRadialGradient(W / 2, H * 0.45, Math.min(W, H) * 0.35, W / 2, H * 0.5, Math.max(W, H) * 0.8);
+      vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(' + Math.round(10 * k) + ',0,' + Math.round(8 * (1 - k)) + ',' + (0.6 + 0.15 * k) + ')');
+      g.fillStyle = vg; g.fillRect(0, 0, W, H);
+    }
   }
 
   // lantern flicker in the vault, and the Kraken itself during an awakening
@@ -632,17 +662,68 @@
   }
   function text(str, x, y, size, o) {
     o = o || {};
-    g.font = `${size}px "Lilita One", "Trebuchet MS", sans-serif`;
+    g.font = `${o.weight || 600} ${size}px ${o.copy ? '"Nunito"' : '"Fredoka"'}, "Nunito", sans-serif`;
     g.textAlign = o.align || 'center'; g.textBaseline = 'middle'; g.lineJoin = 'round';
-    if (o.glow) { g.shadowColor = o.glow; g.shadowBlur = size * 0.5; }
-    if (o.stroke !== false) { g.lineWidth = size * (o.sw || 0.2); g.strokeStyle = o.strokeColor || '#1b0a2e'; g.strokeText(str, x, y); }
-    g.shadowBlur = 0;
+    if (o.outline) { g.lineWidth = size * 0.12; g.strokeStyle = o.strokeColor || '#06121f'; g.strokeText(str, x, y); }
+    g.save();
+    if (o.shadow !== false) { g.shadowColor = 'rgba(3,8,20,0.6)'; g.shadowBlur = Math.max(2, size * 0.14); g.shadowOffsetY = Math.max(1, size * 0.05); }
     if (o.grad) {
       const gr = g.createLinearGradient(0, y - size * 0.5, 0, y + size * 0.5);
       o.grad.forEach((c, i) => gr.addColorStop(i / (o.grad.length - 1), c));
       g.fillStyle = gr;
-    } else g.fillStyle = o.color || '#fff';
+    } else g.fillStyle = o.color || CREAM;
     g.fillText(str, x, y);
+    g.restore();
+  }
+
+  // a small-caps label: Nunito, letter-spaced, muted
+  function label(str, x, y, size, color) {
+    g.save();
+    g.font = `800 ${size}px "Nunito", sans-serif`;
+    if ('letterSpacing' in g) g.letterSpacing = `${(size * 0.16).toFixed(1)}px`;
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillStyle = color || MUTED;
+    g.fillText(str, x, y);
+    g.restore();
+  }
+  const drawLabel = label;
+
+  // Every box is cut from rendered brass art (frames3d.py). The ship's plate is a 9-slice: its 96 px corners hold all
+  // the rivets, so the plain edges and the middle stretch. b is the drawn corner size.
+  function plate(img, x, y, w, h, b) {
+    if (!img || !img.width) return;
+    const S = 96, W = img.width, m = W - 2 * S;
+    const xs = [x, x + b, x + w - b], ys = [y, y + b, y + h - b], ws = [b, w - 2 * b, b], hs = [b, h - 2 * b, b], ss = [0, S, W - S], sz = [S, m, S];
+    for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) {
+      g.drawImage(img, ss[i], ss[j], sz[i], sz[j], xs[i], ys[j], ws[i] + (i < 2 ? 0.6 : 0), hs[j] + (j < 2 ? 0.6 : 0));   // a hair of overlap hides seams
+    }
+  }
+
+  // the nameplates are 3-slices: square end caps (with the screws) as wide as the plate is tall, the middle stretched
+  function nameplate(img, x, y, w, h) {
+    if (!img || !img.width) return;
+    const c = img.height, W = img.width;
+    w = Math.max(w, h * 2.2);
+    g.drawImage(img, 0, 0, c, c, x, y, h + 0.6, h);
+    g.drawImage(img, c, 0, W - 2 * c, c, x + h, y, w - 2 * h + 0.6, h);
+    g.drawImage(img, W - c, 0, c, c, x + w - h, y, h, h);
+  }
+
+  // a riveted plate: the surface every canvas panel uses (r and o are kept for older callers and ignored)
+  function card(x, y, w, h, r, o) {
+    plate(IMG.ui_plate, x, y, w, h, Math.min(44, w / 5, h / 3));
+  }
+
+  // the primary call to action: a brass nameplate with ink text between its screws
+  function pill(str, x, y, size, a) {
+    g.save();
+    g.font = `600 ${size}px "Fredoka", sans-serif`;
+    const h = size * 2.3, w = g.measureText(str).width + h * 2.1;
+    g.globalAlpha *= a == null ? 1 : a;
+    nameplate(IMG.ui_button, x - w / 2, y - h / 2, w, h);
+    g.fillStyle = '#2a1404'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText(str, x, y + size * 0.05);
+    g.restore();
   }
   const shineBufs = new Map();
   function shineOverlay(mask, x, y, w, h, u, strength) {
@@ -691,69 +772,82 @@
     g.fillStyle = gr; g.fillRect(x - R, y - R, R * 2, R * 2);
   }
 
-  // ---------- reel frame ----------
   function drawFrame() {
-    const { gx, gy, gw, gh } = L, k = st.bonusMix, t = ambientClock;
-    const pad = 22, ox = gx - pad, oy = gy - pad, ow = gw + pad * 2, oh = gh + pad * 2;
-    // outer glow
-    g.save();
-    g.shadowColor = k > 0.5 ? 'rgba(255,40,40,0.55)' : 'rgba(80,220,255,0.35)';
-    g.shadowBlur = 50;
-    rr(ox, oy, ow, oh, 30); g.fillStyle = 'rgba(0,0,0,0.4)'; g.fill();
-    g.restore();
-    // glass panel
-    rr(gx - 6, gy - 6, gw + 12, gh + 12, 16);
-    const gp = g.createLinearGradient(0, gy, 0, gy + gh);
-    gp.addColorStop(0, mixColor([12, 52, 80, 0.86], [70, 8, 20, 0.88], k));
-    gp.addColorStop(0.5, mixColor([4, 22, 40, 0.9], [28, 3, 10, 0.92], k));
-    gp.addColorStop(1, mixColor([6, 30, 52, 0.9], [44, 4, 12, 0.92], k));
-    g.fillStyle = gp; g.fill();
-    // brass rim (even-odd ring)
-    g.beginPath();
-    rrPath(ox, oy, ow, oh, 30); rrPath(gx - 6, gy - 6, gw + 12, gh + 12, 16);
-    const bg = g.createLinearGradient(0, oy, 0, oy + oh);
-    bg.addColorStop(0, '#fff0b0'); bg.addColorStop(0.12, '#e8b54a'); bg.addColorStop(0.5, '#9a5f18'); bg.addColorStop(0.85, '#e0a540'); bg.addColorStop(1, '#5c3308');
-    g.fillStyle = bg; g.fill('evenodd');
-    g.lineWidth = 3; g.strokeStyle = '#3a1d04';
-    rr(ox, oy, ow, oh, 30); g.stroke();
-    rr(gx - 6, gy - 6, gw + 12, gh + 12, 16); g.stroke();
-    g.lineWidth = 2; g.strokeStyle = 'rgba(255,240,190,0.55)';
-    rr(ox + 5, oy + 5, ow - 10, oh - 10, 25); g.stroke();
-    // rivets
-    const rivet = (x, y) => {
-      const rg = g.createRadialGradient(x - 2, y - 2, 0, x, y, 7);
-      rg.addColorStop(0, '#fff6d0'); rg.addColorStop(0.5, '#c88a2c'); rg.addColorStop(1, '#3a1d04');
-      g.fillStyle = rg; g.beginPath(); g.arc(x, y, 6, 0, TAU); g.fill();
-    };
-    for (let x = ox + 46; x < ox + ow - 30; x += 64) { rivet(x, oy + pad / 2 + 1); rivet(x, oy + oh - pad / 2 - 1); }
-    for (let y = oy + 60; y < oy + oh - 40; y += 64) { rivet(ox + pad / 2 + 1, y); rivet(ox + ow - pad / 2 - 1, y); }
-    // reel separators
-    for (let r = 1; r < REELS; r++) {
-      const x = gx + r * L.cell;
+    // in the kraken's lair the water behind the glass runs deep wine, to sit in the red scene
+    const { gx, gy, gw, gh } = L, k = st.scene === 'kraken' ? Math.max(st.bonusMix, 0.7) : st.bonusMix, t = ambientClock, C = L.cell;
+    const win =() => rr(gx - 6, gy - 6, gw + 12, gh + 12, 16);
+    // drop shadow under the whole frame (drawn once into the frame cache)
+    drawFrameCache(0);
+    // deep water behind glass: the scene still shows through, blurred, but under a dark calm tint so the symbols lead
+    frost(win, gy, gy + gh, [
+      mixColor([6, 34, 84, 0.82], [60, 6, 18, 0.82], k), mixColor([8, 48, 104, 0.74], [74, 8, 22, 0.76], k), mixColor([3, 18, 50, 0.88], [28, 3, 8, 0.88], k)]);
+    const lc = reelLight(k);
+    g.save(); win(); g.clip();
+    // light from the surface: a soft glow along the top and a few broad shafts that drift slowly
+    const top = g.createRadialGradient(gx + gw / 2, gy - gh * 0.2, 0, gx + gw / 2, gy - gh * 0.2, gw * 0.7);
+    top.addColorStop(0, `rgba(${lc},0.3)`); top.addColorStop(0.55, `rgba(${lc},0.08)`); top.addColorStop(1, `rgba(${lc},0)`);
+    g.fillStyle = top; g.fillRect(gx - 6, gy - 6, gw + 12, gh + 12);
+    // darker towards the corners, so the middle of the window glows
+    const vg = g.createRadialGradient(gx + gw / 2, gy + gh * 0.45, gh * 0.35, gx + gw / 2, gy + gh * 0.45, gw * 0.62);
+    vg.addColorStop(0, 'rgba(0,8,26,0)'); vg.addColorStop(1, 'rgba(0,8,26,0.4)');
+    g.fillStyle = vg; g.fillRect(gx - 6, gy - 6, gw + 12, gh + 12);
+    g.globalCompositeOperation = 'lighter';
+    for (let i = 0; i < (fx('shafts') ? 4 : 0); i++) {
+      const cx = gx + gw * (0.14 + i * 0.24) + Math.sin(t * 0.11 + i * 1.7) * C * 0.35;
+      const w0 = C * (0.3 + 0.1 * Math.sin(i * 2.3)), w1 = w0 * 2.4, slant = C * 0.5;
+      const a = (0.045 + 0.02 * Math.sin(t * 0.35 + i * 2.1)) * (1 - 0.4 * k);
       const sg = g.createLinearGradient(0, gy, 0, gy + gh);
-      sg.addColorStop(0, 'rgba(255,215,120,0)'); sg.addColorStop(0.5, 'rgba(255,215,120,0.35)'); sg.addColorStop(1, 'rgba(255,215,120,0)');
-      g.fillStyle = sg; g.fillRect(x - 1, gy, 2, gh);
+      sg.addColorStop(0, `rgba(${lc},${a})`); sg.addColorStop(1, `rgba(${lc},0)`);
+      g.fillStyle = sg;
+      g.beginPath();
+      g.moveTo(cx - w0 / 2, gy - 6); g.lineTo(cx + w0 / 2, gy - 6);
+      g.lineTo(cx + slant + w1 / 2, gy + gh + 6); g.lineTo(cx + slant - w1 / 2, gy + gh + 6);
+      g.closePath(); g.fill();
     }
-    // travelling glint along the rim
-    const per = 2 * (ow + oh), d = ((t * 260) % per);
-    let px, py;
-    if (d < ow) { px = ox + d; py = oy; } else if (d < ow + oh) { px = ox + ow; py = oy + d - ow; } else if (d < 2 * ow + oh) { px = ox + ow - (d - ow - oh); py = oy + oh; } else { px = ox; py = oy + oh - (d - 2 * ow - oh); }
-    g.save(); g.globalCompositeOperation = 'lighter';
-    glowAt(px, py, 46, '255,240,190', 0.75);
-    g.drawImage(SPR.spark, px - 22, py - 22, 44, 44);
+    g.globalCompositeOperation = 'source-over';
+    // each reel is a drum: darker towards its sides, a touch of light down its middle
+    for (let r = 0; r < REELS; r++) {
+      const x = gx + r * C;
+      const dg = g.createLinearGradient(x, 0, x + C, 0);
+      dg.addColorStop(0, 'rgba(0,6,16,0.34)'); dg.addColorStop(0.22, 'rgba(0,6,16,0)');
+      dg.addColorStop(0.5, `rgba(${lc},0.05)`); dg.addColorStop(0.78, 'rgba(0,6,16,0)'); dg.addColorStop(1, 'rgba(0,6,16,0.34)');
+      g.fillStyle = dg; g.fillRect(x, gy - 6, C, gh + 12);
+    }
     g.restore();
-  }
-  function drawFrameTop() {
-    const cimg = IMG.ui_corner;
-    if (!cimg || !cimg.width) return;
-    const pad = 22, ox = L.gx - pad, oy = L.gy - pad, ow = L.gw + pad * 2, oh = L.gh + pad * 2;
-    const cw = 196, ch = cw * cimg.height / cimg.width, o = 24;
-    for (const [x, y, fx, fy] of [[ox - o, oy - o, 1, 1], [ox + ow + o, oy - o, -1, 1], [ox - o, oy + oh + o, 1, -1], [ox + ow + o, oy + oh + o, -1, -1]]) {
-      g.save(); g.translate(x, y); g.scale(fx, fy);
-      g.shadowColor = 'rgba(0,0,0,0.55)'; g.shadowBlur = 10; g.shadowOffsetY = 4 * fy;
-      g.drawImage(cimg, 0, 0, cw, ch);
-      g.restore();
+    drawFrameCache(1);
+    // reel separators, engraved: a dark groove with a thin brass catch-light beside it, fading out at the ends
+    const fadeV = (rgb, a) => {
+      const sg = g.createLinearGradient(0, gy, 0, gy + gh);
+      sg.addColorStop(0, `rgba(${rgb},0)`); sg.addColorStop(0.12, `rgba(${rgb},${a})`);
+      sg.addColorStop(0.88, `rgba(${rgb},${a})`); sg.addColorStop(1, `rgba(${rgb},0)`);
+      return sg;
+    };
+    for (let r = 1; r < REELS; r++) {
+      const x = gx + r * C;
+      g.fillStyle = fadeV('0,4,12', 0.55); g.fillRect(x - 1.5, gy + 4, 2, gh - 8);
+      g.fillStyle = fadeV('255,226,160', 0.2); g.fillRect(x + 0.5, gy + 4, 1, gh - 8);
     }
+  }
+  // over the symbols: the rim's soft shadow on the reels (symbols roll out from under it) and a faint glass reflection
+  function drawFrameTop() {
+    if (!fx('glass')) return;
+    const { gx, gy, gw, gh } = L, x0 = gx - 6, y0 = gy - 6, w = gw + 12, h = gh + 12;
+    g.save(); rr(x0, y0, w, h, 16); g.clip();
+    const band = (ax, ay, bx, by, a) => {
+      const gr = g.createLinearGradient(ax, ay, bx, by);
+      gr.addColorStop(0, `rgba(0,6,16,${a})`); gr.addColorStop(1, 'rgba(0,6,16,0)');
+      return gr;
+    };
+    g.fillStyle = band(0, y0, 0, y0 + 30, 0.55); g.fillRect(x0, y0, w, 30);
+    g.fillStyle = band(0, y0 + h, 0, y0 + h - 30, 0.55); g.fillRect(x0, y0 + h - 30, w, 30);
+    g.fillStyle = band(x0, 0, x0 + 16, 0, 0.35); g.fillRect(x0, y0, 16, h);
+    g.fillStyle = band(x0 + w, 0, x0 + w - 16, 0, 0.35); g.fillRect(x0 + w - 16, y0, 16, h);
+    g.globalCompositeOperation = 'lighter';
+    const rg = g.createLinearGradient(x0, y0, x0 + w * 0.45, y0 + h);
+    rg.addColorStop(0, 'rgba(255,255,255,0)'); rg.addColorStop(0.36, 'rgba(255,255,255,0)');
+    rg.addColorStop(0.46, 'rgba(255,255,255,0.035)'); rg.addColorStop(0.56, 'rgba(255,255,255,0)'); rg.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = rg; g.fillRect(x0, y0, w, h);
+    g.restore();
   }
   function rrPath(x, y, w, h, r) {
     g.moveTo(x + r, y); g.lineTo(x + w - r, y); g.quadraticCurveTo(x + w, y, x + w, y + r);
@@ -770,44 +864,45 @@
     return set.has(r * 3 + y) ? 1 : (w.cells.has(r * 3 + y) ? 0 : -1);
   }
   let GLOK = false;
+  const glOn = () => GLOK && SymGL.ok;    // false while the browser has taken the WebGL context away
   const seedOf = (r, row) => r * 1.7 + (row < 0 ? 0 : row) * 2.3;
   function animState(sym, r, row, alphaMul) {
     const C = L.cell, t = clock, tier = SYM_TIER[sym];
     const s = {
       sym, sc: 1, sx: 1, sy: 1, rot: 0, pivot: 0, dx: 0, dy: 0, alpha: alphaMul == null ? 1 : alphaMul,
-      glow: [0.12, 0.24, 0.42][tier] * (0.75 + 0.25 * Math.sin(ambientClock * 2.4 + r * 1.7 + row)), rays: tier === 2 ? 0.16 : 0,
-      shine: -1, k: 0.32, t: ambientClock + seedOf(r, row), blink: 0, theta: 0, spark: tier === 1 ? 0.6 : sym <= S.A ? 0.45 : 0.3,
+      glow: [0.1, 0.2, 0.34][tier] * (0.92 + 0.08 * Math.sin(ambientClock * 1.2 + r * 1.7 + row)), rays: tier === 2 ? 0.07 : 0,
+      shine: -1, k: 0.32, t: ambientClock + seedOf(r, row), blink: 0, theta: 0, spark: tier === 1 ? 0.25 : sym <= S.A ? 0.15 : 0.12,
     };
     const fxc = row >= 0 && row < 3 ? cellFx[r][row] : null;
     const win = row >= 0 && row < 3 ? inWin(r, row) : 0;
-    // idle motion of the art itself
-    if (sym === S.GOLD || sym === S.SILVER) s.theta = 0.42 * Math.sin(s.t * 1.1);
-    else if (sym === S.ANCHOR) { s.rot = 0.07 * Math.sin(s.t * 1.6); s.pivot = -0.45; }
-    else if (sym <= S.A) s.dy = Math.sin(s.t * 1.8) * C * 0.012;
+    // idle motion of the art itself: kept small and slow, so a full screen of symbols reads calm
+    if (sym === S.GOLD || sym === S.SILVER) s.theta = 0.12 * Math.sin(s.t * 0.7);
+    else if (sym === S.ANCHOR) { s.rot = 0.025 * Math.sin(s.t * 0.9); s.pivot = -0.45; }
+    else if (sym <= S.A) s.dy = Math.sin(s.t * 1.1) * C * 0.004;
     if (sym === S.WILD) { const b = ((s.t + 10) % 3.6) / 0.24; if (b < 1) s.blink = Math.sin(b * Math.PI); }
     if (st.idleShine && st.idleShine.r === r && st.idleShine.y === row) s.shine = (ambientClock - st.idleShine.t0) / 0.9;
     // landing: squash and stretch, base stays planted
     if (fxc && fxc.pop >= 0) {
       const u = (t - fxc.pop) / 0.65;
       if (u < 1) {
-        const amp = [0.1, 0.14, 0.22][tier];
+        const amp = [0.045, 0.06, 0.1][tier];
         const e = Math.sin(u * Math.PI * 2.4) * (1 - u) * (1 - u);
         s.sy *= 1 - amp * e; s.sx *= 1 + amp * 0.75 * e;
         s.dy += C * SYM_SCALE[sym] * 0.5 * amp * e;
-        if (tier === 2) s.sc *= 1 + 0.22 * Math.pow(1 - u, 3);
+        if (tier === 2) s.sc *= 1 + 0.1 * Math.pow(1 - u, 3);
       }
     }
     const w = st.win;
     if (win === 1 && w) {
       const tw = t - w.t0, ramp = Math.min(1, tw / 0.3);
-      s.k = lerp(0.32, 1, ramp); s.glow = 1; s.rays = tier === 2 ? 0.35 : 0.18; s.spark = 1;
+      s.k = lerp(0.32, 1, ramp); s.glow = 0.85; s.rays = tier === 2 ? 0.25 : 0.12; s.spark = 0.6;
       s.shine = (tw * 0.8) % 1.6;
-      const beat = Math.abs(Math.sin(tw * 4.2)) * ramp;
-      if (sym <= S.A) { s.sc *= 1 + 0.08 * beat; s.dy -= beat * C * 0.04; }
-      else if (sym === S.SILVER || sym === S.GOLD) { s.theta += tw * 6.5 * ramp; s.sc *= 1 + 0.06 * ramp; }
-      else if (sym === S.ANCHOR) { s.rot = lerp(s.rot, 0.24 * Math.sin(tw * 4), ramp); s.sc *= 1 + 0.05 * ramp; }
-      else if (sym === S.WILD) { const s7 = Math.sin(tw * 7) * ramp; s.sy *= 1 + 0.06 * s7; s.sx *= 1 - 0.045 * s7; s.dy -= Math.abs(Math.sin(tw * 3.5)) * C * 0.05 * ramp; }
-      else if (sym === S.SCATTER) s.sc *= 1 + 0.06 * Math.sin(tw * 5) * ramp;
+      const beat = Math.abs(Math.sin(tw * 3)) * ramp;
+      if (sym <= S.A) { s.sc *= 1 + 0.035 * beat; s.dy -= beat * C * 0.012; }
+      else if (sym === S.SILVER || sym === S.GOLD) { s.theta += tw * 3 * ramp; s.sc *= 1 + 0.03 * ramp; }
+      else if (sym === S.ANCHOR) { s.rot = lerp(s.rot, 0.09 * Math.sin(tw * 2.5), ramp); s.sc *= 1 + 0.03 * ramp; }
+      else if (sym === S.WILD) { const s7 = Math.sin(tw * 4) * ramp; s.sy *= 1 + 0.025 * s7; s.sx *= 1 - 0.018 * s7; s.dy -= Math.abs(Math.sin(tw * 2.5)) * C * 0.015 * ramp; }
+      else if (sym === S.SCATTER) s.sc *= 1 + 0.03 * Math.sin(tw * 3) * ramp;
     } else if (win === -1 && w) {
       const dim = Math.min(1, (t - (w.start || w.t0)) / 0.25);
       s.alpha *= lerp(1, 0.3, dim); s.glow *= 1 - dim; s.rays *= 1 - dim; s.k = lerp(0.32, 0.12, dim); s.spark *= 1 - dim;
@@ -818,10 +913,9 @@
     return { sym, sc: 1, sx: 1, sy: 1, rot: 0, pivot: 0, dx: 0, dy: 0, alpha, glow: 0, rays: 0, shine: -1, k: 0, t: ambientClock, blink: 0, theta: 0, spark: 0 };
   }
   function drawSymFx(s, cx, cy) {
-    if (s.glow <= 0.005 && s.rays <= 0.005) return;
+    if (s.glow <= 0.005 && s.rays <= 0.005 || !fx('glow')) return;
     const C = L.cell;
     g.save(); g.globalCompositeOperation = 'lighter';
-    if (s.rays > 0.005) FX.sunburst(g, cx, cy, C * 0.82, 12, ambientClock * (s.sym === S.WILD ? -0.5 : 0.6), SYM_GLOW[s.sym], s.rays * s.alpha);
     if (s.glow > 0.005) glowAt(cx, cy, C * 0.6, SYM_GLOW[s.sym], 0.5 * s.glow * s.alpha);
     g.restore();
   }
@@ -907,7 +1001,7 @@
       g.restore();
       if (Math.random() < 0.6) pWorld.add({ x: x + rnd(0, C), y: L.gy + L.gh, vy: -rnd(200, 420), max: rnd(0.6, 1.1), size: rnd(14, 28), img: SPR.sparkCyan, add: true });
     }
-    if (GLOK) {
+    if (glOn()) {
       const list = [];
       for (let r = 0; r < REELS; r++) {
         const R = reels[r];
@@ -1024,7 +1118,7 @@
       g.shadowColor = 'rgba(255,90,230,0.9)'; g.shadowBlur = 18; g.stroke();
       g.restore();
     }
-    if (GLOK) {
+    if (glOn()) {
       const list = [];
       for (const [r, y] of cells) {
         const c = cellCenter(r, y);
@@ -1193,7 +1287,7 @@
       if (dur > 0.55) SFX.countStart(65);
       await waitSkip(dur);
       SFX.countStop();
-      st.plaque.value = amount; st.plaque.dur = 0;
+      if (st.plaque) { st.plaque.value = amount; st.plaque.dur = 0; }
       setMsg('WIN ' + fmt(amount));
     }
     if (!opts.fs) { st.lastWin = st.shownMicro / 1000000; ui(); }
@@ -1252,7 +1346,7 @@
     });
     SFX.countStop();
     st.bw.done = true; st.bw.doneT = clock;
-    SFX.play('winMed');
+    SFX.play('bigWinEnd', maxTier);
     await waitSkip(turbo() ? RESULT_HOLD : 0.3, RESULT_HOLD);
     await tween(0.12, u => { if (st.bw) st.bw.out = u; }, true);
     st.bw = null;
@@ -1270,22 +1364,20 @@
     const cx = L.center.x, cy = L.center.y - (L.portrait ? 60 : 30);
     const tierCols = ['255,210,90', '255,110,230', '255,90,50'];
     g.save(); g.globalAlpha = fade;
-    FX.sunburst(g, cx, cy, 760, 18, ambientClock * 0.25, tierCols[bw.tier], 0.32);
-    FX.sunburst(g, cx, cy, 560, 12, -ambientClock * 0.4, '255,255,255', 0.12);
     g.globalCompositeOperation = 'lighter';
-    glowAt(cx, cy, 420, tierCols[bw.tier], 0.5);
+    glowAt(cx, cy, 460, tierCols[bw.tier], 0.32);
     g.restore();
     setScreen(); pTop.draw(g); setWorld();
     const img = [IMG.big, IMG.mega, IMG.epic][bw.tier];
     const pu = clamp((clock - bw.tierT) / 0.7, 0, 1);
-    const sc = (0.2 + 0.8 * Ease.outElastic(pu)) * (1 + 0.03 * Math.sin(ambientClock * 4)) * (1 - out * 0.3);
+    const sc = (0.6 + 0.4 * Ease.outBack(pu)) * (1 - out * 0.3);
     const w = (L.portrait ? 760 : 720) * sc, h = w * img.height / img.width;
     g.save(); g.globalAlpha = fade;
     drawShiny(img, cx - w / 2, cy - h / 2 - 40, w, h, (ambientClock * 0.5) % 1.4);
     const n = fmt(bw.shown, bw.shown < bw.amount ? 2 : undefined);
     const ts = (L.portrait ? 110 : 104) * (bw.done ? 1 + 0.06 * Math.sin((clock - bw.doneT) * 8) * Math.exp(-(clock - bw.doneT) * 2) : 1);
-    text(n, cx, cy + h / 2 + 30, ts, { grad: GOLD, sw: 0.16, strokeColor: '#2a0e00', glow: 'rgba(255,190,60,0.8)' });
-    if (!bw.done) text('TAP TO SKIP', cx, cy + h / 2 + 120, 26, { color: 'rgba(255,255,255,0.6)', sw: 0.15 });
+    text(n, cx, cy + h / 2 + 30, ts, { grad: GOLD, weight: 700 });
+    if (!bw.done) label('TAP TO SKIP', cx, cy + h / 2 + 116, 18, 'rgba(233,241,248,0.7)');
     g.restore();
     // coin fountain (screen space particles)
     const rate = [24, 44, 70][bw.tier] * (bw.done ? 0.35 : 1) * (1 - out);
@@ -1367,7 +1459,7 @@
     const b = st.round.amount / 1000000;
     const award = displayAward(playback.bonusUnits);
     const amount = award.amount / 1000000;
-    if (award.capped) sub = 'MAX WIN REACHED!';
+    if (award.capped) sub = 'Max win reached';
     clearWin();
     st.panel = { kind: 'outro', t0: clock, title: titleKey, total: amount, shown: 0, sub };
     SFX.duck(true);
@@ -1375,6 +1467,7 @@
     if (amount > 0) SFX.countStart(55);
     await tween(turbo() ? 0.25 : 0.7, u => { if (st.panel) st.panel.shown = amount * Ease.outCubic(u); }, true);
     SFX.countStop();
+    if (amount > 0) SFX.play('bigWinEnd', amount / b >= M.MEGA_WIN ? 2 : 1);
     if (st.panel) st.panel.shown = amount;
     await waitPanelClick(st.auto > 0 ? 0.3 : 10, RESULT_HOLD);
     SFX.duck(false);
@@ -1419,9 +1512,9 @@
     });
     await introPanel('t_kraken', [
       { t: `${ks.left} FREE SPINS`, size: 84, grad: GOLD },
-      { t: sup ? 'SUPER: A x2 STICKY WILD IS ALREADY WAITING' : 'EVERY SQUID WILD BECOMES STICKY', size: 30, grad: CYAN },
-      { t: 'WITH A x2, x3 OR x5 MULTIPLIER', size: 30, grad: PINK },
-      { t: `EVERY ${M.TUNE.rageMax} WILDS THE KRAKEN AWAKENS: ALL WILDS +1 AND +${M.TUNE.rageSpins} SPINS`, size: 22, color: '#ffd9e4' },
+      { t: sup ? 'Super: a x2 sticky wild is already waiting' : 'Every squid wild becomes sticky', size: 30, grad: CYAN },
+      { t: 'With a x2, x3 or x5 multiplier', size: 30, grad: PINK },
+      { t: `Every ${M.TUNE.rageMax} wilds the Kraken wakes: all wilds +1 and +${M.TUNE.rageSpins} spins`, size: 22, color: '#ffd9e4' },
     ]);
     const fs = st.fs;
     if (ks.preset) await lockWilds([ks.preset], true);
@@ -1463,7 +1556,7 @@
       await wait(turbo() ? 0.25 : 0.55);
     }
     clearWin();
-    return finishBonus(fs.totalUnits, 't_kraken', `IN ${fs.played} FREE SPINS`);
+    return finishBonus(fs.totalUnits, 't_kraken', capped ? 'Max win reached' : `In ${fs.played} free spins`);
   }
   async function awaken(times, extra, ks) {
     st.awaken = { t0: clock };
@@ -1518,32 +1611,40 @@
     g.fillStyle = `rgba(${sc.dim},${0.74 * fade})`; g.fillRect(0, 0, L.W, L.H);
     setWorld();
     const cx = L.center.x, cy = L.center.y - 20;
+    const lines = p.kind === 'intro' ? (p.lines || []) : [];
+    // the title sits across the card's top edge; the body flows below the part of it that hangs into the card
+    const img = IMG[p.title] || IMG.fs, pu = clamp(t / 0.6, 0, 1);
+    const w0 = L.portrait ? 600 : 520, head = w0 * img.height / img.width * 0.38;
+    const btn = p.kind === 'intro'
+      ? head + 34 + (lines.length > 1 ? 56 + (lines.length - 2) * 40 : 0) + 64
+      : head + 30 + (p.sub ? 210 : 174);
+    const cw = L.portrait ? 760 : 700, ch = btn + 44;
+    const top = cy - ch / 2 + 40, rise = (1 - Ease.outCubic(clamp(t / 0.45, 0, 1))) * 30;
     g.save(); g.globalAlpha = fade;
-    FX.sunburst(g, cx, cy - 120, 700, 16, ambientClock * 0.2, sc.ray, 0.25);
-    const img = IMG[p.title] || IMG.fs, pu = clamp(t / 0.8, 0, 1);
-    const w = (L.portrait ? 720 : 620) * (0.3 + 0.7 * Ease.outElastic(pu)), h = w * img.height / img.width;
-    drawShiny(img, cx - w / 2, cy - 150 - h / 2, w, h, (ambientClock * 0.45) % 1.4);
+    card(cx - cw / 2, top + rise, cw, ch, 22);
+    const w = w0 * (0.7 + 0.3 * Ease.outBack(pu)), h = w * img.height / img.width;
+    g.drawImage(img, cx - w / 2, top + rise + head - h, w, h);
     g.restore();
     setScreen(); pTop.draw(g); setWorld();
     g.save(); g.globalAlpha = fade;
-    const blink = 0.55 + 0.45 * Math.sin(ambientClock * 5);
+    const breathe = 1 + 0.02 * Math.sin(ambientClock * 3);
     if (p.kind === 'intro') {
-      let y = cy + 40;
-      (p.lines || []).forEach((ln, i) => {
-        const u = clamp((t - 0.3 - i * 0.12) / 0.4, 0, 1);
+      let y = top + rise + head + 34;
+      lines.forEach((ln, i) => {
+        const u = clamp((t - 0.25 - i * 0.1) / 0.35, 0, 1);
         g.save(); g.globalAlpha = fade * u;
-        text(ln.t, cx, y + (1 - u) * 20, ln.size, ln.grad ? { grad: ln.grad, sw: 0.17, strokeColor: '#1a0612' } : { color: ln.color || '#fff', sw: 0.2 });
+        if (i === 0) text(ln.t, cx, y, 50, { grad: GOLD, weight: 700 });
+        else text(ln.t, cx, y, 24, { color: i === 1 ? CREAM : '#c9d8e6', copy: true, weight: 700 });
         g.restore();
-        y += ln.size * 1.15 + 8;
+        y += i === 0 ? 56 : 40;
       });
-      g.globalAlpha = fade * blink;
-      text('TAP TO START', cx, Math.max(y + 34, cy + 290), 36, { color: '#fff', sw: 0.18 });
+      pill('TAP TO START', cx, top + rise + ch - 44, 26 * breathe, fade);
     } else {
-      text('BONUS COMPLETE', cx, cy + 20, 46, { grad: CYAN, sw: 0.18 });
-      text(fmt(p.shown, p.shown < p.total ? 2 : undefined), cx, cy + 110, 110, { grad: GOLD, sw: 0.15, strokeColor: '#2a0600', glow: 'rgba(255,190,60,0.8)' });
-      if (p.sub) text(p.sub, cx, cy + 190, 32, { color: '#ffe9d9', sw: 0.18 });
-      g.globalAlpha = fade * blink;
-      text('TAP TO CONTINUE', cx, cy + 270, 34, { color: '#fff', sw: 0.18 });
+      const y0 = top + rise + head + 30;
+      label('BONUS COMPLETE', cx, y0, 18, BRASS_HI);
+      text(fmt(p.shown, p.shown < p.total ? 2 : undefined), cx, y0 + 76, 96, { grad: GOLD, weight: 700 });
+      if (p.sub) text(p.sub, cx, y0 + 150, 24, { color: '#c9d8e6', copy: true, weight: 700 });
+      pill('TAP TO CONTINUE', cx, top + rise + ch - 44, 26 * breathe, fade);
       if (p.shown < p.total && Math.random() < 0.5) spawnFountainCoin();
     }
     g.restore();
@@ -1551,17 +1652,10 @@
 
   // ---------- HUD ----------
   function hudPanel(x, y, w, h, label, value, grad, pulse) {
-    g.save();
-    g.shadowColor = 'rgba(0,0,0,0.5)'; g.shadowBlur = 20;
-    rr(x - w / 2, y - h / 2, w, h, 22);
-    const pg = g.createLinearGradient(0, y - h / 2, 0, y + h / 2);
-    pg.addColorStop(0, mixColor([16, 56, 88, 0.92], [96, 14, 34, 0.92], st.bonusMix)); pg.addColorStop(1, mixColor([4, 18, 34, 0.94], [32, 4, 12, 0.94], st.bonusMix));
-    g.fillStyle = pg; g.fill();
-    g.restore();
-    g.lineWidth = 4; g.strokeStyle = '#e7b453'; rr(x - w / 2, y - h / 2, w, h, 22); g.stroke();
-    g.lineWidth = 2; g.strokeStyle = 'rgba(255,240,190,0.4)'; rr(x - w / 2 + 6, y - h / 2 + 6, w - 12, h - 12, 17); g.stroke();
-    text(label, x, y - h * 0.24, 22, { color: '#ffd9a8', sw: 0.2 });
-    text(value, x, y + h * 0.14, 46 * (pulse || 1), { grad: grad || GOLD, sw: 0.18 });
+    const labelText = (str, lx, ly, sz, col) => drawLabel(str, lx, ly, sz, col);
+    plate(IMG.ui_plate, x - w / 2, y - h / 2, w, h, 34);
+    labelText(label, x, y - h * 0.24, 15, BRASS_HI);
+    text(value, x, y + h * 0.14, 44 * (pulse || 1), { grad: grad || GOLD, weight: 700 });
   }
   function drawHud() {
     if (st.fs) {
@@ -1573,46 +1667,158 @@
       // count of sticky wilds
       let n = 0, sum = 0;
       for (const c of fs.show) for (const m of c) if (m) { n++; sum += m; }
-      if (n && !L.portrait) text(`${n} STICKY WILD${n > 1 ? 'S' : ''} · x${sum} TOTAL`, L.hudR.x, L.hudR.y + 100, 20, { grad: PINK, sw: 0.2 });
+      if (n && !L.portrait) label(`${n} STICKY WILD${n > 1 ? 'S' : ''} · x${sum} TOTAL`, L.hudR.x, L.hudR.y + 100, 15, '#ff9fdc');
       // Kraken rage meter
       const rx = L.hudL.x, ry = L.hudL.y + (L.portrait ? 112 : 118), max = M.TUNE.rageMax;
-      text('KRAKEN RAGE', rx, ry - 30, 20, { grad: RED, sw: 0.22 });
+      label('KRAKEN RAGE', rx, ry - 30, 15, '#ffab88');
       for (let k = 0; k < max; k++) {
         const on = k < (fs.rage || 0), x = rx + (k - (max - 1) / 2) * 56;
         const pop = on && k === fs.rage - 1 ? 1 + 0.5 * Math.max(0, 1 - (clock - fs.rageT) / 0.4) : 1;
         g.save();
-        if (on) { g.globalCompositeOperation = 'lighter'; glowAt(x, ry, 34 * pop, '255,80,40', 0.7 + 0.2 * Math.sin(clock * 8 + k)); g.globalCompositeOperation = 'source-over'; }
-        g.fillStyle = on ? '#ff6a3a' : 'rgba(255,255,255,0.12)';
-        g.beginPath(); g.arc(x, ry, 15 * pop, 0, TAU); g.fill();
-        g.lineWidth = 3; g.strokeStyle = on ? '#ffd9b0' : 'rgba(255,200,180,0.35)'; g.stroke();
+        if (on) { g.globalCompositeOperation = 'lighter'; glowAt(x, ry, 26 * pop, '255,80,40', 0.35); g.globalCompositeOperation = 'source-over'; }
+        g.fillStyle = on ? '#f2593c' : 'rgba(255,255,255,0.1)';
+        g.beginPath(); g.arc(x, ry, 13 * pop, 0, TAU); g.fill();
+        g.lineWidth = 1.5; g.strokeStyle = on ? '#ffd9c8' : LINE; g.stroke();
         g.restore();
       }
     }
   }
 
+  // ---------- reel frame ----------
+  // Frosted glass: the scene behind a panel shows through it, blurred, under a light tint.
+  const BGP = { im: null, x: 0, y: 0, w: 0, h: 0, k: 0 };   // where drawBackground put the scene plate this frame (screen px)
+  const BLURRED = new Map();
+  // the light colour inside the reel window: sea blue, warming to red as the bonus builds
+  const reelLight = k => `${Math.round(lerp(150, 255, k))},${Math.round(lerp(225, 120, k))},${Math.round(lerp(255, 100, k))}`;
+  // The parts of the frame that never change, drawn once per layout into two canvases at device resolution:
+  // layer 0 the drop shadow under the frame, layer 1 the brass rim and its rivets.
+  let frameCache = null;
+
+  function blurred(im) {
+    let c = BLURRED.get(im);
+    if (!c) {
+      // two halvings, the last one through a small blur: a light frost (the scene stays recognisable) that is cheap to
+      // draw every frame
+      let src = im, w = im.width, h = im.height;
+      for (let i = 0; i < 2; i++) {
+        w = Math.max(1, w >> 1); h = Math.max(1, h >> 1);
+        const c2 = FX.canvas(w, h), x2 = c2.getContext('2d');
+        x2.imageSmoothingQuality = 'high';
+        if (i === 1 && 'filter' in x2) x2.filter = 'blur(2.5px)';
+        x2.drawImage(src, 0, 0, w, h);
+        src = c2;
+      }
+      c = src; BLURRED.set(im, c);
+    }
+    return c;
+  }
+
+  // traces the panel with path() (world space), shows the blurred scene inside it, then fills it with tint(y0, y1)
+  function frost(path, y0, y1, stops) {
+    if (BGP.im && fx('frost')) {
+      g.save(); path(); g.clip(); setScreen();
+      g.drawImage(blurred(BGP.im), BGP.x, BGP.y, BGP.w, BGP.h);
+      if (BGP.k > 0.001 && IMG.bgBonus) { g.globalAlpha = BGP.k; g.drawImage(blurred(IMG.bgBonus), BGP.x, BGP.y, BGP.w, BGP.h); }
+      g.restore();
+    }
+    path();
+    const gr = g.createLinearGradient(0, y0, 0, y1);
+    stops.forEach((c, i) => gr.addColorStop(i / (stops.length - 1), c));
+    g.fillStyle = gr; g.fill();
+    // a faint sheen across the top of the glass
+    path();
+    const sh = g.createLinearGradient(0, y0, 0, y0 + (y1 - y0) * 0.35);
+    sh.addColorStop(0, 'rgba(255,255,255,0.10)'); sh.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = sh; g.fill();
+  }
+
+  function drawFrameCache(layer) {
+    const { gx, gy, gw, gh } = L, pad = 22, m = 40;
+    const ox = gx - pad, oy = gy - pad, ow = gw + pad * 2, oh = gh + pad * 2;
+    const K = L.s * L.dpr, x0 = ox - m, y0 = oy - m, w = ow + m * 2, h = oh + m * 2;
+    if (!frameCache) {
+      frameCache = [0, 1].map(i => {
+        const c = FX.canvas(Math.ceil(w * K), Math.ceil(h * K)), x = c.getContext('2d');
+        x.setTransform(K, 0, 0, K, -x0 * K, -y0 * K);
+        const old = g; g = x;
+        if (i === 0) drawFrameShadow(ox, oy, ow, oh); else drawFrameRim(ox, oy, ow, oh, pad);
+        g = old;
+        return c;
+      });
+    }
+    g.drawImage(frameCache[layer], x0, y0, w, h);
+  }
+
+  function drawFrameShadow(ox, oy, ow, oh) {
+    g.save();
+    g.shadowColor = 'rgba(0,0,0,0.5)';
+    g.shadowBlur = 30; g.shadowOffsetY = 10;
+    rr(ox, oy, ow, oh, 30); g.fillStyle = 'rgba(0,0,0,0.4)'; g.fill();
+    g.restore();
+  }
+
+  function drawFrameRim(ox, oy, ow, oh, pad) {
+    const { gx, gy, gw, gh } = L;
+    // brass rim (even-odd ring)
+    g.beginPath();
+    rrPath(ox, oy, ow, oh, 30); rrPath(gx - 6, gy - 6, gw + 12, gh + 12, 16);
+    const bg = g.createLinearGradient(0, oy, 0, oy + oh);
+    bg.addColorStop(0, '#fff0b0'); bg.addColorStop(0.12, '#e8b54a'); bg.addColorStop(0.5, '#9a5f18'); bg.addColorStop(0.85, '#e0a540'); bg.addColorStop(1, '#5c3308');
+    g.fillStyle = bg; g.fill('evenodd');
+    g.lineWidth = 3; g.strokeStyle = '#3a1d04';
+    rr(ox, oy, ow, oh, 30); g.stroke();
+    rr(gx - 6, gy - 6, gw + 12, gh + 12, 16); g.stroke();
+    g.lineWidth = 2; g.strokeStyle = 'rgba(255,240,190,0.55)';
+    rr(ox + 5, oy + 5, ow - 10, oh - 10, 25); g.stroke();
+    // rivets
+    const rivet = (x, y) => {
+      const rg = g.createRadialGradient(x - 2, y - 2, 0, x, y, 7);
+      rg.addColorStop(0, '#fff6d0'); rg.addColorStop(0.5, '#c88a2c'); rg.addColorStop(1, '#3a1d04');
+      g.fillStyle = rg; g.beginPath(); g.arc(x, y, 6, 0, TAU); g.fill();
+    };
+    for (let x = ox + 46; x < ox + ow - 30; x += 64) { rivet(x, oy + pad / 2 + 1); rivet(x, oy + oh - pad / 2 - 1); }
+    for (let y = oy + 60; y < oy + oh - 40; y += 64) { rivet(ox + pad / 2 + 1, y); rivet(ox + ow - pad / 2 - 1, y); }
+  }
+
+  // the halo alone (the logo's blurred shadow), rendered once per logo and size
+  let haloCache = null;
+  function logoHalo(img, w, h) {
+    const K = L.s * L.dpr, m = 30;
+    if (!haloCache || haloCache.img !== img || haloCache.key !== `${w}|${h}|${K}`) {
+      const c = FX.canvas(Math.ceil((w + m * 2) * K), Math.ceil((h + m * 2) * K)), x = c.getContext('2d');
+      x.scale(K, K);
+      x.shadowColor = 'rgba(8,0,28,0.55)'; x.shadowBlur = 22; x.shadowOffsetX = 10000 * K;
+      x.drawImage(img, m - 10000, m, w, h);     // drawn off the canvas so only its shadow lands
+      haloCache = { img, key: `${w}|${h}|${K}`, c, m };
+    }
+    return haloCache;
+  }
+
   function drawLogo() {
-    const lg = L.logo, img = st.scene === 'kraken' && IMG.t_kraken.width ? IMG.t_kraken : IMG.logo;
+    const t = st.scene === 'kraken' && IMG.t_kraken, lg = L.logo, img = t && t.width ? t : IMG.logo;
     if (!img.width) return;
-    const shrink = st.fs ? 0.86 : 1;
-    const w = lg.w * shrink, h = w * img.height / img.width;
-    const y = lg.y + Math.sin(ambientClock * 1.2) * 5 - (st.fs ? 6 : 0);
-    const sh = (ambientClock % 7) / 1.4;
+    const k = Math.min(lg.w / img.width, lg.h / img.height) * (st.fs ? 0.86 : 1);
+    const w = img.width * k, h = img.height * k;
+    const y = lg.y + Math.sin(ambientClock * 0.9) * 2 - (st.fs ? 6 : 0);
+    const sh = (ambientClock % 9) / 1.4;
+    // a soft dark halo separates the logo from the bright sea surface behind it
+    const halo = logoHalo(img, w, h), m = halo.m;
+    g.drawImage(halo.c, lg.x - w / 2 - m, y - h / 2 - m + 6, w + m * 2, h + m * 2);
     drawShiny(img, lg.x - w / 2, y - h / 2, w, h, sh);
   }
 
   function drawMessage() {
     const m = st.msg;
-    if (!m.text) return;
+    // the big-win screen has its own skip hint where the message sits, and the see-through buy menu covers it
+    if (!m.text || st.bw || (openModal && openModal.id === 'mBuy')) return;
     const a = Math.min(1, (clock - m.t0) / 0.25);
     g.save(); g.globalAlpha = a;
-    const size = L.portrait ? 34 : 32;
-    g.font = `${size}px "Lilita One", sans-serif`;
-    const tw = g.measureText(m.text).width + 70;
+    const size = L.portrait ? 28 : 24;
+    g.font = `600 ${size}px "Fredoka", sans-serif`;
+    const th = size * 2.2, tw = g.measureText(m.text).width + th * 2;
     const y = L.msgY + (1 - a) * 8;
-    const bgr = g.createLinearGradient(L.DW / 2 - tw / 2, 0, L.DW / 2 + tw / 2, 0);
-    bgr.addColorStop(0, 'rgba(0,0,0,0)'); bgr.addColorStop(0.15, 'rgba(2,10,22,0.7)'); bgr.addColorStop(0.85, 'rgba(2,10,22,0.7)'); bgr.addColorStop(1, 'rgba(0,0,0,0)');
-    g.fillStyle = bgr; g.fillRect(L.DW / 2 - tw / 2, y - size * 0.8, tw, size * 1.6);
-    text(m.text, L.DW / 2, y, size, { grad: m.grad, sw: 0.2 });
+    nameplate(IMG.ui_tag, L.DW / 2 - tw / 2, y - th / 2, tw, th);
+    text(m.text, L.DW / 2, y + 1, size, { color: m.grad ? m.grad[1] : CREAM, shadow: false });
     g.restore();
   }
 
@@ -1625,15 +1831,13 @@
     if (fadeOut <= 0) { st.plaque = null; return; }
     const a = Math.min(1, age / 0.15) * fadeOut;
     const cx = L.gx + L.gw / 2, cy = L.gy + L.gh / 2;
-    const pop = 1 + 0.25 * Math.max(0, 1 - age / 0.25);
+    const pop = 1 + 0.1 * Math.max(0, 1 - age / 0.25);
     g.save(); g.globalAlpha = a;
-    const bw = 520, bh = 120;
-    const gr = g.createLinearGradient(cx - bw / 2, 0, cx + bw / 2, 0);
-    gr.addColorStop(0, 'rgba(10,2,24,0)'); gr.addColorStop(0.2, 'rgba(10,2,24,0.78)'); gr.addColorStop(0.8, 'rgba(10,2,24,0.78)'); gr.addColorStop(1, 'rgba(10,2,24,0)');
-    g.fillStyle = gr; g.fillRect(cx - bw / 2, cy - bh / 2, bw, bh);
-    g.fillStyle = 'rgba(255,210,100,0.8)';
-    g.fillRect(cx - bw * 0.35, cy - bh / 2, bw * 0.7, 2); g.fillRect(cx - bw * 0.35, cy + bh / 2 - 2, bw * 0.7, 2);
-    text(fmt(val, val < p.target ? 2 : undefined), cx, cy + 4, 80 * pop, { grad: GOLD, sw: 0.16, strokeColor: '#2a0e00', glow: 'rgba(255,190,60,0.7)' });
+    g.font = `700 ${72}px "Fredoka", sans-serif`;
+    const bh = 116, bw = Math.max(340, g.measureText(fmt(p.target)).width + bh * 2);
+    g.translate(cx, cy); g.scale(pop, pop);
+    nameplate(IMG.ui_tag, -bw / 2, -bh / 2, bw, bh);
+    text(fmt(val, val < p.target ? 2 : undefined), 0, 3, 68, { grad: GOLD, weight: 700 });
     g.restore();
   }
 
@@ -1647,10 +1851,7 @@
     g.save(); g.globalAlpha = 1 - out;
     const cx = L.gx + L.gw / 2, cy = L.gy + L.gh / 2;
     g.translate(cx, cy); g.rotate(Math.sin(t * 9) * 0.03 * (1 - u)); g.scale(sc, sc);
-    g.globalCompositeOperation = 'lighter';
-    glowAt(0, 0, 420, b.grad === PINK ? '255,80,220' : '100,220,255', 0.45);
-    g.globalCompositeOperation = 'source-over';
-    text(b.text, 0, 0, 104, { grad: b.grad, sw: 0.16, strokeColor: '#1b0430', glow: 'rgba(255,255,255,0.5)' });
+    text(b.text, 0, 0, 96, { grad: b.grad, weight: 700, outline: true, strokeColor: '#0a1426' });
     g.restore();
   }
 
@@ -1668,7 +1869,7 @@
     if (st.scatCeleb >= 0) {
       for (const [r, y] of st.triggerCells) {
         const c = cellCenter(r, y);
-        FX.sunburst(g, c.x, c.y, L.cell * 1.6, 14, clock * 1.2, '160,240,255', 0.45);
+        g.save(); g.globalCompositeOperation = 'lighter'; glowAt(c.x, c.y, L.cell * 0.8, '160,240,255', 0.35 + 0.1 * Math.sin(ambientClock * 3)); g.restore();
       }
     }
     drawReels();
@@ -1718,6 +1919,7 @@
 
   let last = performance.now();
   function frame(now) {
+    adaptQuality(now - last);
     const realElapsed = Math.min(0.05, Math.max(0, (now - last) / 1000));
     last = now;
     clock += realElapsed;
@@ -1888,10 +2090,17 @@
     $('btnRecover').disabled = st.busy;
     sessionDetail();
     syncAudioControls();
-    buyBtn.classList.toggle('hide', !st.ready || st.replayOnly || st.jurisdiction.disabledBuyFeature || st.mode !== 'base' || st.inBonus || (st.busy && st.bonusTarget > 0.5));
+    const buyOpen = !!(openModal && openModal.id === 'mBuy');
+    buyBtn.classList.toggle('hide', !st.ready || st.replayOnly || st.jurisdiction.disabledBuyFeature || st.mode !== 'base' || st.inBonus || (st.busy && st.bonusTarget > 0.5) || buyOpen);
     buyBtn.disabled = locked || !availableBuys.length;
-    el.ante.classList.toggle('hide', !st.ready || st.replayOnly || st.wilds || st.mode !== 'base' || st.inBonus || (st.busy && st.bonusTarget > 0.5));
+    el.ante.classList.toggle('hide', !st.ready || st.replayOnly || st.wilds || st.mode !== 'base' || st.inBonus || (st.busy && st.bonusTarget > 0.5) || buyOpen);
     el.ante.disabled = locked || st.wilds || !modeAvailable(st.ante ? 'base_vault' : 'ante_vault');
+    // the Enhanced Chance card in the bonus buy menu mirrors the switch beside the reels
+    $('anteCard').classList.toggle('active', st.ante);
+    $('anteCardPrice').textContent = M.ANTE_COST + 'x · ' + fmt(bet() * M.ANTE_COST);
+    $('anteAct').textContent = st.ante ? 'Turn off' : 'Activate';
+    $('anteAct').setAttribute('aria-pressed', String(st.ante));
+    $('anteAct').disabled = el.ante.disabled;
   }
 
   let openModal = null, plunging = false;
@@ -1923,11 +2132,13 @@
     openModal = $(id); openModal.hidden = false;
     const f = openModal.querySelector('.btn.gold, .chips .btn, .x');
     if (f) f.focus();
+    ui();
   }
   function closeModal() {
     if (!openModal || plunging) return;
     if (openModal.id === 'mBuy' && !st.busy) { st.bonusTarget = 0; constrainBet(modeName(false)); ui(); }
     openModal.hidden = true; openModal = null;
+    ui();
   }
   document.querySelectorAll('.modal').forEach(m => {
     m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-close]')) { SFX.play('click'); closeModal(); } });
@@ -2066,76 +2277,42 @@
       bt.onclick = () => { SFX.play('click'); closeModal(); startAuto(n); };
       chips.appendChild(bt);
     });
-    const grid = $('buyGrid'), bellEl = $('diveBell'), cableEl = $('diveCable');
+    // ---------- bonus buy: a row of cards, Enhanced Chance first. Picking a card selects it; the bar under the cards
+    // confirms the purchase. ----------
+    const grid = $('buyGrid');
     const BUYS = [
-      { kind: 'vault', title: 't_vault', bg: 'bg_vault', pos: '22% 78%', tint: '255,184,84', depth: 200, vol: 2, volTxt: 'Low', desc: 'Captain\'s Vault: coins, multipliers and extra lives' },
-      { kind: 'wheel', title: 't_wheel', bg: 'bg_helm', pos: '48% 62%', tint: '84,226,214', depth: 900, vol: 4, volTxt: 'High', desc: 'Wheel of the Deep: a bonus, upgraded bonus or cash' },
-      { kind: 'reef', title: 't_reef', bg: 'bg_reef', pos: '58% 60%', tint: '160,128,255', depth: 2400, vol: 4, volTxt: 'High', desc: 'Pearl Reef: Hold &amp; Win with fixed prizes up to 1,000x' },
-      { kind: 'kraken', title: 't_kraken', bg: 'bg_kraken', pos: '76% 30%', tint: '255,72,58', depth: 4000, vol: 5, volTxt: 'Extreme', desc: 'Kraken\'s Wrath: sticky multiplier wilds and Kraken Rage' },
-      { kind: 'wilds', title: 'sym_wild', bg: 'bg_bonus', pos: '50% 50%', tint: '220,130,255', depth: 4500, vol: 5, volTxt: 'Extreme', desc: '6 squid wilds every spin. 50x per spin until turned off. No bonus trigger.' },
+      { kind: 'vault', title: 't_vault', bg: 'bg_vault', vol: 'Low', desc: 'Captain\'s Vault: coins, multipliers and extra lives' },
+      { kind: 'wheel', title: 't_wheel', bg: 'bg_helm', vol: 'High', desc: 'Wheel of the Deep: a bonus, upgraded bonus or cash' },
+      { kind: 'reef', title: 't_reef', bg: 'bg_reef', vol: 'High', desc: 'Pearl Reef: Hold &amp; Win with fixed prizes up to 1,000x' },
+      { kind: 'kraken', title: 't_kraken', bg: 'bg_kraken', vol: 'Extreme', desc: 'Kraken\'s Wrath: sticky multiplier wilds and Kraken Rage' },
+      { kind: 'wilds', title: 'sym_wild', bg: 'bg_bonus', vol: 'Extreme', desc: '6 squid wilds every spin. 50x per spin until turned off. No bonus trigger.' },
     ];
-    const metres = n => n.toLocaleString('en-US');
-    let bellY = 0;
     st.buyKind = st.buyKind || 'vault';
     BUYS.forEach((o, i) => {
       const bt = document.createElement('button');
-      bt.className = 'buyOpt'; bt.dataset.kind = o.kind; bt.dataset.description = o.desc.replace('&amp;', 'and');
+      bt.className = 'buyOpt offer'; bt.dataset.kind = o.kind; bt.dataset.description = o.desc.replace('&amp;', 'and');
       bt.setAttribute('role', 'radio');
-      bt.style.setProperty('--i', i); bt.style.setProperty('--tint', o.tint);
-      bt.innerHTML = `<span class="depth"><b>${metres(o.depth)}</b><small>METRES</small></span>
-        <span class="card">
-          <span class="port"><span class="scene" style="background-image:url(assets/${o.bg}.webp);--pos:${o.pos}"></span><img src="assets/ui_port.webp" alt=""></span>
-          <span class="info"><span class="zone">${BUY_NAMES[o.kind]}</span><img class="ttl" src="assets/${o.title}.webp" alt=""><span class="cost"></span><span class="d">${o.desc}</span></span>
-          <span class="gauge" style="--a:${-90 + (o.vol - 1) / 4 * 180}deg"><svg viewBox="0 0 64 40"><path class="face" d="M2 37A30 30 0 0 1 62 37Z"/><path class="arc" d="M7 35A25 25 0 0 1 57 35"/><path class="tk" d="M7 35A25 25 0 0 1 57 35"/><line class="needle" x1="32" y1="35" x2="32" y2="12"/><circle class="hub" cx="32" cy="35" r="4.5"/></svg><span class="gl">Volatility</span><span class="gv">${o.volTxt}</span></span>
-        </span>`;
+      bt.style.setProperty('--i', i + 1);
+      bt.innerHTML = `<span class="art" style="background-image:url(assets/${o.bg}.webp)"><img src="assets/${o.title}.webp" alt=""></span>
+        <span class="nm">${BUY_NAMES[o.kind]}</span><span class="vol">${o.vol}</span><span class="d">${o.desc}</span><span class="cost"></span>`;
       bt.onclick = () => pickDive(o.kind);
       bt.ondblclick = () => $('buyConfirm').click();
       grid.appendChild(bt);
     });
-    // hang the bathysphere beside the chosen station; 'drop' lowers it from the surface, 'instant' snaps it there
-    function diveSync(mode) {
-      const sel = grid.querySelector('.buyOpt.sel');
+    // the confirm bar names the selected purchase
+    function diveSync() {
       const o = BUYS.find(b => b.kind === st.buyKind);
       if (o) $('diveDepth').textContent = BUY_NAMES[o.kind];
-      if (!sel || $('mBuy').hidden) return;
-      const body = grid.parentElement;
-      if (body.scrollHeight > body.clientHeight + 1 && mode !== 'instant') sel.scrollIntoView({ block: 'nearest', behavior: mode === 'drop' ? 'auto' : 'smooth' });
-      const bh = bellEl.offsetHeight || 110;
-      const y = sel.offsetTop + sel.offsetHeight / 2 - bh * 0.64;
-      const put = yy => { bellY = yy; bellEl.style.transform = `translateY(${yy + 14}px)`; cableEl.style.height = Math.max(0, yy + 20) + 'px'; };
-      bellEl.style.transitionDuration = cableEl.style.transitionDuration = mode === 'drop' ? '1.25s' : '';
-      if (mode === 'instant' || mode === 'drop') {
-        bellEl.style.transition = cableEl.style.transition = 'none';
-        put(mode === 'drop' ? -bh - 70 : y);
-        void bellEl.offsetWidth;
-        bellEl.style.transition = cableEl.style.transition = '';
-        if (mode === 'drop') bellEl.style.transitionDuration = cableEl.style.transitionDuration = '1.25s';
-        if (mode === 'instant') return;
-      }
-      put(y);
-    }
-    function bubbleTrail(n) {
-      const host = grid.closest('.divePanel'), r = bellEl.getBoundingClientRect(), p = host.getBoundingClientRect();
-      for (let i = 0; i < (n || 10); i++) {
-        const b = document.createElement('i'), s = 4 + Math.random() * 9;
-        b.className = 'bub';
-        b.style.cssText = `left:${r.left - p.left + r.width * (0.15 + Math.random() * 0.7)}px;top:${r.top - p.top + r.height * (0.35 + Math.random() * 0.55)}px;width:${s}px;height:${s}px;--dx:${(Math.random() - 0.5) * 46}px;animation-delay:${Math.random() * 0.45}s;animation-duration:${1 + Math.random() * 0.9}s`;
-        host.appendChild(b);
-        setTimeout(() => b.remove(), 2600);
-      }
     }
     function pickDive(kind, focus) {
       if (st.busy || plunging || !modeAvailable(modeName(true, kind))) return;
-      const idx = BUYS.findIndex(b => b.kind === kind);
       if (focus) grid.querySelector(`[data-kind="${kind}"]`).focus();
       if (kind === st.buyKind || plunging) return;
-      bubbleTrail(8);
       st.buyKind = kind;
       constrainBet(modeName(true, kind));
       ui(); diveSync();
-      SFX.play('winch'); SFX.play('sonar', idx);
+      SFX.play('cardHover');
     }
-    window.addEventListener('resize', () => diveSync('instant'));
     el.ante.onclick = () => {
       if (el.ante.disabled || st.busy || st.mode !== 'base' || st.inBonus) return;
       SFX.init(); SFX.resume();
@@ -2145,6 +2322,7 @@
       if (st.ante) toast('Enhanced Chance on: separate bonus outcome table');
       save(); ui();
     };
+    $('anteAct').onclick = () => el.ante.onclick();
     function openDive() {
       if (st.busy || st.mode !== 'base' || !st.connected || st.replayOnly) return;
       if (st.jurisdiction.disabledBuyFeature) return;
@@ -2156,10 +2334,8 @@
       constrainBet(modeName(true, st.buyKind));
       SFX.init(); SFX.resume(); SFX.play('click'); SFX.play('swoosh');
       st.bonusTarget = 0.7;
-      ui();
       showModal('mBuy');
-      diveSync('drop');
-      setTimeout(() => { if (openModal && openModal.id === 'mBuy') SFX.play('sonar', BUYS.findIndex(b => b.kind === st.buyKind)); }, 900);
+      diveSync();
     }
     buyBtn.onclick = openDive;
     $('buyConfirm').onclick = () => {
@@ -2171,65 +2347,44 @@
       const m = $('mBuy'), still = matchMedia('(prefers-reduced-motion: reduce)').matches;
       plunging = true;
       ui();
-      bubbleTrail(16);
       m.classList.add('plunge');
-      bellEl.style.transform = `translateY(${bellY + innerHeight + 200}px)`;
-      cableEl.style.height = (innerHeight * 2) + 'px';
       setTimeout(() => {
         plunging = false;
         stopAuto();
         doSpin({ buy: true, buyKind: st.buyKind });
         closeModal();
         m.classList.remove('plunge');
-      }, still ? 0 : 740);
+      }, still ? 0 : 420);
     };
     document.addEventListener('pointerup', e => { const b = e.target.closest && e.target.closest('button'); if (b) setTimeout(() => b.blur(), 0); });
     window.addEventListener('resize', layout);
     window.addEventListener('orientationchange', () => setTimeout(layout, 200));
   }
 
-  // ---------- intro / loading screen ----------
-  function introSlides() {
-    const slides = [...document.querySelectorAll('#loader .slide')], dots = [...document.querySelectorAll('#introDots button')], cap = $('introCap');
-    const CAPS = ['WIN UP TO 5,000X BET', 'STICKY WILDS UP TO X5', '3 SQUIDS · COIN BONUS', 'SQUAD ATTACK ON BASE SPINS'];
-    let i = 0, timer = 0;
-    const show = k => {
-      i = (k + slides.length) % slides.length;
-      slides.forEach((s, j) => s.classList.toggle('on', j === i));
-      dots.forEach((d, j) => { d.classList.toggle('on', j === i); d.setAttribute('aria-current', j === i ? 'true' : 'false'); });
-      cap.textContent = CAPS[i];
-      cap.classList.remove('pop'); void cap.offsetWidth; cap.classList.add('pop');
-    };
-    const run = () => { clearInterval(timer); timer = setInterval(() => show(i + 1), 3800); };
-    dots.forEach((d, j) => { d.onclick = () => { show(j); run(); }; });
-    show(0); run();
-    return () => clearInterval(timer);
-  }
-
+  
   // ---------- boot ----------
   async function boot() {
     bindUI();
     layout();
     ui();
-    const loader = $('loader'), start = $('btnStart'), ring = loader.querySelector('.ring .fg'), pct = $('introPct'), skipBox = $('introSkip');
+    const loader = $('loader'), start = $('btnStart'), fill = $('introFill'), pct = $('introPct'), skipBox = $('introSkip');
     let skipIntro = false;
     try { skipIntro = localStorage.getItem('ss_skipIntro') === '1'; } catch (e) { /* storage unavailable */ }
     skipBox.checked = skipIntro;
     skipBox.onchange = () => { try { localStorage.setItem('ss_skipIntro', skipBox.checked ? '1' : '0'); } catch (e) { /* ignore */ } };
     if (skipIntro) loader.classList.add('quick');
-    const stopSlides = introSlides();
-    const progress = p => { ring.style.strokeDashoffset = (289.03 * (1 - p)).toFixed(1); pct.textContent = Math.round(p * 100) + '%'; };
+    const progress = p => { fill.style.width = (100 * p).toFixed(1) + '%'; pct.textContent = `Loading ${Math.round(p * 100)}%`; };
     progress(0);
     await loadAll(p => progress(p * 0.9));
-    try { await document.fonts.load('40px "Lilita One"'); } catch (e) { /* font optional */ }
+    try { await Promise.all(['600 40px "Fredoka"', '700 40px "Fredoka"', '800 20px "Nunito"'].map(f => document.fonts.load(f))); } catch (e) { /* fonts optional */ }
     FX.buildSprites();
     buildSymbols();
     buildSquad();
     GLOK = !!(window.SymGL && SymGL.init(SYM));
+    if (!GLOK) { Q.lite = true; Q.scale = 0.7; layout(); }   // no usable GPU: start light and let the controller tune it
     SeaLife.init(IMG);
     SeaLife.resize(L.W, L.H);
-    causticTile = FX.causticTile(200, 14);
-    causticPat = g.createPattern(causticTile, 'repeat');
+    dapplePat = g.createPattern(FX.dappleTile(256, 16), 'repeat');
     initReels();
     progress(1);
     layout();
@@ -2240,10 +2395,9 @@
       acceptConfiguration(state);
       st.round = state.round;
       $('launchHint').textContent = state.replayOnly ? 'Recorded round replay · no wager is placed' : state.demo ? 'Local demo · play-money credits only' : 'Connected to your game session';
-    } catch (error) { stopSlides(); showEngineError(error); return; }
+    } catch (error) { showEngineError(error); return; }
     const enter = withSound => {
       if (st.ready) return;
-      stopSlides();
       if (withSound) { SFX.init(); SFX.resume(); SFX.startMusic('base'); SFX.play('fsStart'); }
       loader.classList.add('gone');
       st.ready = true;
@@ -2274,9 +2428,10 @@
   const BON = window.Bonuses({
     M, FX, SFX, IMG, SYM, st, L, g, clock: () => clock, ambientClock: () => ambientClock, wait, waitSkip, tween, setMsg, text, rr, glowAt, drawShiny, drawArms, pWorld, pTop,
     setScreen, setWorld, fmt, turbo, cellCenter, spawnFountainCoin, enterScene, exitScene, introPanel, finishBonus, hudPanel, checkpoint, bonusUnits: () => playback.bonusUnits,
-    GOLD, PINK, CYAN, RED, RESULT_HOLD,
+    card, pill, label, plate, nameplate, fx,
+    GOLD, PINK, CYAN, RED, CREAM, MUTED, BRASS, BRASS_HI, LINE, RESULT_HOLD,
   });
 
-  if (DEBUG) window.__ss = { st, reels, get session() { return session; }, get gl() { return GLOK; }, set gl(v) { GLOK = v && window.SymGL && SymGL.ok; }, get clock() { return clock; }, bench(n) { const t0 = performance.now(); for (let i = 0; i < n; i++) { clock += 1 / 60; update(1 / 60); render(); } g.getImageData(0, 0, 1, 1); return (performance.now() - t0) / n; }, step(n) { for (let i = 0; i < n; i++) { clock += 1 / 60; update(1 / 60); render(); } }, spin: () => onSpinPress(), buy: kind => doSpin({ buy: true, buyKind: kind }), select: selectDive, recover: recoverSession, bon: () => BON };
+  if (DEBUG) window.__ss = { st, reels, Q, relayout: () => layout(), get session() { return session; }, get gl() { return glOn(); }, set gl(v) { GLOK = v && window.SymGL && SymGL.ok; }, get clock() { return clock; }, bench(n) { const t0 = performance.now(); for (let i = 0; i < n; i++) { clock += 1 / 60; update(1 / 60); render(); } g.getImageData(0, 0, 1, 1); return (performance.now() - t0) / n; }, step(n) { for (let i = 0; i < n; i++) { clock += 1 / 60; update(1 / 60); render(); } }, spin: () => onSpinPress(), buy: kind => doSpin({ buy: true, buyKind: kind }), select: selectDive, recover: recoverSession, bon: () => BON };
   boot().catch(showEngineError);
 })();

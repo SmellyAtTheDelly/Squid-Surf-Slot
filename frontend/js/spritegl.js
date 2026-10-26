@@ -41,8 +41,8 @@ uniform float u_alpha;
 varying vec2 v_uv;
 void main() { gl_FragColor = texture2D(u_tex, v_uv) * u_alpha; }`;
 
-  let gl = null, cvs = null, prog = null, loc = {}, nIdx = 0, vbuf = null, ibuf = null, isGL2 = false;
-  const tex = new WeakMap();
+  let gl = null, cvs = null, prog = null, loc = {}, nIdx = 0, vbuf = null, ibuf = null, isGL2 = false, lost = false;
+  let tex = new WeakMap();
   let queue = null;
 
   function shader(type, src) {
@@ -51,13 +51,14 @@ void main() { gl_FragColor = texture2D(u_tex, v_uv) * u_alpha; }`;
     if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
     return s;
   }
-  function init() {
-    try {
-      cvs = document.createElement('canvas');
-      const opts = { alpha: true, premultipliedAlpha: true, antialias: true, preserveDrawingBuffer: false };
-      gl = cvs.getContext('webgl2', opts); isGL2 = !!gl;
-      if (!gl) gl = cvs.getContext('webgl', opts) || cvs.getContext('experimental-webgl', opts);
-      if (!gl) return false;
+  // a software renderer (no GPU) runs WebGL on the CPU, and copying each frame back costs more than plain 2D drawing
+  function isSoftware(gl) {
+    const ext = gl.getExtension('WEBGL_debug_renderer_info');
+    return /swiftshader|software|llvmpipe|basic render/i.test(String(gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER)));
+  }
+  // program and mesh: built at start-up, and again when a lost context comes back (textures rebuild on demand)
+  function setup() {
+      tex = new WeakMap();
       prog = gl.createProgram();
       gl.attachShader(prog, shader(gl.VERTEX_SHADER, VS));
       gl.attachShader(prog, shader(gl.FRAGMENT_SHADER, FS));
@@ -76,6 +77,21 @@ void main() { gl_FragColor = texture2D(u_tex, v_uv) * u_alpha; }`;
       ibuf = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibuf); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(idx), gl.STATIC_DRAW);
       gl.enable(gl.BLEND);
       gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+  }
+  function init() {
+    try {
+      cvs = document.createElement('canvas');
+      // while the context is lost the sea life is drawn in 2D; once it is back the GPU path is rebuilt
+      cvs.addEventListener('webglcontextlost', e => { e.preventDefault(); lost = true; });
+      cvs.addEventListener('webglcontextrestored', () => {
+        try { setup(); lost = false; } catch (e) { console.warn('SpriteGL could not recover:', e && e.message); gl = null; }
+      });
+      const opts = { alpha: true, premultipliedAlpha: true, antialias: true, preserveDrawingBuffer: false };
+      gl = cvs.getContext('webgl2', opts); isGL2 = !!gl;
+      if (!gl) gl = cvs.getContext('webgl', opts) || cvs.getContext('experimental-webgl', opts);
+      if (!gl) return false;
+      if (isSoftware(gl)) { gl = null; return false; }
+      setup();
       return true;
     } catch (e) {
       console.warn('SpriteGL unavailable, using 2D sprites:', e && e.message);
@@ -145,5 +161,5 @@ void main() { gl_FragColor = texture2D(u_tex, v_uv) * u_alpha; }`;
     g.restore();
   }
 
-  window.SpriteGL = { init, begin, add, flush, get ok() { return !!gl; }, get active() { return !!queue; } };
+  window.SpriteGL = { init, begin, add, flush, get ok() { return !!gl && !lost; }, get active() { return !!queue; } };
 })();

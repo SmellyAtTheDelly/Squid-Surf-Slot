@@ -86,9 +86,8 @@
       G.setWorld();
       const cx = L.DW / 2;
       g.save(); g.globalAlpha = fade;
-      FX.sunburst(g, cx, L.portrait ? 200 : 140, 700, 16, ambient() * 0.15, '120,220,255', 0.18);
-      const ti = IMG.t_choose, tw = L.portrait ? 700 : 640, th = tw * ti.height / ti.width;
-      G.drawShiny(ti, cx - tw / 2, (L.portrait ? 200 : 132) - th / 2 + Math.sin(ambient() * 1.5) * 5, tw, th, (ambient() * 0.4) % 1.5);
+      const ti = IMG.t_choose, tw = L.portrait ? 640 : 560, th = tw * ti.height / ti.width;
+      g.drawImage(ti, cx - tw / 2, (L.portrait ? 200 : 132) - th / 2, tw, th);
       const rects = cardRects();
       DIVES.forEach((d, i) => {
         const r = rects[i];
@@ -99,9 +98,9 @@
         const other = sel.chosen >= 0 && !chosen;
         const ct = sel.chosen >= 0 ? clamp((now() - sel.ct) / 0.5, 0, 1) : 0;
         let sc = 0.6 + 0.4 * Ease.outBack(u);
-        if (hover) sc *= 1.04;
-        if (chosen) sc *= 1 + 0.12 * Ease.outBack(ct);
-        const lift = (hover ? -14 : 0) + (1 - Ease.outCubic(u)) * 260 + (other ? ct * 120 : 0);
+        if (hover) sc *= 1.02;
+        if (chosen) sc *= 1 + 0.06 * Ease.outBack(ct);
+        const lift = (hover ? -10 : 0) + (1 - Ease.outCubic(u)) * 200 + (other ? ct * 120 : 0);
         const a = u * (other ? 1 - ct : 1);
         const ccx = r.x + r.w / 2, ccy = r.y + r.h / 2 + lift;
         g.save();
@@ -109,48 +108,42 @@
         g.translate(ccx, ccy); g.scale(sc, sc); g.translate(-r.w / 2, -r.h / 2);
         // card body
         g.save();
-        g.shadowColor = hover || chosen ? `rgba(${d.col},0.9)` : 'rgba(0,0,0,0.7)';
-        g.shadowBlur = hover || chosen ? 46 : 26;
-        G.rr(0, 0, r.w, r.h, 26); g.fillStyle = '#04101e'; g.fill();
+        g.shadowColor = 'rgba(0,0,0,0.55)'; g.shadowBlur = hover || chosen ? 34 : 24; g.shadowOffsetY = hover || chosen ? 16 : 10;
+        G.rr(0, 0, r.w, r.h, 20); g.fillStyle = '#06121f'; g.fill();
         g.restore();
         g.save();
-        G.rr(0, 0, r.w, r.h, 26); g.clip();
+        G.rr(0, 0, r.w, r.h, 20); g.clip();
         coverDraw(IMG[d.bg], 0, 0, r.w, r.h, d.kind === 'vault' ? 0.45 : 0.5);
         const shade = g.createLinearGradient(0, 0, 0, r.h);
         shade.addColorStop(0, 'rgba(2,6,14,0.15)'); shade.addColorStop(0.42, 'rgba(2,6,14,0.35)'); shade.addColorStop(0.62, 'rgba(2,6,14,0.88)'); shade.addColorStop(1, 'rgba(2,6,14,0.97)');
         g.fillStyle = shade; g.fillRect(0, 0, r.w, r.h);
-        if (hover || chosen) { g.globalCompositeOperation = 'lighter'; G.glowAt(r.w / 2, r.h * 0.36, r.w * 0.7, d.col, 0.28 + 0.4 * ct); g.globalCompositeOperation = 'source-over'; }
         g.restore();
-        // gold border
-        g.lineWidth = 5;
-        const bg = g.createLinearGradient(0, 0, 0, r.h);
-        bg.addColorStop(0, '#fff0b0'); bg.addColorStop(0.3, '#e8b54a'); bg.addColorStop(0.7, '#9a5f18'); bg.addColorStop(1, '#e0a540');
-        g.strokeStyle = bg; G.rr(0, 0, r.w, r.h, 26); g.stroke();
-        if (hover || chosen) { g.lineWidth = 3; g.strokeStyle = `rgba(${d.col},0.95)`; G.rr(6, 6, r.w - 12, r.h - 12, 21); g.stroke(); }
+        // a brass hairline; the dive's own colour when it is under the pointer or chosen
+        g.lineWidth = hover || chosen ? 2.5 : 1.5;
+        g.strokeStyle = hover || chosen ? `rgba(${d.col},0.95)` : G.LINE;
+        G.rr(0, 0, r.w, r.h, 20); g.stroke();
         // icon, title, copy
         drawIcon(d, r.w / 2, r.h * 0.37, r.w * 0.36, now() + i, hover || chosen ? 1 : 0);
         const ti2 = IMG[d.title], tw2 = r.w * 0.92, th2 = tw2 * ti2.height / ti2.width;
-        G.drawShiny(ti2, (r.w - tw2) / 2, r.h * 0.04, tw2, th2, hover ? (now() * 0.7) % 1.3 : -1);
+        g.drawImage(ti2, (r.w - tw2) / 2, r.h * 0.04, tw2, th2);
         const lines = d.lines(sel.pearls);
-        G.text(lines[0], r.w / 2, r.h * 0.62, L.portrait ? 30 : 27, { grad: G.GOLD, sw: 0.18 });
-        G.text(lines[1], r.w / 2, r.h * 0.705, L.portrait ? 23 : 20, { color: '#e6f6ff', sw: 0.2 });
-        G.text(lines[2], r.w / 2, r.h * 0.77, L.portrait ? 23 : 20, { color: `rgb(${d.col})`, sw: 0.2 });
+        G.text(lines[0], r.w / 2, r.h * 0.62, L.portrait ? 28 : 25, { grad: G.GOLD, weight: 700 });
+        G.text(lines[1], r.w / 2, r.h * 0.7, L.portrait ? 21 : 18, { color: G.CREAM, copy: true, weight: 700 });
+        G.text(lines[2], r.w / 2, r.h * 0.765, L.portrait ? 21 : 18, { color: `rgb(${d.col})`, copy: true, weight: 700 });
         // volatility pips
-        G.text('VOLATILITY', r.w / 2, r.h * 0.855, 16, { color: '#9fc0d6', sw: 0.2 });
+        G.label('VOLATILITY', r.w / 2, r.h * 0.855, 13);
         for (let k = 0; k < 5; k++) {
-          const px = r.w / 2 + (k - 2) * 30, py = r.h * 0.915, on = k < d.vol;
-          g.fillStyle = on ? `rgb(${d.col})` : 'rgba(255,255,255,0.14)';
-          g.beginPath(); g.arc(px, py, 9, 0, TAU); g.fill();
-          if (on) { g.globalCompositeOperation = 'lighter'; G.glowAt(px, py, 18, d.col, 0.5); g.globalCompositeOperation = 'source-over'; }
+          const px = r.w / 2 + (k - 2) * 26, py = r.h * 0.912, on = k < d.vol;
+          g.fillStyle = on ? `rgb(${d.col})` : 'rgba(255,255,255,0.12)';
+          g.beginPath(); g.arc(px, py, 7, 0, TAU); g.fill();
         }
         // keyboard hint
-        g.fillStyle = 'rgba(0,0,0,0.5)'; g.beginPath(); g.arc(28, 28, 17, 0, TAU); g.fill();
-        G.text(String(i + 1), 28, 29, 20, { color: '#fff', stroke: false });
+        g.lineWidth = 1.5; g.strokeStyle = G.LINE; g.beginPath(); g.arc(26, 26, 14, 0, TAU); g.stroke();
+        G.text(String(i + 1), 26, 27, 16, { color: G.CREAM, shadow: false });
         g.restore();
-        if (Math.random() < 0.05 * fade) G.pWorld.add({ x: ccx + rnd(-r.w / 2, r.w / 2), y: ccy + r.h / 2, vy: -rnd(60, 140), wob: 30, max: rnd(1.2, 2.2), size: rnd(8, 18), img: SPR.bubble, alpha: 0.7 });
       });
       const foot = sel.auto && sel.chosen < 0 ? `AUTO-PICK IN ${Math.max(0, Math.ceil(3.4 - t))}` : 'TAP A DIVE · SEE RULES FOR EACH RETURN ESTIMATE';
-      G.text(foot, cx, L.portrait ? 1452 : 800, L.portrait ? 24 : 22, { color: 'rgba(220,240,255,0.85)', sw: 0.2 });
+      G.label(foot, cx, L.portrait ? 1452 : 800, L.portrait ? 17 : 15, 'rgba(233,241,248,0.75)');
       g.restore();
     }
     function selectPointer(type, x, y) {
@@ -191,9 +184,9 @@
       R = { rs, b, cells: new Array(15).fill(null), spin: new Map(), lamps: 3, lampT: -9, beams: [], total: 0, collecting: -1, grand: false, jpFlash: {}, sup };
       await G.introPanel('t_reef', [
         { t: sup ? `SUPER REEF · CASH x${rs.lvl}` : `${rs.cells.filter(Boolean).length} PEARLS LOCKED`, size: 70, grad: G.GOLD },
-        { t: 'EVERY NEW PEARL RESETS THE RESPINS TO 3', size: 30, grad: G.CYAN },
-        { t: 'GOLDEN PEARLS DOUBLE CASH PEARLS', size: 30, grad: ['#fff8d0', '#ffd860', '#e09a20', '#8a5000'] },
-        { t: 'FILL ALL 15 FOR THE GRAND PRIZE', size: 24, color: '#d6f0ff' },
+        { t: 'Every new pearl resets the respins to 3', size: 30, grad: G.CYAN },
+        { t: 'Golden pearls double cash pearls', size: 30, grad: ['#fff8d0', '#ffd860', '#e09a20', '#8a5000'] },
+        { t: 'Fill all 15 for the Grand Prize', size: 24, color: '#d6f0ff' },
       ]);
       // starting pearls drop in one by one
       let k = 0;
@@ -234,7 +227,7 @@
       if (R.grand) R.total += M.PRIZES.GRAND;
       R.collecting = -1;
       await G.wait(0.6);
-      const paid = await G.finishBonus(G.bonusUnits(), 't_reef', R.grand ? 'INCLUDING THE GRAND PRIZE' : `${R.cells.filter(Boolean).length} PEARLS COLLECTED`);
+      const paid = await G.finishBonus(G.bonusUnits(), 't_reef', R.grand ? 'Including the Grand Prize' : `${R.cells.filter(Boolean).length} pearls collected`);
       R = null;
       return paid;
     }
@@ -302,23 +295,23 @@
       const col = c.kind === 'gold' ? '255,210,90' : JP[c.kind] ? JP[c.kind].col : '150,235,255';
       g.save();
       g.globalCompositeOperation = 'lighter';
-      G.glowAt(p.x, p.y, C * 0.62, col, (R.collecting === i ? 0.9 : 0.35) + 0.1 * Math.sin(t * 3 + i));
+      G.glowAt(p.x, p.y, C * 0.55, col, R.collecting === i ? 0.7 : 0.22);
       g.restore();
       const im = c.kind === 'gold' ? IMG.p_gold : IMG.p_pearl, s = C * 0.82 * sc;
       g.drawImage(im, p.x - s / 2, p.y - s / 2 + bob, s, s);
       if (JP[c.kind]) {
-        g.save(); g.lineWidth = 5; g.strokeStyle = `rgba(${col},0.95)`; g.shadowColor = `rgba(${col},1)`; g.shadowBlur = 16;
+        g.save(); g.lineWidth = 3; g.strokeStyle = `rgba(${col},0.95)`;
         g.beginPath(); g.arc(p.x, p.y + bob, s * 0.47, 0, TAU); g.stroke(); g.restore();
-        G.text(JP[c.kind].label, p.x, p.y + bob - C * 0.05, C * 0.2 * sc, { grad: JP[c.kind].grad, sw: 0.22, strokeColor: '#06101e' });
-        G.text(fmt(c.v * b), p.x, p.y + bob + C * 0.17, C * 0.13 * sc, { color: '#fff', sw: 0.25, strokeColor: '#06101e' });
+        G.text(JP[c.kind].label, p.x, p.y + bob - C * 0.05, C * 0.19 * sc, { grad: JP[c.kind].grad, weight: 700, outline: true });
+        G.text(fmt(c.v * b), p.x, p.y + bob + C * 0.17, C * 0.13 * sc, { color: '#fff', weight: 700, outline: true });
       } else if (c.kind === 'gold') {
-        G.text('x2', p.x, p.y + bob, C * 0.3 * sc, { grad: ['#fffbe0', '#ffe07a', '#f5a623', '#7a3c00'], sw: 0.2, strokeColor: '#3a1a00' });
+        G.text('x2', p.x, p.y + bob, C * 0.3 * sc, { grad: G.GOLD, weight: 700, outline: true, strokeColor: '#3a1a00' });
       } else {
         let v = c.v;
         if (c.dblT != null) { const u = clamp((t - c.dblT) / 0.6, 0, 1); v = lerp(c.from, c.v, u); }
         else if (c.disp != null) v = c.disp;
         const value = fmt(v * b, c.dblT != null && t - c.dblT < 0.6 ? 2 : undefined);
-        G.text(value, p.x, p.y + bob + C * 0.02, C * (value.length > 7 ? 0.15 : 0.18) * sc, { grad: G.GOLD, sw: 0.24, strokeColor: '#1a0a2e' });
+        G.text(value, p.x, p.y + bob + C * 0.02, C * (value.length > 7 ? 0.15 : 0.18) * sc, { grad: G.GOLD, weight: 700, outline: true });
       }
       if (c.collected != null && t - c.collected < 0.5) {
         g.save(); g.globalCompositeOperation = 'lighter'; G.glowAt(p.x, p.y, C * 0.8, '255,240,180', 0.8 * (1 - (t - c.collected) / 0.5)); g.restore();
@@ -329,23 +322,16 @@
       const t = now(), visual = ambient(), C = L.cell, b = R.b, lay = reefLayout();
       // title
       const ti = IMG.t_reef, tw = lay.title.w, th = tw * ti.height / ti.width;
-      G.drawShiny(ti, lay.title.x - tw / 2, lay.title.y - th / 2 + Math.sin(visual * 1.4) * 4, tw, th, (visual * 0.3) % 1.6);
+      g.drawImage(ti, lay.title.x - tw / 2, lay.title.y - th / 2, tw, th);
       // jackpot plaques
       const order = ['mini', 'minor', 'major', 'grand'];
       const jw = lay.jp.w, jh = lay.jp.h, total = jw * 4 + lay.jp.gap * 3;
       order.forEach((k, n) => {
         const x = L.DW / 2 - total / 2 + n * (jw + lay.jp.gap), y = lay.jp.y - jh / 2;
         const flash = R.jpFlash[k] != null ? Math.max(0, 1 - (t - R.jpFlash[k]) / 1.2) : 0;
-        g.save();
-        g.shadowColor = `rgba(${JP[k].col},${0.4 + 0.6 * flash})`; g.shadowBlur = 18 + 30 * flash;
-        G.rr(x, y, jw, jh, 18);
-        const pg = g.createLinearGradient(0, y, 0, y + jh);
-        pg.addColorStop(0, 'rgba(10,30,60,0.92)'); pg.addColorStop(1, 'rgba(3,10,24,0.95)');
-        g.fillStyle = pg; g.fill();
-        g.restore();
-        g.lineWidth = 3; g.strokeStyle = `rgba(${JP[k].col},0.95)`; G.rr(x, y, jw, jh, 18); g.stroke();
-        G.text(JP[k].label, x + jw / 2, y + jh * 0.32, jh * 0.28, { grad: JP[k].grad, sw: 0.22, strokeColor: '#06101e' });
-        G.text(fmt(M.PRIZES[k.toUpperCase()] * b), x + jw / 2, y + jh * 0.7, jh * 0.3 * (1 + 0.15 * flash), { color: '#fff', sw: 0.22, strokeColor: '#06101e' });
+        G.card(x, y, jw, jh, 14, { line: `rgba(${JP[k].col},${0.55 + 0.45 * flash})` });
+        G.label(JP[k].label, x + jw / 2, y + jh * 0.3, jh * 0.17, `rgb(${JP[k].col})`);
+        G.text(fmt(M.PRIZES[k.toUpperCase()] * b), x + jw / 2, y + jh * 0.66, jh * 0.3 * (1 + 0.15 * flash), { color: G.CREAM, weight: 700 });
       });
       // side panels: respins and board total
       let board = 0;
@@ -357,7 +343,6 @@
         const pulse = on ? 1 + 0.25 * Math.max(0, 1 - (t - R.lampT) / 0.4) : 1;
         g.save();
         g.globalAlpha = on ? 1 : 0.25;
-        if (on) { g.globalCompositeOperation = 'lighter'; G.glowAt(x, y, 40, '140,240,255', 0.6); g.globalCompositeOperation = 'source-over'; }
         g.drawImage(IMG.p_pearl, x - 24 * pulse, y - 24 * pulse, 48 * pulse, 48 * pulse);
         g.restore();
       }
@@ -365,24 +350,16 @@
       G.hudPanel(lay.right.x, lay.right.y, lw, 150, collected ? 'TOTAL WIN' : 'BOARD TOTAL', fmt((collected ? R.total : board) * b, counting ? 2 : undefined), G.GOLD);
       // board frame
       const pad = 18;
-      g.save();
-      g.shadowColor = 'rgba(90,230,255,0.6)'; g.shadowBlur = 40;
-      G.rr(L.gx - pad, L.gy - pad, L.gw + pad * 2, L.gh + pad * 2, 30);
-      g.fillStyle = 'rgba(2,14,34,0.72)'; g.fill();
-      g.restore();
-      g.lineWidth = 6;
-      const fg = g.createLinearGradient(L.gx, L.gy, L.gx + L.gw, L.gy + L.gh);
-      fg.addColorStop(0, '#7ff6ff'); fg.addColorStop(0.5, '#ff8ad8'); fg.addColorStop(1, '#7ff6ff');
-      g.strokeStyle = fg; G.rr(L.gx - pad, L.gy - pad, L.gw + pad * 2, L.gh + pad * 2, 30); g.stroke();
+      G.card(L.gx - pad, L.gy - pad, L.gw + pad * 2, L.gh + pad * 2, 24, { top: 'rgba(8,24,46,0.8)', bottom: 'rgba(4,14,30,0.86)', line: 'rgba(244,217,149,0.55)' });
       // cells
       for (let i = 0; i < 15; i++) {
         const p = cellXY(i);
         g.save();
         G.rr(p.x - C * 0.46, p.y - C * 0.46, C * 0.92, C * 0.92, 22);
         const cg = g.createRadialGradient(p.x, p.y - C * 0.15, C * 0.05, p.x, p.y, C * 0.6);
-        cg.addColorStop(0, 'rgba(40,110,150,0.45)'); cg.addColorStop(1, 'rgba(6,20,44,0.75)');
+        cg.addColorStop(0, 'rgba(30,80,120,0.4)'); cg.addColorStop(1, 'rgba(6,20,44,0.7)');
         g.fillStyle = cg; g.fill();
-        g.lineWidth = 2; g.strokeStyle = R.spin.has(i) ? `rgba(140,240,255,${0.6 + 0.4 * Math.sin(t * 20)})` : 'rgba(140,220,255,0.28)'; g.stroke();
+        g.lineWidth = 1.5; g.strokeStyle = R.spin.has(i) ? 'rgba(160,236,255,0.75)' : 'rgba(244,217,149,0.18)'; g.stroke();
         g.restore();
         const sp = R.spin.get(i);
         if (sp) {
@@ -424,9 +401,9 @@
       V = { vs, b, chests: vs.chests.map(() => ({ shake: -1, open: -1, item: null, missed: false })), hover: -1, busy: false, picker: null, lives: vs.lives, lifeFx: [], coins: 0, mult: vs.mult, tentacle: null, ended: false, sup };
       await G.introPanel('t_vault', [
         { t: sup ? `SUPER VAULT · x${vs.mult} START` : `${vs.lives} LIVES · 12 CHESTS`, size: 66, grad: G.GOLD },
-        { t: 'COINS ADD UP · +x CHESTS RAISE THE MULTIPLIER', size: 28, grad: ['#fff8d0', '#ffd860', '#e09a20', '#8a5000'] },
-        { t: 'A PEARL GIVES AN EXTRA LIFE', size: 28, grad: G.CYAN },
-        { t: 'THE KRAKEN TAKES ONE · COINS x MULTIPLIER IS PAID', size: 24, color: '#ffd9c8' },
+        { t: 'Coins add up · +x chests raise the multiplier', size: 28, grad: ['#fff8d0', '#ffd860', '#e09a20', '#8a5000'] },
+        { t: 'A pearl gives an extra life', size: 28, grad: G.CYAN },
+        { t: 'The Kraken takes one · coins x multiplier is paid', size: 24, color: '#ffd9c8' },
       ]);
       G.setMsg('PICK A CHEST', G.GOLD);
       while (!vs.over) {
@@ -453,7 +430,7 @@
       V.final = now();
       SFX.play('multUp');
       await G.wait(1.6);
-      const paid = await G.finishBonus(total, 't_vault', `${fmt(vs.coins * b)} x${vs.mult} MULTIPLIER`);
+      const paid = await G.finishBonus(total, 't_vault', `${fmt(vs.coins * b)} in coins x${vs.mult}`);
       V = null;
       return paid;
     }
@@ -503,19 +480,16 @@
       g.save(); g.globalAlpha *= a;
       if (item.kind === 'coin') {
         g.drawImage(G.SYM[5].img, x - s * 0.45, y - s * 0.62, s * 0.9, s * 0.9);
-        G.text(fmt(item.v * V.b), x, y + s * 0.32, s * 0.3, { grad: G.GOLD, sw: 0.22, strokeColor: '#2a0e00' });
+        G.text(fmt(item.v * V.b), x, y + s * 0.32, s * 0.28, { grad: G.GOLD, weight: 700 });
       } else if (item.kind === 'mult') {
-        g.globalCompositeOperation = 'lighter'; G.glowAt(x, y - s * 0.1, s * 0.7, '255,110,230', 0.7); g.globalCompositeOperation = 'source-over';
-        G.text(`+${item.v}x`, x, y - s * 0.08, s * 0.5, { grad: G.PINK, sw: 0.2, strokeColor: '#2a0630' });
-        G.text('MULTIPLIER', x, y + s * 0.32, s * 0.17, { color: '#ffd6f4', sw: 0.25 });
+        G.text(`+${item.v}x`, x, y - s * 0.08, s * 0.5, { grad: G.PINK, weight: 700 });
+        G.label('MULTIPLIER', x, y + s * 0.32, s * 0.13, '#ffc6ec');
       } else if (item.kind === 'life') {
-        g.globalCompositeOperation = 'lighter'; G.glowAt(x, y - s * 0.1, s * 0.7, '120,240,255', 0.6); g.globalCompositeOperation = 'source-over';
         g.drawImage(IMG.p_pearl, x - s * 0.36, y - s * 0.5, s * 0.72, s * 0.72);
-        G.text('+1 LIFE', x, y + s * 0.34, s * 0.22, { grad: G.CYAN, sw: 0.22 });
+        G.label('+1 LIFE', x, y + s * 0.34, s * 0.15, '#9eeaff');
       } else {
-        g.globalCompositeOperation = 'lighter'; G.glowAt(x, y - s * 0.12, s * 0.7, '255,60,40', 0.55); g.globalCompositeOperation = 'source-over';
         G.drawArms([[x + s * 0.04, y + s * 0.24, s * 0.8, 0.08, t, 1, 1, 1]]);
-        G.text('KRAKEN', x, y + s * 0.36, s * 0.22, { grad: G.RED, sw: 0.22 });
+        G.label('KRAKEN', x, y + s * 0.36, s * 0.15, '#ffab88');
       }
       g.restore();
     }
@@ -523,21 +497,30 @@
       if (!V) return;
       const t = now(), visual = ambient(), lay = vaultLayout(), cw = L.gw / 4, chH = L.gh / 3;
       const ti = IMG.t_vault, tw = lay.title.w, th = tw * ti.height / ti.width;
-      G.drawShiny(ti, lay.title.x - tw / 2, lay.title.y - th / 2 + Math.sin(visual * 1.3) * 4, tw, th, (visual * 0.3) % 1.6);
+      g.drawImage(ti, lay.title.x - tw / 2, lay.title.y - th / 2, tw, th);
+      // the chests sit on a board, like the reels do
+      const pad = 16;
+      G.card(L.gx - pad, L.gy - pad, L.gw + pad * 2, L.gh + pad * 2, 24, { top: 'rgba(30,18,8,0.72)', bottom: 'rgba(14,8,4,0.82)', line: 'rgba(244,217,149,0.55)' });
+      g.save(); g.strokeStyle = 'rgba(244,217,149,0.12)'; g.lineWidth = 1;
+      for (let k = 1; k < 4; k++) { g.beginPath(); g.moveTo(L.gx + k * cw, L.gy + 8); g.lineTo(L.gx + k * cw, L.gy + L.gh - 8); g.stroke(); }
+      for (let k = 1; k < 3; k++) { g.beginPath(); g.moveTo(L.gx + 8, L.gy + k * chH); g.lineTo(L.gx + L.gw - 8, L.gy + k * chH); g.stroke(); }
+      g.restore();
       // lives row
       const maxL = Math.max(V.lives, 1) + V.lifeFx.filter(f => f.lost && t - f.t0 < 1).length;
       const n = Math.max(V.lives, maxL);
-      G.text('LIVES', L.DW / 2 - n * 34 - 70, lay.lives.y, 28, { grad: G.CYAN, sw: 0.2 });
+      const lw2 = n * 62 + 150;
+      G.card(L.DW / 2 - lw2 / 2 - 40, lay.lives.y - 34, lw2, 68, 34, { top: 'rgba(10,26,48,0.86)', bottom: 'rgba(6,16,30,0.9)' });
+      G.label('LIVES', L.DW / 2 - n * 31 - 70, lay.lives.y, 15, G.BRASS_HI);
       for (let k = 0; k < n; k++) {
-        const x = L.DW / 2 + (k - (n - 1) / 2) * 68, y = lay.lives.y;
+        const x = L.DW / 2 + (k - (n - 1) / 2) * 62, y = lay.lives.y;
         const lost = V.lifeFx.find(f => f.lost && f.idx === k && t - f.t0 < 1);
         if (k >= V.lives && !lost) continue;
-        let s = 52, a = 1;
+        let s = 46, a = 1;
         if (lost) { const u = (t - lost.t0) / 1; s *= 1 + u * 0.8; a = 1 - u; }
         const gained = V.lifeFx.find(f => f.gained && f.idx === k && t - f.t0 < 0.7);
         if (gained) s *= 0.4 + 0.6 * Ease.outElastic((t - gained.t0) / 0.7);
         g.save(); g.globalAlpha = a;
-        g.globalCompositeOperation = 'lighter'; G.glowAt(x, y, 46, lost ? '255,60,40' : '140,240,255', 0.5); g.globalCompositeOperation = 'source-over';
+        if (lost) { g.globalCompositeOperation = 'lighter'; G.glowAt(x, y, 40, '255,60,40', 0.5 * a); g.globalCompositeOperation = 'source-over'; }
         g.drawImage(IMG.p_pearl, x - s / 2, y - s / 2, s, s);
         g.restore();
       }
@@ -550,13 +533,13 @@
       const im = IMG.ui_chest;
       for (let i = 0; i < 12; i++) {
         const c = V.chests[i], p = chestXY(i);
-        const w = cw * 0.8, h = w * im.height / im.width;
+        const w = cw * 0.86, h = w * im.height / im.width;
         let dx = 0, rot = 0, sc = 1, a = 1;
         const hover = V.hover === i && c.open < 0 && !V.busy && V.picker;
         if (c.open < 0) {
-          const bob = Math.sin(visual * 2 + i * 0.9) * 4;
+          const bob = Math.sin(visual * 1.2 + i * 0.9) * 1.5;
           if (c.shake >= 0) { const u = t - c.shake; dx = Math.sin(u * 60) * 6 * Math.min(1, u * 4); rot = Math.sin(u * 50) * 0.06; sc = 1 + u * 0.15; }
-          if (hover) { sc *= 1.08; g.save(); g.globalCompositeOperation = 'lighter'; G.glowAt(p.x, p.y, w * 0.8, '255,210,100', 0.45); g.restore(); }
+          if (hover) { sc *= 1.06; g.save(); g.lineWidth = 2; g.strokeStyle = 'rgba(244,217,149,0.7)'; G.rr(p.x - cw / 2 + 8, p.y - chH / 2 + 8, cw - 16, chH - 16, 14); g.stroke(); g.restore(); }
           g.save();
           g.translate(p.x + dx, p.y + bob); g.rotate(rot); g.scale(sc, sc);
           g.drawImage(im, -w / 2, -h / 2, w, h);
@@ -595,11 +578,9 @@
         const u = clamp((t - V.final) / 0.5, 0, 1);
         g.save(); g.globalAlpha = u;
         const cx = L.DW / 2, cy = L.gy + L.gh / 2;
-        const bw = 760, bh = 150;
-        const gr = g.createLinearGradient(cx - bw / 2, 0, cx + bw / 2, 0);
-        gr.addColorStop(0, 'rgba(10,2,24,0)'); gr.addColorStop(0.15, 'rgba(10,2,24,0.88)'); gr.addColorStop(0.85, 'rgba(10,2,24,0.88)'); gr.addColorStop(1, 'rgba(10,2,24,0)');
-        g.fillStyle = gr; g.fillRect(cx - bw / 2, cy - bh / 2, bw, bh);
-        G.text(`${fmt(V.vs.coins * V.b)}  x${V.vs.mult}  =  ${fmt(M.vaultTotal(V.vs) * V.b)}`, cx, cy, 58 * (0.7 + 0.3 * Ease.outBack(u)), { grad: G.GOLD, sw: 0.16, strokeColor: '#2a0e00' });
+        const bw = 720, bh = 130;
+        G.card(cx - bw / 2, cy - bh / 2, bw, bh, bh / 2);
+        G.text(`${fmt(V.vs.coins * V.b)}  x${V.vs.mult}  =  ${fmt(M.vaultTotal(V.vs) * V.b)}`, cx, cy + 2, 52 * (0.8 + 0.2 * Ease.outBack(u)), { grad: G.GOLD, weight: 700 });
         g.restore();
       }
     }
@@ -663,7 +644,7 @@
         st.banner = { text: `CASH PRIZE ${seg.v}x`, t0: now(), grad: G.PINK, dur: 2.2 };
         for (let i = 0; i < 40; i++) G.spawnFountainCoin();
         await G.wait(2.4);
-        const paid = await G.finishBonus(G.bonusUnits(), 't_wheel', 'CASH PRIZE FROM THE DEEP');
+        const paid = await G.finishBonus(G.bonusUnits(), 't_wheel', 'Cash prize from the deep');
         W = null;
         return { cash: paid };
       }
@@ -687,14 +668,13 @@
       if (!W) return;
       const t = now(), visual = ambient(), wg = wheelGeom(), R0 = wg.r;
       const ti = IMG.t_wheel, tw = wg.title.w, th = tw * ti.height / ti.width;
-      G.drawShiny(ti, wg.title.x - tw / 2, wg.title.y - th / 2 + Math.sin(visual * 1.3) * 4, tw, th, (visual * 0.3) % 1.6);
+      g.drawImage(ti, wg.title.x - tw / 2, wg.title.y - th / 2, tw, th);
       W.kick *= 0.86;
       g.save();
       g.translate(wg.x, wg.y);
       // halo
       g.save(); g.globalCompositeOperation = 'lighter';
-      G.glowAt(0, 0, R0 * 1.35, '120,255,210', 0.22 + (W.state === 'spin' ? 0.15 : 0));
-      FX.sunburst(g, 0, 0, R0 * 1.5, 20, visual * 0.1, '160,255,230', 0.12);
+      G.glowAt(0, 0, R0 * 1.3, '120,255,210', 0.12);
       g.restore();
       // outer gold ring
       g.save();
@@ -737,11 +717,11 @@
         const maxW = R0 * 0.44;
         lines.forEach((ln, k) => {
           let fs = lh * (k === 0 && (s.sup || s.kind === 'cash') ? 1.12 : 1);
-          g.font = `${fs}px "Lilita One", sans-serif`;
+          g.font = `600 ${fs}px "Fredoka", sans-serif`;
           const w0 = g.measureText(ln).width;
           if (w0 > maxW) fs *= maxW / w0;
           const yy = (k - (lines.length - 1) / 2) * lh * 1.05;
-          G.text(ln, R0 * 0.71, yy, fs, { grad: s.sup ? G.GOLD : ['#ffffff', '#f2f6ff', '#c9d8ee', '#8aa0c0'], sw: 0.22, strokeColor: '#160616' });
+          G.text(ln, R0 * 0.71, yy, fs, { grad: s.sup ? G.GOLD : ['#ffffff', '#f2f6ff', '#d4e0ee'], weight: 700, outline: true, strokeColor: '#160616' });
         });
         g.restore();
         // peg on the rim
@@ -760,7 +740,6 @@
         const a = k / 28 * TAU, on = W.state === 'spin' ? (Math.floor(t * 12) + k) % 2 === 0 : (Math.floor(t * 3) + k) % 3 === 0;
         const x = wg.x + Math.cos(a) * R0 * 1.035, y = wg.y + Math.sin(a) * R0 * 1.035;
         g.fillStyle = on ? '#fffbe0' : '#8a5a20'; g.beginPath(); g.arc(x, y, 6, 0, TAU); g.fill();
-        if (on) { g.save(); g.globalCompositeOperation = 'lighter'; G.glowAt(x, y, 18, '255,240,180', 0.6); g.restore(); }
       }
       // pointer at the top
       g.save();
@@ -776,10 +755,9 @@
       g.restore();
       // hub button
       if (W.state === 'idle') {
-        const pulse = 1 + 0.06 * Math.sin(t * 5);
+        const pulse = 1 + 0.025 * Math.sin(t * 3);
         g.save(); g.translate(wg.x, wg.y); g.scale(pulse, pulse);
-        g.globalCompositeOperation = 'lighter'; G.glowAt(0, 0, 120, '255,220,120', 0.55); g.globalCompositeOperation = 'source-over';
-        G.text('SPIN', 0, 4, 62, { grad: G.GOLD, sw: 0.2, strokeColor: '#2a0e00' });
+        G.pill('SPIN', 0, 2, 34);
         g.restore();
       }
     }
